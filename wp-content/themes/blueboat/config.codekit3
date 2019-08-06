@@ -91,12 +91,6 @@
 		"oAP": "/build/languages",
 		"oF": 0
 		},
-	"/layouts": {
-		"ft": 65536,
-		"oA": 1,
-		"oAP": "/build/layouts",
-		"oF": 0
-		},
 	"/LICENSE": {
 		"cB": 0,
 		"ft": 8192,
