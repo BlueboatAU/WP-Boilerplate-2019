@@ -57,44 +57,10 @@
 		"oAP": "/header.php",
 		"oF": 0
 		},
-	"/inc/custom-header.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/inc/custom-header.php",
-		"oF": 0
-		},
-	"/inc/customizer.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/inc/customizer.php",
-		"oF": 0
-		},
-	"/inc/jetpack.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/inc/jetpack.php",
-		"oF": 0
-		},
-	"/inc/template-functions.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/inc/template-functions.php",
-		"oF": 0
-		},
-	"/inc/template-tags.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/inc/template-tags.php",
+	"/inc": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/inc",
 		"oF": 0
 		},
 	"/index.php": {
@@ -105,74 +71,23 @@
 		"oAP": "/index.php",
 		"oF": 0
 		},
-	"/js/customizer.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/js/customizer-min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/js/navigation.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/js/navigation-min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/js/skip-link-focus-fix.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/js/skip-link-focus-fix-min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/languages/blueboat.pot": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/languages/blueboat.pot",
+	"/js": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/js",
 		"oF": 0
 		},
-	"/languages/readme.txt": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/languages/readme.txt",
+	"/languages": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/languages",
 		"oF": 0
 		},
-	"/layouts/content-sidebar.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/layouts/content-sidebar-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/layouts/sidebar-content.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/layouts/sidebar-content-min.css",
-		"oF": 0,
-		"oS": 3
+	"/layouts": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/layouts",
+		"oF": 0
 		},
 	"/LICENSE": {
 		"cB": 0,
@@ -207,9 +122,9 @@
 		"eSQ": 1,
 		"ft": 4096,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/README.html",
-		"oF": 0,
+		"oF": 1,
 		"oFM": 0,
 		"oS": 0,
 		"pHT": 0,
@@ -743,36 +658,10 @@
 		"oF": 0,
 		"oS": 3
 		},
-	"/template-parts/content-none.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/template-parts/content-none.php",
-		"oF": 0
-		},
-	"/template-parts/content-page.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/template-parts/content-page.php",
-		"oF": 0
-		},
-	"/template-parts/content-search.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/template-parts/content-search.php",
-		"oF": 0
-		},
-	"/template-parts/content.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/template-parts/content.php",
+	"/template-parts": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/template-parts",
 		"oF": 0
 		}
 	},
@@ -2844,7 +2733,7 @@
 	"npmTargetDependencyListType": 1,
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
-	"skippedFoldersString": "log, _logs, logs, _cache, cache, .idea, /storage/framework/sessions, node_modules, /sass/navigation, /sass/site, /sass/mixins, /sass/layout, /sass/media, /sass/forms, /sass/modules, /sass/elements, /sass/typography, /sass/variables-site",
+	"skippedFoldersString": "log, _logs, logs, _cache, cache, .idea, /storage/framework/sessions, node_modules, /sass/navigation, /sass/site, /sass/mixins, /sass/layout, /sass/media, /sass/forms, /sass/modules, /sass/elements, /sass/typography, /sass/variables-site, /template-parts, /inc, /layouts, /js, /languages",
 	"sourceFolderName": "source",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,
