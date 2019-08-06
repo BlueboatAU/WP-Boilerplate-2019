@@ -1,106 +1,65 @@
 /*!
-Theme Name: Blueboat
-Theme URI: http://underscores.me/
-Author: Underscores.me
-Author URI: http://underscores.me/
-Description: Blueboat Studio Boilerplate Theme
+Theme Name: Blueboat Boilerplate Theme
+Description: Description
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: LICENSE
-Text Domain: blueboat
+Text Domain: melbgeo
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned with others.
-
-Blueboat is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
-Underscores is distributed under the terms of the GNU GPL v2 or later.
-
-Normalizing styles have been helped along thanks to the fine work of
-Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
 /*--------------------------------------------------------------
->>> TABLE OF CONTENTS:
-----------------------------------------------------------------
-# Normalize
-# Typography
-# Elements
-# Forms
-# Navigation
-	## Links
-	## Menus
-# Accessibility
-# Alignments
-# Clearings
-# Widgets
-# Content
-	## Posts and pages
-	## Comments
-# Infinite scroll
-# Media
-	## Captions
-	## Galleries
---------------------------------------------------------------*/
-@import "variables-site/variables-site";
-@import "mixins/mixins-master";
-
-/*--------------------------------------------------------------
-# Normalize
+# Imports
 --------------------------------------------------------------*/
 @import "normalize";
 
 /*--------------------------------------------------------------
-# Typography
+# Mixins
 --------------------------------------------------------------*/
-@import "typography/typography";
+@mixin transition($t){
+    -webkit-transition: all $t ease-in-out;
+    -moz-transition: all $t ease-in-out;
+    -ms-transition: all $t ease-in-out;
+    -o-transition: all $t ease-in-out;
+    transition: all $t ease-in-out;
+}
+
+@mixin admin-sticky-fix( $offset: 0 ) {
+  $narrow-offset: 46px;
+  $wide-offset: 32px;
+  @if $offset != 0 and type-of($offset) == 'number' {
+    $narrow-offset: $narrow-offset + $offset;
+    $wide-offset: $wide-offset + $offset;
+  }
+  .admin-bar & {
+    top: $narrow-offset;
+    @media screen and (min-width: 783px) {
+      top: $wide-offset;
+    }
+  }
+}
 
 /*--------------------------------------------------------------
-# Elements
+# Variables
 --------------------------------------------------------------*/
-@import "elements/elements";
+
+$colour-primary:#0e4c93;
+$colour-secondary:#01b3e4;
+$colour-tertiary:#4552a4;
+$dark-grey:#333333;
+$med-grey:#989898;
+$light-grey:#e9e9e9;
+$white: #fff;
+$black: #000;
+$primary-font:'Arial', sans-serif;
+$secondary-font:'Arial', sans-serif;
+
 
 /*--------------------------------------------------------------
-# Forms
+# Styles
 --------------------------------------------------------------*/
-@import "forms/forms";
 
-/*--------------------------------------------------------------
-# Navigation
---------------------------------------------------------------*/
-@import "navigation/navigation";
-
-/*--------------------------------------------------------------
-# Accessibility
---------------------------------------------------------------*/
-@import "modules/accessibility";
-
-/*--------------------------------------------------------------
-# Alignments
---------------------------------------------------------------*/
-@import "modules/alignments";
-
-/*--------------------------------------------------------------
-# Clearings
---------------------------------------------------------------*/
-@import "modules/clearings";
-
-/*--------------------------------------------------------------
-# Widgets
---------------------------------------------------------------*/
-@import "site/secondary/widgets";
-
-/*--------------------------------------------------------------
-# Content
---------------------------------------------------------------*/
-@import "site/site";
-
-/*--------------------------------------------------------------
-# Infinite scroll
---------------------------------------------------------------*/
-@import "modules/infinite-scroll";
-
-/*--------------------------------------------------------------
-# Media
---------------------------------------------------------------*/
-@import "media/media";
+.full-height{
+  min-height: 100vh;
+}

@@ -120,7 +120,11 @@ add_action( 'widgets_init', 'blueboat_widgets_init' );
  * Enqueue scripts and styles.
  */
 function blueboat_scripts() {
+	wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' );
+
 	wp_enqueue_style( 'blueboat-style', get_stylesheet_uri() );
+
+	wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array('jquery'), null, true );
 
 	wp_enqueue_script( 'blueboat-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
@@ -159,3 +163,5 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+// Register Custom Navigation Walker
+require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
