@@ -24,7 +24,10 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
     -o-transition: all $t ease-in-out;
     transition: all $t ease-in-out;
 }
-
+@mixin background-opacity($color, $opacity: 0.3) {
+    background: $color; /* The Fallback */
+    background: rgba($color, $opacity);
+}
 @mixin admin-sticky-fix( $offset: 0 ) {
   $narrow-offset: 46px;
   $wide-offset: 32px;
