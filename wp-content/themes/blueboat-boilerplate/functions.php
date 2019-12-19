@@ -152,16 +152,25 @@ require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/template-functions.php';
 
 /**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/**
+ * Changes to basic wordpress
+ */
+require get_template_directory() . '/inc/customizer.php';
+
 // Register Custom Navigation Walker
 require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
+
+/**
+ * Custom Post Types and Taxonomies
+ */
+require get_template_directory() . '/inc/posts-and-taxonomies.php';
+
+ /* ACF Fields and Options Pages
+ */
+require get_template_directory() . '/inc/acf.php';

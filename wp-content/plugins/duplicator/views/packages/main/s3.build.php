@@ -25,7 +25,6 @@ $rand_txt[0] = $atext0;
 ?>
 
 <style>
-    .add-new-h2.disabled {cursor: not-allowed; border-color: #ccc !important; background: #f7f7f7 !important; color: #ccc !important;}
 	a#dup-create-new {margin-left:-5px}
     div#dup-progress-area {text-align:center; max-width:800px; min-height:200px;  border:1px solid silver; border-radius:5px; margin:25px auto 10px auto; padding:0px; box-shadow: 0 8px 6px -6px #999;}
     div.dup-progress-title {font-size:22px;padding:5px 0 20px 0; font-weight: bold}
@@ -44,8 +43,8 @@ $rand_txt[0] = $atext0;
     div#dup-create-area-link {display:none; margin-left: -5px}
     div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
     fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
-    fieldset.download-area legend {font-weight: bold; font-size: 16px}
-    button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
+    fieldset.download-area legend {font-weight: bold; font-size: 16px; margin:auto}
+    button#dup-btn-installer, button#dup-btn-archive { line-height: 28px; min-width: 150px}
     div.one-click-download {margin:15px 0 10px 0; font-size:16px; font-weight: bold}
     div.one-click-download i.fa-bolt{padding-right: 5px}
     div.one-click-download i.fa-file-archive-o{padding-right: 5px}
@@ -86,7 +85,7 @@ TOOL BAR: STEPS -->
             </div>
         </td>
         <td style="padding-bottom:4px">
-            <span><a href="?page=duplicator" class="add-new-h2">
+            <span><a href="?page=duplicator" class="button">
                     <i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages",'duplicator'); ?>
                 </a></span> 
             <?php
@@ -96,7 +95,7 @@ TOOL BAR: STEPS -->
 			<a id="dup-create-new"
                onClick="return !jQuery(this).hasClass('disabled');"
                href="<?php echo $package_nonce_url;?>"
-               class="add-new-h2 <?php echo ($active_package_present ? 'disabled' : ''); ?>"
+               class="button <?php echo ($active_package_present ? 'disabled' : ''); ?>"
                >
                 <?php esc_html_e("Create New", 'duplicator'); ?>
             </a>
@@ -400,7 +399,7 @@ jQuery(document).ready(function ($)
 			cache: false,
 			dataType: "text",
 			url: ajaxurl,
-			timeout: 10000000,
+			timeout: 0, // no timeout
 			data: data,
 			beforeSend: function () {
 				startTime = new Date().getTime();
@@ -445,10 +444,10 @@ jQuery(document).ready(function ($)
 		console.log('Duplicator.Pack.CreateDupArchive');
 		var data = {action: 'duplicator_duparchive_package_build', nonce: '<?php echo esc_js($duparchive_build_nonce); ?>'}
 		var statusInterval = setInterval(Duplicator.Pack.GetActivePackageStatus, Duplicator.Pack.StatusFrequency);
-
+        
 		$.ajax({
 			type: "POST",
-			timeout: <?php echo DUP_DupArchive::WorkerTimeInSec * 2000 ?>, // Double worker time and convert to ms
+			timeout: 0, // no timeout
 			dataType: "text",
 			url: ajaxurl,
 			data: data,
@@ -459,8 +458,8 @@ jQuery(document).ready(function ($)
 				try {
 					var data = Duplicator.parseJSON(respData);
 				} catch(err) {
-					console.error(err);
-					console.error('JSON parse failed for response data: ' + respData);
+					console.log(err);
+					console.log('JSON parse failed for response data: ' + respData);
 					console.log('DupArchive AJAX error!');
 					console.log("jqHr:");
 					console.log(xHr);
@@ -559,7 +558,7 @@ jQuery(document).ready(function ($)
 			type: "POST",
 			url: ajaxurl,
 			dataType: "text",
-			timeout: 10000000,
+			timeout: 0, // no timeout
 			data: data,
 			success: function (respData, textStatus, xHr) {
 				try {

@@ -19,6 +19,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
 
     class DupLiteSnapLibIOU
     {
+
         // Real upper bound of a signed int is 214748364.
         // The value chosen below, makes sure we have a buffer of ~4.7 million.
         const FileSizeLimit32BitPHP = 1900000000;
@@ -237,21 +238,36 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             }
         }
 
-        public static function rrmdir($dir)
+        /**
+         * Safely remove a directory and recursively files adnd directory upto multiple sublevels
+         *
+         * @param path $dir The full path to the directory to remove
+         *
+         * @return bool Returns true if all content was removed
+         */
+        public static function rrmdir($path)
         {
-            if (is_dir($dir)) {
-                $objects = scandir($dir);
-                foreach ($objects as $object) {
-                    if ($object != "." && $object != "..") {
-                        if (is_dir($dir."/".$object)) {
-                            DupLiteSnapLibIOU::rrmdir($dir."/".$object);
-                        } else {
-                            //unlink($dir."/".$object);
-                            self::rm($dir."/".$object);
-                        }
+            if (is_dir($path)) {
+                if (($dh = opendir($path)) === false) {
+                    return false;
+                }
+                while (($object = readdir($dh)) !== false) {
+                    if ($object == "." || $object == "..") {
+                        continue;
+                    }
+                    if (!self::rrmdir($path."/".$object)) {
+                        closedir($dh);
+                        return false;
                     }
                 }
-                rmdir($dir);
+                closedir($dh);
+                return @rmdir($path);
+            } else {
+                if (is_writable($path)) {
+                    return @unlink($path);
+                } else {
+                    return false;
+                }
             }
         }
 
@@ -278,7 +294,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
                     throw new Exception("Trying to fseek($offset, $whence) and came back false");
                 }
                 //This check is not strict, but in most cases 32 Bit PHP will be the issue
-                else if (abs($offset) > self::FileSizeLimit32BitPHP || $filesize > self::FileSizeLimit32BitPHP || ($offset < 0 && $whence == SEEK_SET)) {
+                else if (abs($offset) > self::FileSizeLimit32BitPHP || $filesize > self::FileSizeLimit32BitPHP || ($offset < 0 && ($whence == SEEK_SET || $whence == SEEK_END))) {
                     throw new DupLiteSnapLib_32BitSizeLimitException("Trying to seek on a file beyond the capability of 32 bit PHP. offset=$offset filesize=$filesize");
                 } else {
                     throw new Exception("Error seeking to file offset $offset. Retval = $ret_val");

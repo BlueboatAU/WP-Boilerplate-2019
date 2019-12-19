@@ -69,6 +69,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
+		<div class="sub-header">This step will update the database and config files to match your new sites values.</div>
 	</div>
 
 	<?php
@@ -100,10 +101,14 @@ VIEW: STEP 3- INPUT -->
 	</div>
 
 	<div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s3-new-settings">
-        <a href="javascript:void(0)"><i class="fa fa-minus-square"></i>New Settings</a>
+        <a href="javascript:void(0)"><i class="fa fa-minus-square"></i>Setup</a>
     </div>
     <div id="s3-new-settings">
         <table class="s3-opts">
+            <tr>
+                <td>Title:</td>
+                <td><input type="text" name="blogname" id="blogname" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->blogname); ?>" /></td>
+            </tr>
             <tr>
                 <td>URL:</td>
                 <td>
@@ -115,10 +120,6 @@ VIEW: STEP 3- INPUT -->
                 <td>Path:</td>
                 <td><input type="text" name="path_new" id="path_new" value="<?php echo DUPX_U::esc_attr($new_path); ?>" /></td>
             </tr>
-            <tr>
-                <td>Title:</td>
-                <td><input type="text" name="blogname" id="blogname" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->blogname); ?>" /></td>
-            </tr>
         </table>
     </div>
     <br/><br/>
@@ -129,13 +130,13 @@ VIEW: STEP 3- INPUT -->
         <a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Replace</a>
     </div>
 
-    <div id="s3-custom-replace" class="hdr-sub1-area" style="display:none;">
+    <div id="s3-custom-replace" class="hdr-sub1-area" style="display:none; text-align: center">
         <div class="help-target">
             <?php DUPX_View_Funcs::helpIconLink('step3'); ?>
         </div><br/>
-		Add additional search and replace URLs to replace additional data. This option is available only in
+		Add additional search and replace URLs to replace additional data.<br/>
+		This option is available only in
 		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=free_inst_replaceopts">Duplicator Pro</a>
-      
     </div>
     <br/><br/>
     
@@ -259,18 +260,10 @@ VIEW: STEP 3- INPUT -->
 						</div><br style="clear:both" />
 						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px;" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?> size="10">
 							<?php
-							$exclude_plugins = array(
-								'really-simple-ssl/rlrsssl-really-simple-ssl.php',
-								'simple-google-recaptcha/simple-google-recaptcha.php',
-							);
-							$selected_string = ($_POST['exe_safe_mode'] > 0) ? '' : 'selected="selected"';
+							$selected_string = 'selected="selected"';
 							foreach ($active_plugins as $plugin) {
 								$label = dirname($plugin) == '.' ? $plugin : dirname($plugin);
-                                if (in_array($plugin, $exclude_plugins)) {
-                                    echo "<option value='" . DUPX_U::esc_attr($plugin) . "'>" . DUPX_U::esc_html($label) . '</option>';
-                                } else {
-									echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_html($label) . '</option>';
-								}
+                                echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_html($label) . '</option>';
 							}
 							?>
 						</select>
@@ -383,6 +376,7 @@ VIEW: STEP 3 - AJAX RESULT  -->
 	<div class="logfile-link"><?php DUPX_View_Funcs::installerLogLink(); ?></div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
+		<div class="sub-header">This step will update the database and config files to match your new sites values.</div>
 	</div>
 
 	<!--  POST PARAMS -->
@@ -602,8 +596,10 @@ DUPX.hideErrorResult2 = function()
 //DOCUMENT LOAD
 $(document).ready(function()
 {
-	$('#wp_username').val('');
-	$('#wp_password').val('');
+	setTimeout(function() {
+		$('#wp_username').val('');
+		$('#wp_password').val('');
+	}, 900);
 	$("#tabs").tabs();
 	DUPX.getNewURL('url_new');
 	DUPX.getNewURL('siteurl');

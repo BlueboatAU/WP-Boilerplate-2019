@@ -177,18 +177,6 @@ class DUP_Database
             DUP_Log::Info($log);
             $log = null;
 
-            //Reserved file found
-            if (file_exists($reserved_db_filepath)) {
-                $error_message = 'Reserved SQL file detected';
-
-                $package->BuildProgress->set_failed($error_message);
-                $package->Update();
-
-                DUP_Log::Error($error_message,
-                    "The file database.sql was found at [{$reserved_db_filepath}].\n"
-                    ."\tPlease remove/rename this file to continue with the package creation.", $errorBehavior);
-            }
-
             do_action('duplicator_lite_build_database_start' , $package);
 
             switch ($mode) {
@@ -210,9 +198,8 @@ class DUP_Database
 
             if ($sql_file_size < 1350) {
                 $error_message = "SQL file size too low.";
-
                 $package->BuildProgress->set_failed($error_message);
-
+                $package->Status = DUP_PackageStatus::ERROR;
                 $package->Update();
                 DUP_Log::Error($error_message, "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]", $errorBehavior);
                 do_action('duplicator_lite_build_database_fail' , $package);
@@ -346,6 +333,21 @@ class DUP_Database
     }
 
     /**
+     * Unset tableWiseRowCounts table key for which row count is unstable
+     *
+     * @param object $package The reference to the current package being built     *
+     * @return void
+     */
+    public function validateTableWiseRowCounts() {
+        foreach ($this->Package->Database->info->tableWiseRowCounts as $rewriteTableAs => $rowCount) {
+            $newRowCount = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$rewriteTableAs}`");
+            if ($rowCount != $newRowCount) {
+                unset($this->Package->Database->info->tableWiseRowCounts[$rewriteTableAs]);
+            }
+        }
+    }
+
+    /**
      *  Build the database script using mysqldump
      *
      *  @return bool  Returns true if the sql script was successfully created
@@ -384,13 +386,23 @@ class DUP_Database
         $tables = array();
         $baseTables = array();
         foreach ($res as $row) {
-            $tables[] = $row[0];
-            if ('BASE TABLE' == $row[1]) {
-                $baseTables[] = $row[0];
+            if (DUP_Util::isTableExists($row[0])) {
+                $tables[] = $row[0];
+                if ('BASE TABLE' == $row[1]) {
+                    $baseTables[] = $row[0];
+                }
             }
         }
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
+
+        foreach ($tables as $table) {
+            if (in_array($table, $baseTables)) {
+                $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
+                $rewrite_table_as = $this->rewriteTableNameAs($table);
+                $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
+            }
+        }
         //$tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
 
         if (is_array($filterTables) && $this->FilterOn) {
@@ -514,13 +526,6 @@ class DUP_Database
         $sql_footer = "\n\n/* Duplicator WordPress Timestamp: ".date("Y-m-d H:i:s")."*/\n";
         $sql_footer .= "/* ".DUPLICATOR_DB_EOF_MARKER." */\n";
         file_put_contents($this->dbStorePath, $sql_footer, FILE_APPEND);
-        foreach ($tables as $table) {
-            if (in_array($table, $baseTables)) {
-                $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
-                $rewrite_table_as = $this->rewriteTableNameAs($table);
-                $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
-            }
-        }
         return ($output) ? false : true;
     }
 
@@ -534,7 +539,9 @@ class DUP_Database
         global $wpdb;
     
         $wpdb->query("SET session wait_timeout = ".DUPLICATOR_DB_MAX_TIME);
-        $handle = fopen($this->dbStorePath, 'w+');
+        if (($handle = fopen($this->dbStorePath, 'w+')) == false) {
+            DUP_Log::error('[PHP DUMP] ERROR Can\'t open sbStorePath "'.$this->dbStorePath.'"', Dup_ErrorBehavior::Quit);
+        }
         $tables	 = $wpdb->get_col("SHOW FULL TABLES WHERE Table_Type != 'VIEW'");
     
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
@@ -624,33 +631,16 @@ class DUP_Database
                 $rows  = $wpdb->get_results($query, ARRAY_A);
 
                 $select_last_error = $wpdb->last_error;
-                if ('' !== $select_last_error) {
-                    $is_select_error = true;
-                    DUP_LOG::trace($select_last_error);
-                    if (false !== stripos($wpdb->last_error, 'is marked as crashed and should be repaired')) {
-                        $ret_repair = $wpdb->query("repair table `{$table}`");
-                        $ret_repair = false;
-                        if ($ret_repair) {
-                            DUP_LOG::trace("Successfully repaired the {$table}"); 
-                            $rows = $wpdb->get_results($query, ARRAY_A);
-                            if ('' !== $wpdb->last_error) {
-                                $is_select_error = false;
-                            }
-                        }
-                    }
-
-                    if ($is_select_error) {
-                        $fix = esc_html__('Please contact your DataBase administrator to fix the error.', 'duplicator');
-                        $errorMessage = $select_last_error.' '.$fix.'.';
-                        $package->BuildProgress->set_failed($errorMessage);
-                        $package->BuildProgress->failed = true;
-                        $package->failed = true;
-                        $package->BuildProgress->Status = DUP_PackageStatus::ERROR;
-                        $package->Status = DUP_PackageStatus::ERROR;
-                        $package->Update();  
-                        DUP_Log::error($select_last_error, $fix, Dup_ErrorBehavior::Quit);                                              
-                        return;
-                    }
+                if ('' !== $select_last_error) {                    
+                    $fix = esc_html__('Please contact your DataBase administrator to fix the error.', 'duplicator');
+                    $errorMessage = $select_last_error.' '.$fix.'.';
+                    $package->BuildProgress->set_failed($errorMessage);
+                    $package->BuildProgress->failed = true;
+                    $package->failed = true;
+                    $package->Status = DUP_PackageStatus::ERROR;
+                    $package->Update();  
+                    DUP_Log::error($select_last_error, $fix, Dup_ErrorBehavior::Quit);                                              
+                    return;
                 }
 
                 if (is_array($rows)) {

@@ -4,7 +4,7 @@ Plugin Name: Wordfence Security
 Plugin URI: http://www.wordfence.com/
 Description: Wordfence Security - Anti-virus, Firewall and Malware Scan
 Author: Wordfence
-Version: 7.3.6
+Version: 7.4.2
 Author URI: http://www.wordfence.com/
 Network: true
 */
@@ -15,8 +15,8 @@ if(defined('WP_INSTALLING') && WP_INSTALLING){
 if (!defined('ABSPATH')) {
 	exit;
 }
-define('WORDFENCE_VERSION', '7.3.6');
-define('WORDFENCE_BUILD_NUMBER', '1564590761');
+define('WORDFENCE_VERSION', '7.4.2');
+define('WORDFENCE_BUILD_NUMBER', '1575390485');
 define('WORDFENCE_BASENAME', function_exists('plugin_basename') ? plugin_basename(__FILE__) :
 	basename(dirname(__FILE__)) . '/' . basename(__FILE__));
 
@@ -34,7 +34,9 @@ if (!defined('WORDFENCE_FCPATH')) {
 	/** @noinspection PhpConstantReassignmentInspection */
 	define('WORDFENCE_PATH', trailingslashit(dirname(WORDFENCE_FCPATH)));
 }
-
+if (!defined('WF_IS_WP_ENGINE')) {
+	define('WF_IS_WP_ENGINE', isset($_SERVER['IS_WPE']));
+}
 
 if(get_option('wordfenceActivated') != 1){
 	add_action('activated_plugin','wordfence_save_activation_error'); function wordfence_save_activation_error(){ update_option('wf_plugin_act_error',  ob_get_contents()); }

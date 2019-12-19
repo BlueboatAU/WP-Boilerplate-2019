@@ -52,6 +52,9 @@ try {
     require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.php');
     require_once($GLOBALS['DUPX_INIT'].'/classes/class.view.php');
 
+    DUPX_U::init();
+    DUPX_ServerConfig::init();
+
     $exceptionError = false;
     // DUPX_log::error thotw an exception
     DUPX_Log::setThrowExceptionOnError(true);
@@ -97,7 +100,7 @@ try {
                     'isWPAlreadyExistsError' => 1,
                     'error' => "<b style='color:#B80000;'>INSTALL ERROR!</b><br/>". ERR_CONFIG_FOUND,                    
                 );
-                echo DupLiteSnapLibUtil::wp_json_encode($resp);
+                echo DupLiteSnapJsonU::wp_json_encode($resp);
             } else {
                 require_once($GLOBALS['DUPX_INIT'].'/lib/dup_archive/daws/daws.php');
             }

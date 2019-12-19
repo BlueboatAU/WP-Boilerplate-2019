@@ -10,6 +10,7 @@ require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/class.duparchive.l
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/class.duparchive.engine.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/states/class.duparchive.state.create.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/states/class.duparchive.state.expand.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'lib/dup_archive/classes/class.duparchive.processing.failure.php');
 
 class DUP_DupArchive_Logger extends DupArchiveLoggerBase
 {
@@ -44,6 +45,7 @@ class DUP_DupArchive
                 DUP_Log::error(esc_html__('Build Failure', 'duplicator'), esc_html($error_msg), Dup_ErrorBehavior::LogOnly);
                 //$buildProgress->failed = true;
                 $buildProgress->set_failed($error_msg);
+                $package->setStatus(DUP_PackageStatus::ERROR);;
                 return true;
             } else {
 				DUP_LOG::trace("c4");
@@ -86,6 +88,7 @@ class DUP_DupArchive
 
                     //$buildProgress->failed = true;
                     $buildProgress->set_failed($errorText);
+                    $package->setStatus(DUP_PackageStatus::ERROR);
                     return true;
                 }
             } else {
@@ -97,6 +100,7 @@ class DUP_DupArchive
 
                 //$buildProgress->failed = true;
                 $buildProgress->set_failed($errorMessage);
+                $package->setStatus(DUP_PackageStatus::ERROR);
                 return true;
             }
 
@@ -136,6 +140,7 @@ class DUP_DupArchive
                     DUP_Log::error($error_message, 'Invalid Scan Report Detected', Dup_ErrorBehavior::LogOnly);
                     //$buildProgress->failed = true;
                     $buildProgress->set_failed($error_message);
+                    $package->setStatus(DUP_PackageStatus::ERROR);
                     return true;
                 }
 
@@ -149,6 +154,7 @@ class DUP_DupArchive
                     DUP_Log::error($error_message, $ex->getMessage(), Dup_ErrorBehavior::LogOnly);
                     //$buildProgress->failed = true;
                     $buildProgress->set_failed($error_message);
+                    $package->setStatus(DUP_PackageStatus::ERROR);
                     return true;
                 }
 
@@ -216,6 +222,7 @@ class DUP_DupArchive
                 DUP_Log::TraceObject($message." EXCEPTION:", $ex);
                 //$buildProgress->failed = true;
                 $buildProgress->set_failed($message);
+                $package->setStatus(DUP_PackageStatus::ERROR);
                 return true;
             }
 
@@ -302,6 +309,7 @@ class DUP_DupArchive
                         DUP_Log::Trace('Exception:'.$ex->getMessage().':'.$ex->getTraceAsString());
                         //$buildProgress->failed = true;
                         $buildProgress->set_failed('Error validating archive');
+                        $package->setStatus(DUP_PackageStatus::ERROR);
                         return true;
                     }
 
