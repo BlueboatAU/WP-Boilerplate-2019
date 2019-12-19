@@ -163,13 +163,18 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  */
 require get_template_directory() . '/inc/customizer.php';
 
-// Register Custom Navigation Walker
-require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
+
+/**
+ * Register Custom Navigation Walker
+ */
+require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
+
 
 /**
  * Custom Post Types and Taxonomies
  */
 require get_template_directory() . '/inc/posts-and-taxonomies.php';
+
 
  /* ACF Fields and Options Pages
  */
