@@ -12,6 +12,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 /*--------------------------------------------------------------
 # Imports
 --------------------------------------------------------------*/
+@import "bootstrap/scss/bootstrap";
 @import "normalize";
 
 /*--------------------------------------------------------------
@@ -24,6 +25,15 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
     -o-transition: all $t ease-in-out;
     transition: all $t ease-in-out;
 }
+
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
 @mixin background-opacity($color, $opacity: 0.3) {
     background: $color; /* The Fallback */
     background: rgba($color, $opacity);
@@ -65,4 +75,8 @@ $secondary-font:'Arial', sans-serif;
 
 .full-height{
   min-height: 100vh;
+}
+
+.almost-full-height{
+  min-height: 90vh;
 }
