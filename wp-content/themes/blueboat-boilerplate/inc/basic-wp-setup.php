@@ -18,6 +18,11 @@ wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 }
 
 
+//remove emojis
+
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
 
 //No Comments
 // Removes comments from admin menu
