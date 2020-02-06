@@ -10,6 +10,7 @@ git fetch
 git checkout -f -t origin/master
 rm -rvf .git
 rm -rvf .gitignore
+rm -rvf README.md
 
 //if planning to backup
 git remote set-url origin {{ new git url }}
