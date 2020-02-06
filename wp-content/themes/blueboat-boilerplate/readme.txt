@@ -25,7 +25,7 @@ Blueboat Studio Boilerplate Theme
 
 = Does this theme support any plugins? =
 
-Blueboat includes support for Infinite Scroll in Jetpack.
+
 
 == Changelog ==
 

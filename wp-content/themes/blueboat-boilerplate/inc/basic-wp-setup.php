@@ -22,6 +22,7 @@ wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
+add_filter( 'emoji_svg_url', '__return_false' );
 
 
 //No Comments
@@ -71,3 +72,31 @@ add_filter( 'get_the_archive_title', function ($title) {
 
     return $title;    
 });
+
+/**
+ * Remove the Widgets submenu page.
+ */
+function wpdocs_adjust_the_wp_menu() {
+    $page = remove_submenu_page( 'themes.php', 'widgets.php' );
+    // $page[0] is the menu title
+    // $page[1] is the minimum level or capability required
+    // $page[2] is the URL to the item's file
+}
+add_action( 'admin_menu', 'wpdocs_adjust_the_wp_menu', 999 );
+
+
+// Disable REST API link tag
+remove_action('wp_head', 'rest_output_link_wp_head', 10);
+
+// Disable oEmbed Discovery Links
+remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
+
+// Disable REST API link in HTTP headers
+remove_action('template_redirect', 'rest_output_link_header', 11, 0);
+
+//remove remote access and pingback
+function removeHeadLinks() {
+    remove_action('wp_head', 'rsd_link');
+    remove_action('wp_head', 'wlwmanifest_link');
+}
+add_action('init', 'removeHeadLinks');

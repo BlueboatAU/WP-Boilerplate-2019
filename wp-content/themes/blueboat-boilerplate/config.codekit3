@@ -131,19 +131,6 @@
 		"oAP": "/build/sass/bootstrap",
 		"oF": 0
 		},
-	"/sass/bootstrap/scss/_dropdown.scss": {
-		"aP": 1,
-		"bl": 1,
-		"dP": 10,
-		"dS": 0,
-		"ft": 4,
-		"ma": 0,
-		"oA": 1,
-		"oAP": "/css/_dropdown.css",
-		"oF": 0,
-		"oS": 0,
-		"uL": 1
-		},
 	"/sass/bootstrap/scss/_functions.scss": {
 		"aP": 1,
 		"bl": 1,
