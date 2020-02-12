@@ -16,9 +16,15 @@ require get_template_directory() . '/inc/theme-setup.php';
  * Enqueue scripts and styles.
  */
 function blueboat_scripts() {
+
+	// $theme = wp_get_theme();
+	// $ver = $theme->get( 'Version' );
+	$themecsspath = get_stylesheet_directory() . '/style.css';
+	$style_ver = filemtime( $themecsspath );
+
 	// wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' );
 
-	wp_enqueue_style( 'blueboat-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), $style_ver );
 
 	wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array('jquery'), null, true );
 
