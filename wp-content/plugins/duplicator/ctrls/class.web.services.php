@@ -10,6 +10,8 @@ class DUP_Web_Services
     public static function init()
     {
         add_action('wp_ajax_duplicator_reset_all_settings', array(__CLASS__, 'ajax_reset_all'));
+        add_action('wp_ajax_duplicator_download', array(__CLASS__, 'duplicator_download'));
+        add_action('wp_ajax_nopriv_duplicator_download', array(__CLASS__, 'duplicator_download'));
     }
 
     /**
@@ -41,8 +43,8 @@ class DUP_Web_Services
             /** Execute function * */
             $error  = false;
             $result = array(
-                'data' => array(),
-                'html' => '',
+                'data'    => array(),
+                'html'    => '',
                 'message' => ''
             );
 
@@ -52,8 +54,8 @@ class DUP_Web_Services
                 throw new Exception('Security issue');
             }
 
-            DUP_Package::by_status_callback(array(__CLASS__,'package_delete_callback'),array(
-                    array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
+            DUP_Package::by_status_callback(array(__CLASS__, 'package_delete_callback'), array(
+                array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
             ));
 
             /** reset active package id * */
@@ -64,7 +66,8 @@ class DUP_Web_Services
             DUP_Package::not_active_files_tmp_cleanup();
 
             //throw new Exception('force error test');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $error             = true;
             $result['message'] = $e->getMessage();
         }
@@ -77,6 +80,80 @@ class DUP_Web_Services
             wp_send_json_error($result);
         } else {
             wp_send_json_success($result);
+        }
+    }
+
+    public static function duplicator_download()
+    {
+        $error = false;
+
+        if (!isset($_GET['id']) || !isset($_GET['hash']) || !isset($_GET['file'])) {
+            $error = true;
+        }
+
+        $packageId = (int) $_GET['id'];
+        $hash      = sanitize_text_field($_GET['hash']);
+        $file      = sanitize_text_field($_GET['file']);
+
+        if ($error || ($package = DUP_Package::getByID($packageId)) == false) {
+            $error = true;
+        }
+
+        if ($error || $hash !== $package->Hash) {
+            $error = true;
+        }
+
+        switch ($file) {
+            case 'sql':
+                $fileName = "{$package->NameHash}_database.sql";
+                break;
+            case 'archive':
+                $format   = strtolower($package->Archive->Format);
+                $fileName = "{$package->NameHash}_archive.{$format}";
+                break;
+            case 'installer':
+                $fileName = $package->NameHash.'_installer.php';
+                break;
+            default:
+                $error    = true;
+        }
+
+        $filepath = DUPLICATOR_SSDIR_PATH.'/'.$fileName;
+
+        // Process download
+        if (!$error && file_exists($filepath)) {
+            // Clean output buffer
+            if (ob_get_level() !== 0 && @ob_end_clean() === FALSE) {
+                @ob_clean();
+            }
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.$fileName.'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: '.filesize($filepath));
+            flush(); // Flush system output buffer
+
+            try {
+                $fp = @fopen($filepath, 'r');
+                if (false === $fp) {
+                    throw new Exception('Fail to open the file '.$filepath);
+                }
+                while (!feof($fp) && ($data = fread($fp, DUPLICATOR_BUFFER_READ_WRITE_SIZE)) !== FALSE) {
+                    echo $data;
+                }
+                @fclose($fp);
+            }
+            catch (Exception $e) {
+                readfile($filepath);
+            }
+            exit;
+        } else {
+            // if the request is wrong wait to avoid brute force attack
+            sleep(2);
+            wp_die('Invalid request');
         }
     }
 }
