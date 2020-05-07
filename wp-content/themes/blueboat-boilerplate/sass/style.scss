@@ -57,15 +57,18 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 # Variables
 --------------------------------------------------------------*/
 
-$colour-primary:#0e4c93;
-$colour-secondary:#01b3e4;
-$colour-tertiary:#4552a4;
+$colour-d-blue: #011a30;
+$colour-l-blue: #648bcf;
+
 $dark-grey:#333333;
 $med-grey:#989898;
 $light-grey:#e9e9e9;
 $white: #fff;
 $black: #000;
-$primary-font:'Arial', sans-serif;
+
+$colour-font-default: $black;
+
+$font-default:'Arial', sans-serif;
 $secondary-font:'Arial', sans-serif;
 
 
@@ -73,10 +76,35 @@ $secondary-font:'Arial', sans-serif;
 # Styles
 --------------------------------------------------------------*/
 
+html{
+  font-size: 14px;
+}
+
+body{
+  width: 100vw;
+  overflow-x: hidden;
+  font-family: $font-default;
+  color:$colour-font-default;
+  font-size: 1rem;
+  line-height: 1.67rem;
+  &.no-scroll{
+    overflow: hidden;
+  }
+}
+
+#page.site{
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 .full-height{
   min-height: 100vh;
 }
 
 .almost-full-height{
   min-height: 90vh;
+}
+
+.some-height{
+  min-height: 60vh;
 }
