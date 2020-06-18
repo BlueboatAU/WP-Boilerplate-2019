@@ -1,0 +1,1 @@
+!function(){"use strict";setTimeout((function(){return console.log("welcome!")}),3e3)}();

@@ -17,40 +17,16 @@ require get_template_directory() . '/inc/theme-setup.php';
  */
 function blueboat_scripts() {
 
-	// $theme = wp_get_theme();
-	// $ver = $theme->get( 'Version' );
-	$themecsspath = get_stylesheet_directory() . '/style.css';
+	$themecsspath = get_stylesheet_uri();
 	$style_ver = filemtime( $themecsspath );
-
-	// wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' );
 
 	wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), $style_ver );
 
 	wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array('jquery'), null, true );
 
-	// wp_enqueue_script( 'blueboat-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
-
-	// wp_enqueue_script( 'blueboat-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
-
 }
 add_action( 'wp_enqueue_scripts', 'blueboat_scripts' );
 
-/**
- * Implement the Custom Header feature.
- */
-// require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-// if ( defined( 'JETPACK__VERSION' ) ) {
-// 	require get_template_directory() . '/inc/jetpack.php';
-// }
-
-/**
- * Changes to basic wordpress
- */
-// require get_template_directory() . '/inc/customizer.php';
 
 /**
  * Custom template tags for this theme.
@@ -64,7 +40,7 @@ require get_template_directory() . '/inc/template-functions.php';
 
 
 /**
- * Register Custom Navigation Walker
+ * Register Custom Bootstrap Navigation Walker
  */
 require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 
