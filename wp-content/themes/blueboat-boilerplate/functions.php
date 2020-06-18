@@ -17,12 +17,16 @@ require get_template_directory() . '/inc/theme-setup.php';
  */
 function blueboat_scripts() {
 
-	$themecsspath = get_stylesheet_uri();
+	$themecsspath = get_template_directory() . '/style.css';
 	$style_ver = filemtime( $themecsspath );
+	$themejspath = get_template_directory() . '/js/app-min.js';
+	$js_ver = filemtime( $themejspath );
 
 	wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), $style_ver );
 
 	wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array('jquery'), null, true );
+
+	wp_enqueue_script( 'theme-js', get_template_directory_uri() . '/js/app-min.js', array('jquery'), $js_ver, true );
 
 }
 add_action( 'wp_enqueue_scripts', 'blueboat_scripts' );
@@ -38,6 +42,10 @@ require get_template_directory() . '/inc/template-tags.php';
  */
 require get_template_directory() . '/inc/template-functions.php';
 
+/**
+ * Custom Shortcodes
+ */
+require get_template_directory() . '/inc/shortcodes.php';
 
 /**
  * Register Custom Bootstrap Navigation Walker

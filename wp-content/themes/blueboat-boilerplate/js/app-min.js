@@ -1,1 +1,1 @@
-!function(){"use strict";setTimeout((function(){return console.log("welcome!")}),3e3)}();
+!function(){"use strict";var e=function(){return console.log("welcome!")};jQuery((function(t){setInterval(e,3e3);var o=t("p").text(),n=function(e){e=e.toLowerCase().split(" ");for(var t=0;t<e.length;t++)e[t]=e[t].charAt(0).toUpperCase()+e[t].slice(1);return e.join(" ")}(o);console.log(o,n)}))}();

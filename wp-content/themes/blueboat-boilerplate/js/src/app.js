@@ -1,4 +1,16 @@
+import {toTitleCase} from "./_app/helpers.js"
+
 
 let test = () => console.log('welcome!');
 
-setTimeout(test, 3000);
+jQuery(function($){
+
+  setInterval(test, 3000);
+
+  let text = $('p').text();
+
+  let trans = toTitleCase(text);
+
+  console.log(text, trans);
+
+})
