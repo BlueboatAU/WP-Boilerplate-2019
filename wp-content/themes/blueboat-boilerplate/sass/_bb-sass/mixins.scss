@@ -38,3 +38,25 @@
     }
   }
 }
+
+$breakpoints: (
+  'phone-u':   ( min-width:  576px ),
+  'tablet-u':  ( min-width:  768px ),
+  'desktop-u': ( min-width:  992px ),
+  'full-u':  ( min-width: 1200px ),
+  'phone-d':   ( max-width: 575.98px ),
+  'tablet-d':  ( max-width: 767.98px ),
+  'desktop-d': ( max-width: 991.98px ),
+  'full-d':  ( max-width: 1199.98px ),
+);
+
+@mixin breakpoint($name) {
+      @if map-has-key($breakpoints, $name) {
+        @media #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  }
+  @else {
+    @warn "Couldn't find a breakpoint named `#{$name}`.";
+  }
+}
