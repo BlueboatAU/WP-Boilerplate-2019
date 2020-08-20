@@ -1,4 +1,4 @@
-import {toTitleCase} from "./_app/helpers.js"
+import {toTitleCase, waitForFinalEvent} from "./_app/helpers.js"
 
 
 let test = () => console.log('welcome!');
