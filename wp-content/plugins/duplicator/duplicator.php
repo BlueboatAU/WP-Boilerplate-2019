@@ -3,7 +3,7 @@
   Plugin Name: Duplicator
   Plugin URI: https://snapcreek.com/duplicator/duplicator-free/
   Description: Migrate and backup a copy of your WordPress files and database. Duplicate and move a site from one location to another quickly.
-  Version: 1.3.28
+  Version: 1.3.36
   Author: Snap Creek
   Author URI: http://www.snapcreek.com/duplicator/
   Text Domain: duplicator
@@ -36,121 +36,6 @@ if (!defined('ABSPATH')) {
 require_once("helper.php");
 require_once("define.php");
 
-if (!function_exists('sanitize_textarea_field')) {
-    /**
-     * Sanitizes a multiline string from user input or from the database.
-     *
-     * The function is like sanitize_text_field(), but preserves
-     * new lines (\n) and other whitespace, which are legitimate
-     * input in textarea elements.
-     *
-     * @see sanitize_text_field()
-     *
-     * @since 4.7.0
-     *
-     * @param string $str String to sanitize.
-     * @return string Sanitized string.
-     */
-    function sanitize_textarea_field($str)
-    {
-        $filtered = _sanitize_text_fields($str, true);
-
-        /**
-         * Filters a sanitized textarea field string.
-         *
-         * @since 4.7.0
-         *
-         * @param string $filtered The sanitized string.
-         * @param string $str      The string prior to being sanitized.
-         */
-        return apply_filters('sanitize_textarea_field', $filtered, $str);
-    }
-}
-
-if (!function_exists('_sanitize_text_fields')) {
-    /**
-     * Internal helper function to sanitize a string from user input or from the db
-     *
-     * @since 4.7.0
-     * @access private
-     *
-     * @param string $str String to sanitize.
-     * @param bool $keep_newlines optional Whether to keep newlines. Default: false.
-     * @return string Sanitized string.
-     */
-    function _sanitize_text_fields($str, $keep_newlines = false)
-    {
-        $filtered = wp_check_invalid_utf8($str);
-
-        if (strpos($filtered, '<') !== false) {
-            $filtered = wp_pre_kses_less_than($filtered);
-            // This will strip extra whitespace for us.
-            $filtered = wp_strip_all_tags($filtered, false);
-
-            // Use html entities in a special case to make sure no later
-            // newline stripping stage could lead to a functional tag
-            $filtered = str_replace("<\n", "&lt;\n", $filtered);
-        }
-
-        if (! $keep_newlines) {
-            $filtered = preg_replace('/[\r\n\t ]+/', ' ', $filtered);
-        }
-        $filtered = trim($filtered);
-
-        $found = false;
-        while (preg_match('/%[a-f0-9]{2}/i', $filtered, $match)) {
-            $filtered = str_replace($match[0], '', $filtered);
-            $found = true;
-        }
-
-        if ($found) {
-            // Strip out the whitespace that may now exist after removing the octets.
-            $filtered = trim(preg_replace('/ +/', ' ', $filtered));
-        }
-
-        return $filtered;
-    }
-}
-
-if (!function_exists('wp_normalize_path')) {
-    /**
-     * Normalize a filesystem path.
-     *
-     * On windows systems, replaces backslashes with forward slashes
-     * and forces upper-case drive letters.
-     * Allows for two leading slashes for Windows network shares, but
-     * ensures that all other duplicate slashes are reduced to a single.
-     *
-     * @since 3.9.0
-     * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
-     * @since 4.5.0 Allows for Windows network shares.
-     * @since 4.9.7 Allows for PHP file wrappers.
-     *
-     * @param string $path Path to normalize.
-     * @return string Normalized path.
-     */
-    function wp_normalize_path( $path ) {
-        $wrapper = '';
-        if ( wp_is_stream( $path ) ) {
-            list( $wrapper, $path ) = explode( '://', $path, 2 );
-            $wrapper .= '://';
-        }
-
-        // Standardise all paths to use /
-        $path = str_replace( '\\', '/', $path );
-
-        // Replace multiple slashes down to a singular, allowing for network shares having two slashes.
-        $path = preg_replace( '|(?<=.)/+|', '/', $path );
-
-        // Windows paths should uppercase the drive letter
-        if ( ':' === substr( $path, 1, 1 ) ) {
-            $path = ucfirst( $path );
-        }
-
-        return $wrapper . $path;
-    }
-}
-
 if (is_admin() == true) 
 {
     if (defined('DUPLICATOR_DEACTIVATION_FEEDBACK') && DUPLICATOR_DEACTIVATION_FEEDBACK) {
@@ -158,7 +43,7 @@ if (is_admin() == true)
     }
     require_once 'lib/snaplib/snaplib.all.php';
     require_once 'classes/class.constants.php';
-    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-common/mu-plugin.php'));
+    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-security-auditor.php'));
     if ($isWPEngineHost) {
         require_once 'classes/host/class.wpengine.host.php';
     }
@@ -175,7 +60,8 @@ if (is_admin() == true)
     }
 
     require_once 'classes/class.settings.php';
-    require_once 'classes/class.logging.php';    
+    require_once 'classes/class.logging.php';  
+    require_once 'classes/class.plugin.upgrade.php';
     require_once 'classes/utilities/class.u.php';
 	require_once 'classes/utilities/class.u.string.php';
     require_once 'classes/utilities/class.u.validator.php';
@@ -201,51 +87,9 @@ if (is_admin() == true)
 	/** ========================================================
 	 * ACTIVATE/DEACTIVE/UPDATE HOOKS
      * =====================================================  */
-	register_activation_hook(__FILE__,   'duplicator_activate');
+	register_activation_hook(__FILE__,   array('DUP_LITE_Plugin_Upgrade','onActivationAction'));
     register_deactivation_hook(__FILE__, 'duplicator_deactivate');
-		
-    /**
-	 * Hooked into `register_activation_hook`.  Routines used to activate the plugin
-     *
-     * @access global
-     * @return null
-     */
-    function duplicator_activate() 
-	{
-        global $wpdb;
-		
-        //Only update database on version update
-        if (DUPLICATOR_VERSION != get_option("duplicator_version_plugin")) 
-		{
-            $table_name = $wpdb->prefix . "duplicator_packages";
-
-            //PRIMARY KEY must have 2 spaces before for dbDelta to work
-			//see: https://codex.wordpress.org/Creating_Tables_with_Plugins
-            $sql = "CREATE TABLE `{$table_name}` (
-			   id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-			   name VARCHAR(250) NOT NULL,
-			   hash VARCHAR(50) NOT NULL,
-			   status INT(11) NOT NULL,
-			   created DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-			   owner VARCHAR(60) NOT NULL,
-			   package LONGTEXT NOT NULL,
-			   PRIMARY KEY  (id),
-			   KEY hash (hash))";
-
-            $abs_path = duplicator_get_abs_path();
-            require_once($abs_path . '/wp-admin/includes/upgrade.php');
-            @dbDelta($sql);
-            
-            DupLiteSnapLibIOU::chmod(DUPLICATOR_SSDIR_PATH, 'u+rwx,go+rx');
-        }
-
-        //WordPress Options Hooks
-        update_option('duplicator_version_plugin', DUPLICATOR_VERSION);
-
-        //Setup All Directories
-        DUP_Util::initSnapshotDirectory();
-    }
-
+    
     /**
 	 * Hooked into `plugins_loaded`.  Routines used to update the plugin
      *
@@ -254,9 +98,9 @@ if (is_admin() == true)
      */
     function duplicator_update() 
 	{
-        if (DUPLICATOR_VERSION != get_option("duplicator_version_plugin")) {
-            duplicator_activate();
-            // $snapShotDirPerm = substr(sprintf("%o", fileperms(DUPLICATOR_SSDIR_PATH)),-4);
+        if (DUPLICATOR_VERSION != get_option(DUP_LITE_Plugin_Upgrade::DUP_VERSION_OPT_KEY)) {
+            DUP_LITE_Plugin_Upgrade::onActivationAction();
+            // $snapShotDirPerm = substr(sprintf("%o", fileperms(DUP_Settings::getSsdirPath())),-4);
         }
 		load_plugin_textdomain( 'duplicator' );
     }
@@ -288,9 +132,7 @@ if (is_admin() == true)
     add_action('admin_init',		'duplicator_admin_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
-    add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
-    add_action('admin_notices',		array('DUP_UI_Notice', 'installAutoDeactivatePlugins'));
-    add_action('admin_notices',		array('DUP_UI_Notice', 'showFeedBackNotice'));
+    DUP_UI_Notice::init();
 	
 	//CTRL ACTIONS
     DUP_Web_Services::init();
@@ -299,7 +141,6 @@ if (is_admin() == true)
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
     add_action('wp_ajax_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
-    add_action('wp_ajax_duplicator_set_admin_notice_viewed',    'duplicator_set_admin_notice_viewed');
 
 	$GLOBALS['CTRLS_DUP_CTRL_UI']		= new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools']	= new DUP_CTRL_Tools();
@@ -339,7 +180,7 @@ if (is_admin() == true)
         wp_register_script('dup-parsley', DUPLICATOR_PLUGIN_URL . 'assets/js/parsley.min.js', array('jquery'), '1.1.18');
 		wp_register_script('dup-jquery-qtip', DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.js', array('jquery'), '2.2.1');
 
-
+        add_action('admin_head', array('DUP_UI_Screen', 'getCustomCss'));
         // Clean tmp folder
         DUP_Package::not_active_files_tmp_cleanup();
 
@@ -357,6 +198,13 @@ if (is_admin() == true)
      * @return null
      */
     function duplicator_admin_enqueue_scripts() {
+        wp_enqueue_script('dup-global-script', DUPLICATOR_PLUGIN_URL . 'assets/js/global-admin-script.js', array('jquery'), DUPLICATOR_VERSION, true);
+        wp_localize_script('dup-global-script', 
+            'dup_global_script_data', 
+            array(
+                'duplicator_admin_notice_to_dismiss' => wp_create_nonce('duplicator_admin_notice_to_dismiss')
+            )
+        );
         wp_enqueue_style('dup-plugin-global-style');
     }
 	
@@ -433,7 +281,9 @@ if (is_admin() == true)
         add_action('admin_print_scripts-' . $page_packages, 'duplicator_scripts');
         add_action('admin_print_scripts-' . $page_settings, 'duplicator_scripts');
         add_action('admin_print_scripts-' . $page_tools, 'duplicator_scripts');
-		add_action('admin_print_scripts-' . $page_gopro, 'duplicator_scripts');
+        add_action('admin_print_scripts-' . $page_gopro, 'duplicator_scripts');
+        
+        add_action('wp_enqueue_scripts', 'duplicator_global_scripts');
 		
         //Apply Styles
         add_action('admin_print_styles-' . $page_packages, 'duplicator_styles');
@@ -455,7 +305,7 @@ if (is_admin() == true)
         wp_enqueue_script('jquery-ui-progressbar');
         wp_enqueue_script('dup-parsley');
 		wp_enqueue_script('dup-jquery-qtip');
-		
+
     }
 
     /**
@@ -492,8 +342,12 @@ if (is_admin() == true)
             $this_plugin = plugin_basename(__FILE__);
 
         if ($file == $this_plugin) {
+            /*
             $settings_link = '<a href="admin.php?page=duplicator">' . esc_html__("Manage", 'duplicator') . '</a>';
             array_unshift($links, $settings_link);
+            */
+            $upgrade_link = '<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=plugins_page&utm_campaign=duplicator_pro"><strong style="color: #11967A; display: inline;">' . esc_html__("Upgrade to Professional", 'duplicator') . '</strong></a>';
+            array_unshift($links, $upgrade_link);
         }
         return $links;
     }
@@ -509,7 +363,7 @@ if (is_admin() == true)
         $plugin = plugin_basename(__FILE__);
         // create link
         if ($file == $plugin) {
-            $links[] = '<a href="admin.php?page=duplicator-gopro" title="' . esc_attr__('Get Help', 'duplicator') . '" style="">' . esc_html__('Go Pro', 'duplicator') . '</a>';
+            $links[] = '<a href="admin.php?page=duplicator" title="' . esc_attr__('Manage Packages', 'duplicator') . '" style="">' . esc_html__('Manage', 'duplicator') . '</a>';
             return $links;
         }
         return $links;
@@ -575,29 +429,6 @@ if (is_admin() == true)
                     }
                 }
             }
-        }
-    }
-
-    if (!function_exists('duplicator_set_admin_notice_viewed')) {
-        function duplicator_set_admin_notice_viewed() {
-            if ( empty( $_REQUEST['notice_id'] ) ) {
-                wp_die();
-            }
-    
-            $notices = get_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, true);
-            if ( empty( $notices ) ) {
-                $notices = array();
-            }
-    
-            $notices[ $_REQUEST['notice_id'] ] = 'true';
-            update_user_meta( get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, $notices);
-    
-            if ( ! wp_doing_ajax() ) {
-                wp_safe_redirect( admin_url() );
-                die;
-            }
-    
-            wp_die();
         }
     }
 }

@@ -147,7 +147,10 @@ class wfSupportController {
 	const ITEM_SCAN_RESULT_WAF_DISABLED = 'scan-result-waf-disabled';
 	const ITEM_SCAN_RESULT_UNKNOWN_FILE_CORE = 'scan-result-unknown-file-in-wordpress-core';
 	const ITEM_SCAN_RESULT_SKIPPED_PATHS = 'scan-result-skipped-paths';
-	
+	const ITEM_SCAN_RESULT_REPAIR_MODIFIED_FILES = 'scan-result-repair-modified-files';
+	const ITEM_SCAN_RESULT_MODIFIED_PLUGIN = 'scan-result-modified-plugin';
+	const ITEM_SCAN_RESULT_MODIFIED_THEME = 'scan-result-modified-theme';
+
 	const ITEM_TOOLS_TWO_FACTOR = 'tools-two-factor';
 	const ITEM_TOOLS_LIVE_TRAFFIC = 'tools-live-traffic';
 	const ITEM_TOOLS_LIVE_TRAFFIC_OPTION_ENABLE = 'tools-live-traffic-option-enable';
@@ -158,6 +161,7 @@ class wfSupportController {
 	const ITEM_DIAGNOSTICS_TEST_MEMORY = 'diagnostics-test-memory';
 	const ITEM_DIAGNOSTICS_TEST_EMAIL = 'diagnostics-test-email';
 	const ITEM_DIAGNOSTICS_TEST_ACTIVITY_REPORT = 'diagnostics-test-activity-report';
+	const ITEM_DIAGNOSTICS_REMOVE_CENTRAL_DATA = 'diagnostics-remove-central-data';
 	const ITEM_DIAGNOSTICS_OPTION_DEBUGGING_MODE = 'diagnostics-option-debugging-mode';
 	const ITEM_DIAGNOSTICS_OPTION_REMOTE_SCANS = 'diagnostics-option-remote-scans';
 	const ITEM_DIAGNOSTICS_OPTION_SSL_VERIFICATION = 'diagnostics-option-ssl-verification';
@@ -324,7 +328,10 @@ class wfSupportController {
 			case self::ITEM_SCAN_RESULT_WAF_DISABLED:
 			case self::ITEM_SCAN_RESULT_UNKNOWN_FILE_CORE:
 			case self::ITEM_SCAN_RESULT_SKIPPED_PATHS:
-				
+			case self::ITEM_SCAN_RESULT_REPAIR_MODIFIED_FILES:
+			case self::ITEM_SCAN_RESULT_MODIFIED_PLUGIN:
+			case self::ITEM_SCAN_RESULT_MODIFIED_THEME:
+
 			case self::ITEM_TOOLS_TWO_FACTOR:
 			case self::ITEM_TOOLS_LIVE_TRAFFIC:
 			case self::ITEM_TOOLS_LIVE_TRAFFIC_OPTION_ENABLE:
@@ -335,6 +342,7 @@ class wfSupportController {
 			case self::ITEM_DIAGNOSTICS_TEST_MEMORY:
 			case self::ITEM_DIAGNOSTICS_TEST_EMAIL:
 			case self::ITEM_DIAGNOSTICS_TEST_ACTIVITY_REPORT:
+			case self::ITEM_DIAGNOSTICS_REMOVE_CENTRAL_DATA:
 			case self::ITEM_DIAGNOSTICS_OPTION_DEBUGGING_MODE:
 			case self::ITEM_DIAGNOSTICS_OPTION_REMOTE_SCANS:
 			case self::ITEM_DIAGNOSTICS_OPTION_SSL_VERIFICATION:

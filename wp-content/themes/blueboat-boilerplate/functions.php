@@ -56,7 +56,7 @@ require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 /**
  * Custom Post Types and Taxonomies
  */
-require get_template_directory() . '/inc/posts-and-taxonomies.php';
+// require get_template_directory() . '/inc/posts-and-taxonomies.php';
 
 
  /* ACF Fields and Options Pages
@@ -68,7 +68,3 @@ require get_template_directory() . '/inc/acf.php';
  */
 require get_template_directory() . '/inc/basic-wp-setup.php';
 
-
- /* BB Lazy Load script
- */
-// require get_template_directory() . '/inc/lazyload.php';

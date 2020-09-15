@@ -2,7 +2,7 @@
 <?php
 $welcome_panel_is_active = wlcms_welcome_value(0, 'is_active');
 ?>
-<div class="wlcms-input-group toggle-group">
+<div class="wlcms-input-group toggle-group wlcms-dashboard" data-wlcms_dashboard="1">
     <div class="wlcms-help">
         <?php _e('Add your own Welcome Panel to the Dashboard page. This will appear on the dashboard. We recommend providing your contact details and links to the help files you have made for your client.', 'white-label-cms') ?>
     </div>
@@ -71,7 +71,7 @@ $welcome_panel_is_active = wlcms_welcome_value(0, 'is_active');
         <div class="welcome-basicHtml1">
             <label><?php _e('Title of Welcome Panel', 'white-label-cms') ?></label>
             <div class="wlcms-input">
-                <input type="text" name="welcome_panel[0][title]" value="<?php echo wlcms_welcome_value(0, 'title') ?>" />
+                <input type="text" name="welcome_panel[0][title]" value="<?php echo esc_attr(wlcms_welcome_value(0, 'title')) ?>" />
             </div>
             <div class="wlcms-help">
                 <?php _e('Title of the Welcome Panel', 'white-label-cms') ?>
@@ -81,14 +81,14 @@ $welcome_panel_is_active = wlcms_welcome_value(0, 'is_active');
         <div class="welcome-basicHtml1">
             <label><?php _e('Welcome Panel Description HTML', 'white-label-cms') ?></label>
             <div class="wlcms-input">
-                <textarea class="textarea-full" name="welcome_panel[0][description]"><?php echo wlcms_welcome_value(0, 'description') ?></textarea>
+                <textarea class="textarea-full" name="welcome_panel[0][description]"><?php echo esc_html(wlcms_welcome_value(0, 'description')) ?></textarea>
             </div>
             <div class="wlcms-help"><?php _e('You can add any HTML to the welcome panel.', 'white-label-cms') ?></div>
         </div>
 
         <div class="welcome-basicHtml1">
             <div class="wlcms-input">
-            <input class="wlcms-toggle wlcms-toggle-light" id="own_welcome_panel_fullwidth" value="1" name="welcome_panel[0][is_fullwidth]" <?php checked(wlcms_welcome_value(0 , 'is_fullwidth'), 1, true) ?> type="checkbox"/>
+            <input class="wlcms-toggle wlcms-toggle-light welcome_panel_fullwidth" id="own_welcome_panel_fullwidth" value="1" name="welcome_panel[0][is_fullwidth]" <?php checked(wlcms_welcome_value(0 , 'is_fullwidth'), 1, true) ?> type="checkbox"/>
             <label class="wlcms-toggle-btn" for="own_welcome_panel_fullwidth"></label><label class="toggle-label" for="own_welcome_panel_fullwidth"><?php _e('Make full-width');?></label> 
             </div>
         </div>
@@ -102,11 +102,15 @@ $welcome_panel_is_active = wlcms_welcome_value(0, 'is_active');
         <?php
         endif;
         ?>
-        <div class="wlcms-input-group">
+        <div class="wlcms-input-group wlcms_welcome_dismissible wlcms_welcome_panel_dismissible1">
             <div class="wlcms-input">
-            <input class="wlcms-toggle wlcms-toggle-light" id="own_welcome_panel_dismissible" value="1" name="welcome_panel[0][dismissible]" <?php checked(wlcms_welcome_value(0, 'dismissible'), 1, true) ?> type="checkbox"/>
-            <label class="wlcms-toggle-btn" for="own_welcome_panel_dismissible"></label><label class="toggle-label" for="own_welcome_panel_dismissible"><?php _e('Dismissible'); ?></label> 
+            <input class="wlcms-toggle wlcms-toggle-light" id="first_welcome_panel_dismissible" value="1" name="welcome_panel[0][dismissible]" <?php checked(wlcms_welcome_value(0, 'dismissible'), 1, true) ?> type="checkbox"/>
+            <label class="wlcms-toggle-btn" for="first_welcome_panel_dismissible"></label><label class="toggle-label" for="first_welcome_panel_dismissible"><?php _e('Dismissible'); ?></label> 
             </div>
+            <?php
+            if( is_wlcms_super_admin() ):?>
+            <div class="wlcms_welcome_dismissible_reset"><a href="<?php echo wlcms()->admin_url() ?>&wlcms-action=reset-welcome-dashboard&dashboard=0"><?php _e('Reset Dismissed Welcome Dashboard')?></a></div>
+            <?php endif;?>
         </div>
     </div>
 </div>
@@ -115,7 +119,7 @@ $welcome_panel_is_active = wlcms_welcome_value(0, 'is_active');
 <?php
 $welcome_panel_is_active = wlcms_welcome_value(1, 'is_active');
 ?>
-<div class="wlcms-input-group toggle-group">
+<div class="wlcms-input-group toggle-group wlcms-dashboard" data-wlcms_dashboard="2">
     <div class="wlcms-input">
     <input  class="wlcms-toggle wlcms-toggle-light main-toggle" id="add_second_panel" data-revised="1" name="welcome_panel[1][is_active]" value="1" type="checkbox" <?php checked($welcome_panel_is_active, 1, true) ?>/>
     <label class="wlcms-toggle-btn" for="add_second_panel"></label><label class="toggle-label" for="add_second_panel"><?php _e('Add Second Panel', 'white-label-cms') ?></label> 
@@ -165,7 +169,7 @@ $welcome_panel_is_active = wlcms_welcome_value(1, 'is_active');
         <div class="welcome-basicHtml2">
             <label><?php _e('Title of Second Panel', 'white-label-cms') ?></label>
             <div class="wlcms-input">
-                <input type="text" name="welcome_panel[1][title]" value="<?php echo wlcms_welcome_value(1, 'title') ?>" />
+                <input type="text" name="welcome_panel[1][title]" value="<?php echo esc_attr(wlcms_welcome_value(1, 'title')) ?>" />
             </div>
             <div class="wlcms-help">
                 <?php _e('Title of the Second Panel', 'white-label-cms') ?>
@@ -175,14 +179,14 @@ $welcome_panel_is_active = wlcms_welcome_value(1, 'is_active');
         <div class="welcome-basicHtml2">
             <label><?php _e('Second Panel Description (HTML)', 'white-label-cms') ?></label>
             <div class="wlcms-input">
-                <textarea class="textarea-full" name="welcome_panel[1][description]"><?php echo wlcms_welcome_value(1, 'description') ?></textarea>
+                <textarea class="textarea-full" name="welcome_panel[1][description]"><?php echo esc_html(wlcms_welcome_value(1, 'description')) ?></textarea>
             </div>
             <div class="wlcms-help"><?php _e('You can add any HTML to the second panel.', 'white-label-cms') ?></div>
         </div>
 
         <div class="welcome-basicHtml2">
             <div class="wlcms-input">
-            <input class="wlcms-toggle wlcms-toggle-light" id="second_welcome_panel_fullwidth" value="1" name="welcome_panel[1][is_fullwidth]" <?php checked(wlcms_welcome_value(1, 'is_fullwidth'), 1, true) ?> type="checkbox"/>
+            <input class="wlcms-toggle wlcms-toggle-light welcome_panel_fullwidth" id="second_welcome_panel_fullwidth" value="1" name="welcome_panel[1][is_fullwidth]" <?php checked(wlcms_welcome_value(1, 'is_fullwidth'), 1, true) ?> type="checkbox"/>
             <label class="wlcms-toggle-btn" for="second_welcome_panel_fullwidth"></label><label class="toggle-label" for="second_welcome_panel_fullwidth"><?php _e('Make full-width');?></label> 
             </div>
             <div class="wlcms-help">
@@ -199,11 +203,15 @@ $welcome_panel_is_active = wlcms_welcome_value(1, 'is_active');
         <?php
         endif;
         ?>
-        <div class="wlcms-input-group">
+        <div class="wlcms-input-group wlcms_welcome_dismissible wlcms_welcome_panel_dismissible2">
             <div class="wlcms-input">
             <input class="wlcms-toggle wlcms-toggle-light" id="second_welcome_panel_dismissible" value="1" name="welcome_panel[1][dismissible]" <?php checked(wlcms_welcome_value(1, 'dismissible'), 1, true) ?> type="checkbox"/>
             <label class="wlcms-toggle-btn" for="second_welcome_panel_dismissible"></label><label class="toggle-label" for="second_welcome_panel_dismissible"><?php _e('Dismissible'); ?></label> 
             </div>
+            <?php
+            if( is_wlcms_super_admin() ):?>
+            <div class="wlcms_welcome_dismissible_reset"><a href="<?php echo wlcms()->admin_url() ?>&wlcms-action=reset-welcome-dashboard&dashboard=1"><?php _e('Reset Dismissed Welcome Dashboard')?></a></div>
+            <?php endif;?>
         </div>
     </div>
 </div>

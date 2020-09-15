@@ -1,16 +1,15 @@
-jQuery(document).ready(function($) {
-    $('div.notice.duplicator-message-dismissed, .duplicator-message .notice-dismiss').on('click', function (event) {
-        event.preventDefault();
-        $.post(ajaxurl, {
-            action: 'duplicator_set_admin_notice_viewed',
-            notice_id: $(this).closest('.duplicator-message-dismissed').data('notice_id')
-        });
-        var $wrapperElm = $(this).closest('.duplicator-message-dismissed');
-        $wrapperElm.fadeTo(100, 0, function () {
-            $wrapperElm.slideUp(100, function () {
-                $wrapperElm.remove();
+jQuery(document).ready(function ($) {
+    $('.duplicator-admin-notice[data-to-dismiss]').each(function () {
+        var notice = $(this);
+        var notice_to_dismiss = notice.data('to-dismiss');
+
+        notice.find('.notice-dismiss').on('click', function (event) {
+            event.preventDefault();
+            $.post(ajaxurl, {
+                action: 'duplicator_admin_notice_to_dismiss',
+                notice: notice_to_dismiss,
+                nonce: dup_global_script_data.duplicator_admin_notice_to_dismiss
             });
         });
-    });   
+    });
 });
-

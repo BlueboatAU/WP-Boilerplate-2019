@@ -4,12 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4589a9f05a03f0a29add21e0e493a064
+class ComposerStaticInitecc5aee58cbc7fae6cdc39ef5e9f1f73
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
@@ -21,10 +24,14 @@ class ComposerStaticInit4589a9f05a03f0a29add21e0e493a064
         ),
         'W' => 
         array (
+            'Wikimedia\\Composer\\' => 19,
             'WPMailSMTP\\' => 11,
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'SendinBlue\\Client\\' => 18,
         ),
         'P' => 
@@ -59,9 +66,25 @@ class ComposerStaticInit4589a9f05a03f0a29add21e0e493a064
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'Wikimedia\\Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wikimedia/composer-merge-plugin/src',
+        ),
         'WPMailSMTP\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Symfony\\Polyfill\\Php72\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
         ),
         'SendinBlue\\Client\\' => 
         array (
@@ -131,10 +154,10 @@ class ComposerStaticInit4589a9f05a03f0a29add21e0e493a064
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4589a9f05a03f0a29add21e0e493a064::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4589a9f05a03f0a29add21e0e493a064::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit4589a9f05a03f0a29add21e0e493a064::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit4589a9f05a03f0a29add21e0e493a064::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitecc5aee58cbc7fae6cdc39ef5e9f1f73::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitecc5aee58cbc7fae6cdc39ef5e9f1f73::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitecc5aee58cbc7fae6cdc39ef5e9f1f73::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitecc5aee58cbc7fae6cdc39ef5e9f1f73::$classMap;
 
         }, null, ClassLoader::class);
     }

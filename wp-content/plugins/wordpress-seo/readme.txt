@@ -3,10 +3,9 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 13.1
+Tags: SEO, XML sitemap, Content analysis, Readability, Schema
+Tested up to: 5.5
+Stable tag: 14.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -76,8 +75,8 @@ The [Yoast SEO Premium plugin](https://yoa.st/1v8) is well worth your investment
 You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
-* **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what your video is about, thus increasing your chances to rank in video results.
+* **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -131,16 +130,16 @@ The sitemap index and individual sitemaps are updated automatically as you add o
 
 It is straightforward to add your website to Google Search Console. 
 1. Create a Google Search Console account and login into your account.
-1. Click ‘Add a property’ under the search drop-down.
-1. Enter your website URL in the box and click ‘Continue’.
-1. Click the arrow next to ‘HTML tag’ to expand the option.
-1. Copy the meta tag.
-1. Log in to your WordPress website.
-1. Click on ‘SEO’ in the dashboard.
-1. Click on ‘General’.
-1. Click on the ‘Webmaster Tools’ tab.
-1. Paste the code in the Google field and click ‘Save Changes’.
-1. Go back to Google Search Console and click ‘Verify’.
+2. Click ‘Add a property’ under the search drop-down.
+3. Enter your website URL in the box and click ‘Continue’.
+4. Click the arrow next to ‘HTML tag’ to expand the option.
+5. Copy the meta tag.
+6. Log in to your WordPress website.
+7. Click on ‘SEO’ in the dashboard.
+8. Click on ‘General’.
+9. Click on the ‘Webmaster Tools’ tab.
+10. Paste the code in the Google field and click ‘Save Changes’.
+11. Go back to Google Search Console and click ‘Verify’.
 
 If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
@@ -148,18 +147,18 @@ If you want more details steps, please visit [our article on our knowledge base]
 
 The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
-To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 ```
 <?php
-*if* ( function_exists(‘yoast_breadcrumb’) ) {
-  yoast_breadcrumb( ‘<p id=“breadcrumbs”>’,’</p>’ );
+if ( function_exists( 'yoast_breadcrumb' ) ) {
+    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 }
 ?>
 ```
 
-Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php`at the very end.
+Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php` at the very end.
 
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
@@ -209,36 +208,72 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.1 =
-Release Date: February 18th, 2020
+= 14.9 =
+Release Date: September 1st, 2020
 
-Yoast SEO 13.1 is out today! In this plugin, you’ll find several fixes and enhancements, mostly focused at improving our Schema.org structured data implementation. Learn more about the latest versions of Yoast SEO in [our 13.1 release post](https://yoa.st/release-13-1)!
+Yoast SEO 14.9 comes with a new round of improvements, plus a new language-based enhancement: improved keyphrase recognition for Hebrew. Read more about those changes in [our release post](https://yoa.st/release-14-9)!
 
 Bugfixes:
 
-* Fixes a bug where the HowTo schema name was incorrectly set to the page title.
-* Fixes a bug where the "force rewrite titles" option would remove the title tag in svg tags. Props to [stodorovic](https://github.com/stodorovic)
+* Fixes a bug where a JavaScript console warning was thrown on category edit pages. 
+* Fixes a bug where the page number was not shown in the breadcrumb for paginated series.
+* Fixes a bug where the `robots.txt` and `.htaccess` file editor would not work due to `get_home_path()` not being a writable path. Props to [druesome](https://github.com/druesome).
+* Fixes a bug where port numbers in the indexable permalinks were missing (when applicable).
+* Fixes a bug where the indexables table would contain incorrect permalinks for posts if the term slug had been changed and the post permalink contains the term slug.
+* Fixes a bug where the indexables table would contain incorrect permalinks for pages if the slug of the parent page had been changed.
+* Fixes a bug where a warning would occur when a query was unsuccessful while indexing post type archives. Props to [Sekiphp](https://github.com/Sekiphp).
+* Fixes a bug where closing parentheses would always be regarded as sentence endings in RTL languages.
+* Fixes a bug where closing parentheses would always be regarded as sentence endings when followed by an upper-case letter.
 
 Enhancements:
 
-* Sets the Schema HowTo name and Article headline to the post title with a fallback to "No title".
-* Adds the `inLanguage` property to the schema CreativeWork pieces.
-* Removes a duplicate directory from the composer autoload classmap configuration. Props to [szepeviktor](https://github.com/szepeviktor)
-* Improves the copy for the paginated comments Site Health check.
+* Adds an update notification for major and minor releases.
+* Improves the SQL performance by not performing unnecessary update queries when updating a post’s public status.
+* Optimizes performance by preventing regular database queries.
+* Improves keyphrase recognition in Polish by filtering more function words.
+* Improves the feedback string in the Keyphrase in Subheadings assessment by making it more explicit.
+* Improves all keyphrase-based assessments for Hebrew by filtering function words and allowing keyphrases to be recognized in the text when preceded by a prefix (e.g., “כ” or “ל”).
+* We already had a filter available to change the default Schema Article type (`wpseo_schema_article_post_types`), but it wasn't called anywhere. Now it is.
 
 Other:
 
-* Removes the Search Console item from the admin menu and the toolbar menu.
+* Adds the weekly cron schedule to the `cron_schedules` filter to prevent overwriting the one WordPress adds. Props to [peter-webbird](https://github.com/peter-webbird).
+* Merges the googlebot and bingbot meta tag values into the robots meta tag value and deprecates the `Googlebot_Presenter` and `Bingbot_Presenter`.
 
-= 13.0 =
-Release Date: February 4th, 2020
+= 14.8.1 =
+Release Date: August 25th, 2020
 
-Today, we’re releasing Yoast SEO 13.0. This release is one in a series of releases focusing on improving our code and fixing issues — most of them behind the scenes. Read more about those changes in [our 13.0 release post](https://yoa.st/release-13-0)!
+Bugfixes:
+
+* Fixes a bug in WordPress itself where script concatenation was causing JavaScript errors, which in turn led to Yoast SEO malfunctioning. This bug was introduced in WordPress 5.5. We’re fixing it by disabling script concatenation entirely.
+
+= 14.8 =
+Release Date: August 18th, 2020
+
+Get ready for a brand new version of Yoast SEO! In this version you'll find new Schema functionality, an improved readability analysis for Portuguese & Indonesian, and improved keyword recognition for right-to-left languages. Read more about those changes in [our release post](https://yoa.st/release-14-8)!
 
 Enhancements:
 
-* Hides the Facebook settings when Open Graph is disabled.
-* Adds a success state to the paginated comments Health Check. This means the paginated comments check will also be shown when the paginated comments are set up correctly.
+* Adds a Schema section to the metabox and sidebar. This section allows the user to change their Schema settings on posts, pages and custom post types.
+* Adds a new section to the Search Appearance settings. This section allows the user to change their Schema defaults for posts, pages and custom post types.
+* Fixes an inconsistency in the feedback strings that are produced by the keyphrase in SEO title assessment.
+* Improves the accuracy of the following assessments for right-to-left languages: sentence length, keyphrase in introduction, keyphrase distribution, keyphrase density, and keyphrase in meta description.
+* Improves all keyphrase-based assessments for Arabic by filtering function words and by allowing keyphrases to be recognized in a text when preceded by a prefix (e.g., "ل" or "ب").
+* Adds the following assessments for Indonesian: sentence beginnings, transition words and passive voice.
+* Adds the following assessments for Portuguese: Flesch reading ease and passive voice.
+* Cleans up Schema @type values:
+	* If it's an array with multiple values, only output unique values.
+	* If it's a single value, output it as a string instead of an array.
+
+Bugfixes:
+
+* Fixes a bug where the Yoast Dashboard widget would trigger an error when other plugins or temporary conditions would make the Yoast API response fail.
+* Fixes a bug where block editor dependencies would be loaded unnecessarily on classic editor, causing issues with NextGEN gallery. Posts with NextGEN galleries that have been broken due to this bug will need to be re-saved.
+
+Other:
+
+* Sets the minimum WP version to 5.4.
+* Optimizes the logic involved in default filters for our options. This should lead to a very small increase in performance as well as avoiding an edge case where the default filter would be removed.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

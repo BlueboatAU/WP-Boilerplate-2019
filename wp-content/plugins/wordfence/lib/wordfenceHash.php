@@ -204,15 +204,19 @@ class wordfenceHash {
 			$indexedFiles = array();
 			
 			if (count($this->only) > 0) {
-				$files = $this->only;
+				$files = $this->only; //These are absolute paths
 			}
-			else {
-				$files = scandir($this->path);
+			else { //This code path generally should not get hit
+				$rawFiles = scandir($this->path);
+				$files = array();
+				foreach ($rawFiles as $file) {
+					if ($file == '.' || $file == '..') { continue; }
+					$fullFile = rtrim($this->path, '/') . '/' . $file;
+					$files[] = $fullFile;
+				}
 			}
 			
 			foreach ($files as $file) {
-				if ($file == '.' || $file == '..') { continue; }
-				$file = $this->path . $file;
 				$this->_dirIndex($file, $indexedFiles);
 			}
 			$this->_serviceIndexQueue($indexedFiles, true);
@@ -427,6 +431,9 @@ class wordfenceHash {
 		}
 		
 		$realPath = realpath($path);
+		if ($realPath === '/') {
+			return false;
+		}
 		if (isset($this->foldersProcessed[$realPath])) {
 			return false;
 		}
@@ -521,7 +528,7 @@ class wordfenceHash {
 									'modifiedplugin' . $file,
 									'modifiedplugin' . $file . $md5,
 									'Modified plugin file: ' . $file,
-									"This file belongs to plugin \"$itemName\" version \"$itemVersion\" and has been modified from the file that is distributed by WordPress.org for this version. Please use the link to see how the file has changed. If you have modified this file yourself, you can safely ignore this warning. If you see a lot of changed files in a plugin that have been made by the author, then try uninstalling and reinstalling the plugin to force an upgrade. Doing this is a workaround for plugin authors who don't manage their code correctly. [See our FAQ on www.wordfence.com for more info]",
+									sprintf(__("This file belongs to plugin \"$itemName\" version \"$itemVersion\" and has been modified from the file that is distributed by WordPress.org for this version. Please use the link to see how the file has changed. If you have modified this file yourself, you can safely ignore this warning. If you see a lot of changed files in a plugin that have been made by the author, then try uninstalling and reinstalling the plugin to force an upgrade. Doing this is a workaround for plugin authors who don't manage their code correctly. <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">Learn More</a>", 'wordfence'), wfSupportController::esc_supportURL(wfSupportController::ITEM_SCAN_RESULT_MODIFIED_PLUGIN)),
 									array(
 										'file' => $file,
 										'cType' => 'plugin',
@@ -561,7 +568,7 @@ class wordfenceHash {
 									'modifiedtheme' . $file,
 									'modifiedtheme' . $file . $md5,
 									'Modified theme file: ' . $file,
-									"This file belongs to theme \"$itemName\" version \"$itemVersion\" and has been modified from the original distribution. It is common for site owners to modify their theme files, so if you have modified this file yourself you can safely ignore this warning.",
+									sprintf(__("This file belongs to theme \"$itemName\" version \"$itemVersion\" and has been modified from the original distribution. It is common for site owners to modify their theme files, so if you have modified this file yourself you can safely ignore this warning. <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">Learn More</a>", 'wordfence'), wfSupportController::esc_supportURL(wfSupportController::ITEM_SCAN_RESULT_MODIFIED_THEME)),
 									array(
 										'file' => $file,
 										'cType' => 'theme',

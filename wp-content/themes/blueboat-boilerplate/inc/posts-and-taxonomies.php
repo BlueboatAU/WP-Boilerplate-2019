@@ -67,7 +67,7 @@ function custom_post_type_generate() {
 	register_post_type( 'custom_post_type', $args );
 
 }
-add_action( 'init', 'custom_post_type_generate', 0 );
+// add_action( 'init', 'custom_post_type_generate', 0 );
 
 
 
@@ -108,4 +108,4 @@ function custom_taxonomy() {
 	register_taxonomy( 'taxonomy', array( 'post', 'custom_post_type' ), $args );
 
 }
-add_action( 'init', 'custom_taxonomy', 0 );
+// add_action( 'init', 'custom_taxonomy', 0 );

@@ -3,8 +3,8 @@ Contributors: mmaunder, wfryan, wfmatt, wfmattr
 Tags: security, firewall, malware scanner, web application firewall, two factor authentication, block hackers, country blocking, clean hacked site, blacklist, waf, login security
 Requires at least: 3.9
 Requires PHP: 5.3
-Tested up to: 5.3
-Stable tag: 7.4.6
+Tested up to: 5.5
+Stable tag: 7.4.11
 
 Secure your website with the most comprehensive WordPress security plugin. Firewall, malware scan, blocking, live traffic, login security & more.
 
@@ -182,6 +182,53 @@ Secure your website with Wordfence.
 9. Logging in is easy with Wordfence 2FA.
 
 == Changelog ==
+
+= 7.4.11 - August 27, 2020 =
+
+* Improvement: Added diagnostic debug button to clear Wordfence Central connection data from the database.
+* Improvement: Added help documentation links to modified plugin/theme file scan results.
+* Fix: Prevent file system scan from following symlinks to root.
+* Fix: Cleared pending plugin/theme update scan results and notification when a plugin/theme is auto-updated.
+* Fix: Added check for when site is disconnected on Central's end, but not in the plugin.
+
+= 7.4.10 - August 5, 2020 =
+
+* Improvement: Prevent author sitemap from leaking usernames in WordPress >= 5.5.0.
+* Fix: Prevent Wordfence auto-update from running if the user has enabled auto-update through WordPress.
+* Fix: Added default `permission_callback` params to Wordfence Central REST routes.
+* Fix: Fixed missing styling on WAF optimization admin notice.
+
+= 7.4.9 - July 8, 2020 =
+
+* Improvement: Added list of known malicious usernames to suspicious administrator scan.
+* Improvement: Added ability for the WAF to determine if a given plugin/theme/core version is installed.
+* Improvement: Added a feature to export a diagnostics report.
+* Improvement: Add php_errorlog to the list of downloadable logs in diagnostics.
+* Improvement: Added a prompt to allow user to download a backup prior to repairing files.
+* Improvement: Prevent scan from failing when the home URL has changed and the key is no longer valid.
+* Improvement: Deprecated PHP 5.3, and ended PHP 5.2 support by prevent auto-update from running on older versions.
+* Fix: Fixed issue where WAF mysqli storage engine cannot find credentials if wflogs/ does not exist.
+* Fix: Changed capability checked to read WP REST API users endpoint when "Prevent discovery of usernames through ..." is enabled.
+* Fix: Prevented duplicate queries for wordfenceCentralConnected wfconfig value.
+* Fix: Prevented custom wp-content or other directories from appearing in "skipped paths" scan result, even when scanned.
+* Fix: Login Attempts dashboard widget "Show more" link is not visible when long usernames and IPs cause wrapping.
+* Fix: Fix typo in the readme.
+
+= 7.4.8 - June 16, 2020 =
+* Fix: Fixed issue with fatal errors encountered during activation under certain conditions.
+
+= 7.4.7 - April 23, 2020 =
+* Improvement: Updated bundled GeoIP database.
+* Improvement: Better messaging when selecting restrictive rate limits.
+* Improvement: Scan result emails now include the count of issues that were found again.
+* Improvement: Resolved scan issues will now email again if they reoccur.
+* Improvement: Added the state/province name when applicable to geolocation displays in Live Traffic.
+* Improvement: New blocking page design to better inform blocked visitors on how to resolve the block.
+* Improvement: Custom WP_CONTENT_DIR, WP_PLUGIN_DIR, and UPLOADS path constants will now get scanned correctly.
+* Improvement: Added TLS connection failure detection to brute force reporting and checking and a corresponding backoff period.
+* Fix: Fixed an issue where a bad cron record could interfere with automatic WAF rule updates.
+* Fix: Fixed a PHP warning that could occur if a bad response was received while updating an IP list.
+* Fix: The new user tour and onboarding flow will now work correctly on the 2FA page.
 
 = 7.4.6 - February 12, 2020 =
 * Improvement: Enhanced the detection ability of the WAF for SQLi attacks.

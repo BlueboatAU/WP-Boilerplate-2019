@@ -58,12 +58,13 @@ if ($section == "info" || $section == '') {
                     $remove_error = false;
 
 					// Move installer log before cleanup
+    				DUP_Util::initSnapshotDirectory();
 					$installer_log_path = DUPLICATOR_INSTALLER_DIRECTORY.'/dup-installer-log__'.DUPLICATOR_INSTALLER_HASH_PATTERN.'.txt';
 					$glob_files = glob($installer_log_path);
-					if (!empty($glob_files) && wp_mkdir_p(DUPLICATOR_SSDIR_PATH_INSTALLER)) {
+					if (!empty($glob_files)) {
 						foreach ($glob_files as $glob_file) {
 							$installer_log_file_path = $glob_file;
-							DUP_IO::copyFile($installer_log_file_path, DUPLICATOR_SSDIR_PATH_INSTALLER);
+							DUP_IO::copyFile($installer_log_file_path, DUP_Settings::getSsdirInstallerPath());
 						}
 					}
 
@@ -75,7 +76,12 @@ if ($section == "info" || $section == '') {
 						$file_path = '';
 						if (stripos($filename, '[hash]') !== false) {
 							$glob_files = glob($path);
+                            
 							if (!empty($glob_files)) {
+                                if(count($glob_files) > 10) {                                
+                                    throw new Exception('Trying to delete too many files. Please contact Duplicator support.');
+                                }
+                                
 								foreach ($glob_files as $glob_file) {
 									$file_path = $glob_file;
 									DUP_IO::deleteFile($file_path);
@@ -94,7 +100,7 @@ if ($section == "info" || $section == '') {
 								DUP_IO::deleteTree($path);
 								$removed_files = true;
 							}
-						}
+						}                            
 
 						if (!empty($file_path)) {
                             if (file_exists($file_path)) {
@@ -130,7 +136,7 @@ if ($section == "info" || $section == '') {
 
 				<div class="dup-alert-secure-note">
 					<?php
-						echo '<b><i class="fa fa-shield"></i> ' . esc_html__('Security Notes', 'duplicator') . ':</b>&nbsp;';
+						echo '<b><i class="fa fa-shield-alt"></i> ' . esc_html__('Security Notes', 'duplicator') . ':</b>&nbsp;';
 						_e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
 						 . 'or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
 						 . 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator');
@@ -146,7 +152,7 @@ if ($section == "info" || $section == '') {
                                     '<br><br>';
                         }
 
-						echo '<b><i class="fa fa-thumbs-o-up"></i> ' . esc_html__('Help Support Duplicator', 'duplicator') . ':</b>&nbsp;';
+						echo '<b><i class="fa fa-thumbs-up"></i> ' . esc_html__('Help Support Duplicator', 'duplicator') . ':</b>&nbsp;';
 						_e('The Duplicator team has worked many years to make moving a WordPress site a much easier process.  Show your support with a '
 						 . '<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5" target="_blank">5 star review</a>!  We would be thrilled if you could!', 'duplicator');
 					?>

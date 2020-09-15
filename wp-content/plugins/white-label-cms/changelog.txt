@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 2.2 =
+* Custom Welcome Dashboard fixes
+
+= 2.1.3 =
+* Added compatibility with WordPress 5.4
+
+= 2.1.2 =
+* Support fonts import
+* Added custom javascript for the login page
+* Fixed PHP implode function compatibility
+* Minor fixes
+
 = 2.1.1 =
 * Fixed Dashboard for Beaver Builder margin and padding
 

@@ -113,7 +113,7 @@ class DUP_Archive
 		if ($this->Package->BuildProgress === null) {
 			// Zip path
 			DUP_LOG::Trace("Completed Zip");
-			$storePath	 = "{$this->Package->StorePath}/{$this->File}";
+			$storePath	 = DUP_Settings::getSsdirTmpPath()."/{$this->File}";
 			$this->Size	 = @filesize($storePath);
 			$this->Package->setStatus(DUP_PackageStatus::ARCDONE);
 		} else if ($completed) {
@@ -123,7 +123,7 @@ class DUP_Archive
 				DUP_LOG::Trace("Error building DupArchive");
 				$this->Package->setStatus(DUP_PackageStatus::ERROR);
 			} else {
-				$filepath	 = DUP_Util::safePath("{$this->Package->StorePath}/{$this->File}");
+				$filepath	 = DUP_Settings::getSsdirTmpPath()."/{$this->File}";
 				$this->Size	 = @filesize($filepath);
 				$this->Package->setStatus(DUP_PackageStatus::ARCDONE);
 				DUP_LOG::Trace("Done building archive");
@@ -308,7 +308,8 @@ class DUP_Archive
 		$wp_content_upload				 = "{$wp_content}/{$upload_dir}";
 		$this->FilterInfo->Dirs->Core	 = array(
 			//WP-ROOT
-			$wp_root.'/wp-snapshots',
+			DUP_Settings::getSsdirPathLegacy(),
+            DUP_Settings::getSsdirPathWpCont(),
             $wp_root.'/.opcache',
 			//WP-CONTENT
 			$wp_content.'/backups-dup-pro',
@@ -323,6 +324,7 @@ class DUP_Archive
 			$wp_content.'/updraft',
 			$wp_content.'/wishlist-backup',
 			$wp_content.'/wfcache',
+			$wp_content.'/bps-backup', // BulletProof Security backup folder
 			$wp_content.'/cache',
 			//WP-CONTENT-UPLOADS
 			$wp_content_upload.'/aiowps_backups',
@@ -418,7 +420,7 @@ class DUP_Archive
 
             if (!$skip_archive_scan) {
                 //Locate invalid directories and warn
-                $invalid_test = strlen($val) > PHP_MAXPATHLEN || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $name) || trim($name) == '' || (strrpos($name, '.') == strlen($name) - 1 && substr($name, -1)
+                $invalid_test = (defined('PHP_MAXPATHLEN') && (strlen($val) > PHP_MAXPATHLEN)) || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $name) || trim($name) == '' || (strrpos($name, '.') == strlen($name) - 1 && substr($name, -1)
                     == '.') || preg_match('/[^\x20-\x7f]/', $name);
 
                 if ($invalid_test) {
@@ -495,7 +497,7 @@ class DUP_Archive
             $this->Size += $fileSize;
 
             if (!$skip_archive_scan) {
-                $invalid_test = strlen($filePath) > PHP_MAXPATHLEN || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $fileName) || trim($fileName) == "" || preg_match('/[^\x20-\x7f]/', $fileName);
+                $invalid_test = (defined('PHP_MAXPATHLEN') && (strlen($filePath) > PHP_MAXPATHLEN)) || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $fileName) || trim($fileName) == "" || preg_match('/[^\x20-\x7f]/', $fileName);
 
                 if ($invalid_test) {
                     $utf8_key_list[]                    = $key;
@@ -760,6 +762,11 @@ class DUP_Archive
 		}
 		return $this->wpContentDirNormalizePath;
 	}
+
+	public function getUrl()
+    {
+        return DUP_Settings::getSsdirUrl()."/".$this->File;
+    }
 
 	public function getLocalDirPath($dir, $basePath = '')
 	{

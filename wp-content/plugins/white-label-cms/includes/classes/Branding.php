@@ -12,7 +12,7 @@ class WLCMS_Branding extends WLCMS_Previewable
         add_filter('admin_title', array($this, 'admin_title'), 10, 2);
         add_action('admin_bar_menu', array($this, 'admin_bar_logo'));
         add_action('admin_bar_menu', array($this, 'admin_bar_howdy_text'));
-        add_filter('admin_footer_text', array($this, 'admin_footer'));
+        add_filter('admin_footer_text', array($this, 'admin_footer'), 2000);
         add_action('admin_menu', array($this, 'admin_menu'), 0);
         add_filter('admin_body_class', array($this, 'admin_body_class'), 12);
     }
@@ -53,6 +53,9 @@ class WLCMS_Branding extends WLCMS_Previewable
                     'align-items' => 'center'
                 )
             );
+            
+            wlcms_set_css('#footer-left img', array('vertical-align' => 'middle', 'max-height' => '50px', 'margin-right' => '5px'));
+            wlcms_set_css('#footer-left a', array('text-decoration' => 'none'));
         }
     }
 
@@ -205,8 +208,6 @@ class WLCMS_Branding extends WLCMS_Previewable
 
         if ($footer_image) {
             $footer_main_text .= '<img src="' . $footer_image . '" /> ';
-            wlcms_set_css('#footer-left img', array('vertical-align' => 'middle', 'max-height' => '50px', 'margin-right' => '5px'));
-            wlcms_set_css('#footer-left a', array('text-decoration' => 'none'));
         }
 
         if ($footer_text) {
