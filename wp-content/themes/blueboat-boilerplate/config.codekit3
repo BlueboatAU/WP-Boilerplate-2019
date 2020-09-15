@@ -1048,12 +1048,6 @@
 		"oAP": "/single.php",
 		"oF": 1
 		},
-	"/static": {
-		"ft": 65536,
-		"oA": 1,
-		"oAP": "/build/static",
-		"oF": 0
-		},
 	"/style.css": {
 		"aP": 1,
 		"bl": 0,
