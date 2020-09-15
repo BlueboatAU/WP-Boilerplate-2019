@@ -1,8 +1,8 @@
 <?php
 /**
- * Blueboat Theme Wordpress Setup
+ * Boilerplate Theme Wordpress Setup
  *
- * @package Blueboat
+ * @package Boilerplate
  */
 
 //No Gutenberg

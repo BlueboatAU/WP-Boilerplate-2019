@@ -1,10 +1,10 @@
 <?php
 /**
- * Blueboat functions and definitions
+ * Boilerplate functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Blueboat
+ * @package Boilerplate
  */
 
 /**
@@ -15,7 +15,7 @@ require get_template_directory() . '/inc/theme-setup.php';
 /**
  * Enqueue scripts and styles.
  */
-function blueboat_scripts() {
+function boilerplate_scripts() {
 
 	$themecsspath = get_template_directory() . '/style.css';
 	$style_ver = filemtime( $themecsspath );
@@ -29,13 +29,8 @@ function blueboat_scripts() {
 	wp_enqueue_script( 'theme-js', get_template_directory_uri() . '/js/app-min.js', array('jquery'), $js_ver, true );
 
 }
-add_action( 'wp_enqueue_scripts', 'blueboat_scripts' );
+add_action( 'wp_enqueue_scripts', 'boilerplate_scripts' );
 
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
 
 /**
  * Functions which enhance the theme by hooking into WordPress.

@@ -7,7 +7,7 @@
 ?>
 
 
-<section>
+<section class="page-header">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -17,7 +17,7 @@
     </div>
 </section>
 
-<section>
+<section class="page-content">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-9 col-xl-8">

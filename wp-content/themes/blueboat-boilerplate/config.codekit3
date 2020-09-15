@@ -13,49 +13,49 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/404.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/archive.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/archive.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/footer.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/footer.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/front-page.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/front-page.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/functions.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/functions.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/header.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/header.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/inc": {
 		"ft": 65536,
@@ -67,9 +67,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/index.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/js/app-min.js": {
 		"bF": 0,
@@ -125,17 +125,28 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/page.php",
-		"oF": 0
+		"oF": 1
 		},
-	"/readme.txt": {
+	"/README.md": {
 		"cB": 0,
-		"ft": 8192,
+		"cS": 0,
+		"eF": 1,
+		"eL": 1,
+		"ema": 1,
+		"eSQ": 1,
+		"ft": 4096,
 		"hM": 0,
-		"oA": 0,
-		"oAP": "/readme.txt",
-		"oF": 0
+		"oA": 1,
+		"oAP": "/README.html",
+		"oF": 1,
+		"oFM": 0,
+		"oS": 0,
+		"pHT": 0,
+		"pME": 1,
+		"rFN": 0,
+		"uCM": 0
 		},
 	"/sass/_bb-sass": {
 		"ft": 65536,
@@ -144,30 +155,30 @@
 		"oF": 0
 		},
 	"/sass/_bb-sass/mixins.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/mixins.css",
+		"oAP": "/sass/_bb-sass/mixins.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/_bb-sass/variables.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/variables.css",
+		"oAP": "/sass/_bb-sass/variables.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap": {
 		"ft": 65536,
@@ -176,797 +187,797 @@
 		"oF": 0
 		},
 	"/sass/bootstrap/scss/_functions.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_functions.css",
+		"oAP": "/sass/bootstrap/scss/_functions.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_grid.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_grid.css",
+		"oAP": "/sass/bootstrap/scss/_grid.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_mixins.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_mixins.css",
+		"oAP": "/sass/bootstrap/scss/_mixins.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_nav.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_nav.css",
+		"oAP": "/sass/bootstrap/scss/_nav.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_navbar.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_navbar.css",
+		"oAP": "/sass/bootstrap/scss/_navbar.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_reboot.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_reboot.css",
+		"oAP": "/sass/bootstrap/scss/_reboot.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_root.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_root.css",
+		"oAP": "/sass/bootstrap/scss/_root.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_transitions.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_transitions.css",
+		"oAP": "/sass/bootstrap/scss/_transitions.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_type.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_type.css",
+		"oAP": "/sass/bootstrap/scss/_type.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_utilities.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_utilities.css",
+		"oAP": "/sass/bootstrap/scss/_utilities.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/_variables.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_variables.css",
+		"oAP": "/sass/bootstrap/scss/_variables.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/bootstrap.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/bootstrap.css",
+		"oAP": "/sass/bootstrap/scss/bootstrap.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_alert.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_alert.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_alert.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_background-variant.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_background-variant.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_background-variant.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_badge.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_badge.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_badge.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_border-radius.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_border-radius.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_border-radius.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_box-shadow.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_box-shadow.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_box-shadow.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_breakpoints.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_breakpoints.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_breakpoints.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_buttons.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_buttons.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_buttons.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_caret.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_caret.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_caret.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_clearfix.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_clearfix.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_clearfix.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_deprecate.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_deprecate.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_deprecate.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_float.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_float.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_float.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_forms.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_forms.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_forms.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_gradients.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_gradients.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_gradients.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_grid-framework.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_grid-framework.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_grid-framework.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_grid.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_grid.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_grid.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_hover.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_hover.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_hover.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_image.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_image.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_image.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_list-group.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_list-group.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_list-group.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_lists.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_lists.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_lists.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_nav-divider.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_nav-divider.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_nav-divider.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_pagination.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_pagination.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_pagination.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_reset-text.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_reset-text.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_reset-text.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_resize.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_resize.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_resize.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_screen-reader.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_screen-reader.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_screen-reader.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_size.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_size.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_size.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_table-row.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_table-row.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_table-row.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_text-emphasis.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_text-emphasis.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_text-emphasis.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_text-hide.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_text-hide.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_text-hide.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_text-truncate.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_text-truncate.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_text-truncate.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_transition.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_transition.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_transition.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/mixins/_visibility.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_visibility.css",
+		"oAP": "/sass/bootstrap/scss/mixins/_visibility.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_align.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_align.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_align.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_background.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_background.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_background.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_borders.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_borders.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_borders.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_clearfix.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_clearfix.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_clearfix.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_display.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_display.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_display.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_embed.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_embed.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_embed.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_flex.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_flex.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_flex.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_float.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_float.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_float.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_overflow.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_overflow.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_overflow.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_position.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_position.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_position.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_screenreaders.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_screenreaders.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_screenreaders.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_shadows.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_shadows.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_shadows.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_sizing.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_sizing.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_sizing.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_spacing.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_spacing.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_spacing.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_stretched-link.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_stretched-link.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_stretched-link.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_text.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_text.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_text.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/utilities/_visibility.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_visibility.css",
+		"oAP": "/sass/bootstrap/scss/utilities/_visibility.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/bootstrap/scss/vendor/_rfs.scss": {
-		"aP": 1,
-		"bl": 1,
+		"aP": 0,
+		"bl": 0,
 		"dP": 10,
 		"ec": 1,
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/_rfs.css",
+		"oAP": "/sass/bootstrap/scss/vendor/_rfs.css",
 		"oF": 0,
 		"oS": 0,
-		"sct": 1
+		"sct": 0
 		},
 	"/sass/normalize.scss": {
 		"aP": 1,
@@ -976,7 +987,7 @@
 		"ft": 4,
 		"ma": 0,
 		"oA": 1,
-		"oAP": "/css/normalize.css",
+		"oAP": "/sass/normalize.css",
 		"oF": 0,
 		"oS": 0,
 		"sct": 1
@@ -997,9 +1008,9 @@
 	"/screenshot.png": {
 		"ft": 32768,
 		"iS": 264,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/screenshot.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 0,
 		"oT": 1,
@@ -1009,32 +1020,38 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/search.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/searchform.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/searchform.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/sidebar.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/sidebar.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/single.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/single.php",
+		"oF": 1
+		},
+	"/static": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/static",
 		"oF": 0
 		},
 	"/style.css": {
@@ -1060,8 +1077,8 @@
 	},
 "projectAttributes": {
 	"creationDate": 586762890.55580699,
-	"displayValue": "blueboat-boilerplate",
-	"displayValueWasSetByUser": 0,
+	"displayValue": "blueboat-starter",
+	"displayValueWasSetByUser": 1,
 	"iconImageName": "brackets_gray",
 	"iconImageWasSetByUser": 0
 	},
@@ -1505,7 +1522,7 @@
 	"esLintRules": {
 		"accessor-pairs": {
 			"active": 0,
-			"optionString": "{'setWithoutGet': true, 'getWithoutSet': false}"
+			"optionString": "{'setWithoutGet': true, 'getWithoutSet': false, 'enforceForClassMembers': true}"
 			},
 		"array-bracket-newline": {
 			"active": 0,
@@ -1553,7 +1570,7 @@
 			},
 		"camelcase": {
 			"active": 0,
-			"optionString": "{'properties': 'always', 'ignoreDestructuring': false}"
+			"optionString": "{'properties': 'always', 'ignoreDestructuring': false, 'ignoreImports': false}"
 			},
 		"capitalized-comments": {
 			"active": 0,
@@ -1581,7 +1598,7 @@
 			},
 		"computed-property-spacing": {
 			"active": 0,
-			"optionString": "'never'"
+			"optionString": "'never', {'enforceForClassMembers': true}"
 			},
 		"consistent-return": {
 			"active": 0,
@@ -1937,7 +1954,7 @@
 			},
 		"no-extra-parens": {
 			"active": 0,
-			"optionString": "'all', {'conditionalAssign': false, 'returnAssign': false, 'nestedBinaryExpressions': false, 'ignoreJSX': 'none', 'enforceForArrowConditionals': false}"
+			"optionString": "'all', {'conditionalAssign': false, 'returnAssign': false, 'nestedBinaryExpressions': false, 'ignoreJSX': 'none', 'enforceForArrowConditionals': false, 'enforceForSequenceExpressions': false, 'enforceForNewInMemberExpressions': false}"
 			},
 		"no-extra-semi": {
 			"active": 1,
@@ -1989,7 +2006,7 @@
 			},
 		"no-invalid-this": {
 			"active": 0,
-			"optionString": ""
+			"optionString": "{'capIsConstructor': true}"
 			},
 		"no-irregular-whitespace": {
 			"active": 1,
@@ -2245,7 +2262,7 @@
 			},
 		"no-underscore-dangle": {
 			"active": 0,
-			"optionString": "{'allow': [], 'allowAfterThis': false, 'allowAfterSuper': false, 'enforceInMethodNames': false}"
+			"optionString": "{'allow': [], 'allowAfterThis': false, 'allowAfterSuper': false, 'allowAfterThisConstructor': false, 'enforceInMethodNames': false}"
 			},
 		"no-unexpected-multiline": {
 			"active": 1,
@@ -2269,7 +2286,7 @@
 			},
 		"no-unsafe-negation": {
 			"active": 1,
-			"optionString": ""
+			"optionString": "{'enforceForOrderingRelations': false}"
 			},
 		"no-unused-expressions": {
 			"active": 0,
@@ -2301,7 +2318,7 @@
 			},
 		"no-useless-computed-key": {
 			"active": 0,
-			"optionString": ""
+			"optionString": "{'enforceForClassMembers': false}"
 			},
 		"no-useless-concat": {
 			"active": 0,
@@ -2329,7 +2346,7 @@
 			},
 		"no-void": {
 			"active": 0,
-			"optionString": ""
+			"optionString": "{'allowAsStatement': false}"
 			},
 		"no-warning-comments": {
 			"active": 0,
@@ -2545,7 +2562,7 @@
 			},
 		"use-isnan": {
 			"active": 1,
-			"optionString": ""
+			"optionString": "{'enforceForSwitchCase': true, 'enforceForIndexOf': false}"
 			},
 		"valid-jsdoc": {
 			"active": 0,
@@ -3098,14 +3115,14 @@
 		"autoOutputPathRelativePath": "../css",
 		"autoOutputPathReplace1": "sass",
 		"autoOutputPathReplace2": "css",
-		"autoOutputPathStyle": 1,
-		"compilerType": 1,
+		"autoOutputPathStyle": 0,
+		"compilerType": 0,
 		"createSourceMap": 0,
 		"decimalPrecision": 10,
 		"emitCharset": 1,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 1
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0
 		},
 	"languageDefaultsSLIM": {
 		"autoOutputAction": 0,
@@ -3170,10 +3187,10 @@
 	"npmTargetDependencyListType": 1,
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
-	"rollupExternals": "jQuery:::$",
+	"rollupExternals": "",
 	"rollupReplacements": "process.env.NODE_ENV:::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",
 	"rollupTreeshakingEnabled": 1,
-	"skippedFoldersString": "/template-parts, /storage/framework/sessions, /sass/variables-site, /sass/typography, /sass/site, /sass/navigation, /sass/modules, /sass/mixins, /sass/media, /sass/layout, /sass/forms, /sass/elements, /sass/bootstrap, node_modules, _logs, logs, log, /layouts, /languages, /inc, .idea, _cache, cache, /js/src/_app, /sass/_bb_sass, /sass/_bb-sass",
+	"skippedFoldersString": "log, _logs, logs, _cache, cache, .idea, /storage/framework/sessions, node_modules, /template-parts, /static, /inc, /sass/bootstrap, /sass/_bb-sass, /js/src/_app",
 	"sourceFolderName": "source",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,
@@ -3478,7 +3495,7 @@
 			}
 		},
 	"uglifyMangleNames": 1,
-	"uglifyReservedNamesString": "$,exports,require",
+	"uglifyReservedNamesString": "jQuery,$,exports,require",
 	"websiteRelativeRoot": ""
 	},
 "settingsFileVersion": "3"

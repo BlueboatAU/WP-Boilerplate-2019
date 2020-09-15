@@ -1,11 +1,12 @@
 /*!
-Theme Name: Blueboat Boilerplate Theme
-Description: Description
-Version: 1.1.0
+Theme Name: Wordpress Theme for Boilerplate 
+Description: A Custom Wordpress Theme by Studio Blueboat
+Author: Studio Blueboat
+Author URI: https://blueboat.com.au
+Version: 1.0.0
 License: GNU General Public License v2 or later
-License URI: LICENSE
-Text Domain: blueboat
-Tags: custom-background, custom-logo, custom-menu, featured-images
+Text Domain: boilerplate
+Tags: acf, sass, bootstrap
 
 */
 
@@ -62,7 +63,11 @@ body{
 --------------------------------------------------------------*/
 
 
-
+.content-style{
+  p{
+    margin-bottom: 1rem;
+  }
+}
 
 /*--------------------------------------------------------------
 # Components
