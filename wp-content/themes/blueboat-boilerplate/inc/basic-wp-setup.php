@@ -11,10 +11,10 @@ add_filter('use_block_editor_for_post', '__return_false', 10);
 // Don't load Gutenberg-related stylesheets.
 add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
 function remove_block_css() {
-wp_dequeue_style( 'wp-block-library' ); // WordPress core
-wp_dequeue_style( 'wp-block-library-theme' ); // WordPress core
-wp_dequeue_style( 'wc-block-style' ); // WooCommerce
-wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
+    wp_dequeue_style( 'wp-block-library' ); // WordPress core
+    wp_dequeue_style( 'wp-block-library-theme' ); // WordPress core
+    wp_dequeue_style( 'wc-block-style' ); // WooCommerce
+    wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 }
 
 
@@ -53,9 +53,6 @@ function new_excerpt_more( $more ) {
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 
-
-
-
 //Remove prefix from archive title
 add_filter( 'get_the_archive_title', function ($title) {    
     if ( is_category() ) {    
@@ -67,7 +64,7 @@ add_filter( 'get_the_archive_title', function ($title) {
         } elseif ( is_tax() ) { //for custom post types
             $title = sprintf( __( '%1$s' ), single_term_title( '', false ) );
         } elseif ( is_post_type_archive() ) {
-        $title = post_type_archive_title( '', false );
+            $title = post_type_archive_title( '', false );
     	}  
 
     return $title;    
@@ -100,3 +97,18 @@ function removeHeadLinks() {
     remove_action('wp_head', 'wlwmanifest_link');
 }
 add_action('init', 'removeHeadLinks');
+
+//set defualt editor window image size
+function custom_image_size() {
+    // Set default values for the upload media box
+    update_option('image_default_align', 'center' );
+    update_option('image_default_size', 'full' );
+
+}
+add_action('after_setup_theme', 'custom_image_size');
+
+// Move Yoast to bottom
+function yoasttobottom() {
+	return 'low';
+}
+add_filter( 'wpseo_metabox_prio', 'yoasttobottom');

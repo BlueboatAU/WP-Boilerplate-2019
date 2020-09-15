@@ -45,7 +45,7 @@ require get_template_directory() . '/inc/template-functions.php';
 /**
  * Custom Shortcodes
  */
-require get_template_directory() . '/inc/shortcodes.php';
+// require get_template_directory() . '/inc/shortcodes.php';
 
 /**
  * Register Custom Bootstrap Navigation Walker

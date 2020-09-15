@@ -15,9 +15,9 @@ function register_acf_options_pages() {
 
     // register options page.
     $option_page = acf_add_options_page(array(
-        'page_title'    => __('Site General Settings'),
-        'menu_title'    => __('Site Settings'),
-        'menu_slug'     => 'site-settings',
+        'page_title'    => __('Site Information'),
+        'menu_title'    => __('Site Information'),
+        'menu_slug'     => 'site-info',
         'capability'    => 'edit_posts',
         'redirect'      => false
     ));

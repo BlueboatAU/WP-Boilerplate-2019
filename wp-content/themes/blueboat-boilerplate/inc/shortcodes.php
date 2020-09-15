@@ -11,5 +11,5 @@ function shortcode_func($atts = array(), $content = null) {
 
 }
 
-add_shortcode('sampleshortcode', 'shortcode_func');
+// add_shortcode('sampleshortcode', 'shortcode_func');
 ?>

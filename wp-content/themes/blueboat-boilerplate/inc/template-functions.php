@@ -24,7 +24,7 @@ function blueboat_body_classes( $classes ) {
 
 	return $classes;
 }
-add_filter( 'body_class', 'blueboat_body_classes' );
+// add_filter( 'body_class', 'blueboat_body_classes' );
 
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
@@ -34,4 +34,4 @@ function blueboat_pingback_header() {
 		printf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
 	}
 }
-add_action( 'wp_head', 'blueboat_pingback_header' );
+// add_action( 'wp_head', 'blueboat_pingback_header' );

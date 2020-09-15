@@ -16,7 +16,7 @@ get_header();
 			<section class="error-404 not-found">
 
 				<div class="container">
-					<div class="row text-center align-items-center full-height">
+					<div class="row text-center align-items-center some-height">
 						<div class="col-12">
 							<h1>404 Page Not Found</h1>
 							<p>Sorry, this page does not exist</p>
