@@ -18,3 +18,8 @@ export var waitForFinalEvent = (function () {
 	  timers[uniqueId] = setTimeout(callback, ms);
 	};
   })();
+
+
+export const matches = (target) => {
+	return event.target.matches ? event.target.matches(target) : event.target.msMatchesSelector(target);
+}
