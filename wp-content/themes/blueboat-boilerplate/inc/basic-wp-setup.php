@@ -112,3 +112,7 @@ function yoasttobottom() {
 	return 'low';
 }
 add_filter( 'wpseo_metabox_prio', 'yoasttobottom');
+
+//stop theme editing
+define( 'DISALLOW_FILE_EDIT', true );
+define( 'DISALLOW_FILE_MODS', true );
