@@ -24,25 +24,19 @@
 <div id="page" class="site">
 	<header id="masthead" class="site-header">
 
-		<nav class="navbar navbar-expand-md navbar-light bg-light" role="navigation">
+		<nav class="header-nav" role="navigation">
 		  <div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+			  <div class="row justify-content-between align-items-center">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 				<?php
 				wp_nav_menu( array(
 					'theme_location'    => 'menu-1',
 					'depth'             => 2,
-					'container'         => 'div',
-					'container_class'   => 'collapse navbar-collapse justify-content-end',
-					'container_id'      => 'bs-example-navbar-collapse-1',
-					'menu_class'        => 'nav navbar-nav',
-					'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-					'walker'            => new WP_Bootstrap_Navwalker(),
+					'container'         => '',
+					'menu_id' 			=> 'main-menu'
 				) );
 				?>
+				</div>
 			</div>
 		</nav>
 	</header><!-- #masthead -->

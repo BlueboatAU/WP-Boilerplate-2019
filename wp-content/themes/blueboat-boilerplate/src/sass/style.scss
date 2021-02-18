@@ -1,0 +1,116 @@
+/*!
+Theme Name: Wordpress Theme for Boilerplate 
+Description: A Custom Wordpress Theme by Studio Blueboat
+Author: Studio Blueboat
+Author URI: https://blueboat.com.au
+Version: 1.0.0
+License: GNU General Public License v2 or later
+Text Domain: boilerplate
+Tags: acf, sass, bootstrap
+
+*/
+
+/*--------------------------------------------------------------
+# Imports
+--------------------------------------------------------------*/
+@import "normalize-scss/sass/normalize/import-now";
+@import "_bb-sass/bootstrap";
+
+//BB Imports
+@import "_bb-sass/mixins";
+@import "_bb-sass/variables";
+
+
+/*--------------------------------------------------------------
+# Globals & Helpers
+--------------------------------------------------------------*/
+
+html{
+  font-size: 14px;
+}
+
+body{
+  overflow-x: hidden;
+  font-family: $font-default;
+  color:$colour-font-default;
+  font-size: 1rem;
+  line-height: 1.67rem;
+  &.no-scroll{
+    overflow: hidden;
+  }
+}
+
+#page.site{
+  overflow-x: hidden;
+}
+
+.full-height{
+  min-height: 100vh;
+}
+
+.almost-full-height{
+  min-height: 90vh;
+}
+
+.some-height{
+  min-height: 60vh;
+}
+
+iframe{
+  max-width: 100%;
+}
+/*--------------------------------------------------------------
+# Typography
+--------------------------------------------------------------*/
+
+
+.content-style{
+  &>*{
+    &:last-child{
+      margin-bottom: 0;
+    }
+    &:first-child{
+      margin-top: 0;
+    }
+  }
+  p{
+    margin-bottom: 1rem;
+  }
+}
+
+/*--------------------------------------------------------------
+# Components
+--------------------------------------------------------------*/
+
+
+
+
+
+/*--------------------------------------------------------------
+# Navigation
+--------------------------------------------------------------*/
+
+.header-nav{
+  background: $light-grey;
+  padding: 20px 0;
+}
+
+#main-menu{
+  @include list-unstyled;
+  margin: 0;
+  li{
+    display: inline-block;
+    margin-left: 10px;
+    padding: 10px 5px;
+  }
+}
+
+/*--------------------------------------------------------------
+# Individual Pages
+--------------------------------------------------------------*/
+
+
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
