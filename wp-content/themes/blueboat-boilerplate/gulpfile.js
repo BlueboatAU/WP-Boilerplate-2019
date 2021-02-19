@@ -1,11 +1,11 @@
 const gulp = require("gulp");
 const sass = require("gulp-sass");
 const postcss = require("gulp-postcss");
-// const del = require("del");
 const rollup = require("gulp-better-rollup");
 const babel = require("gulp-babel");
 const resolve = require("@rollup/plugin-node-resolve");
-const uglify = require("rollup-plugin-uglify");
+const { terser } = require("rollup-plugin-terser")
+const eslint = require('gulp-eslint');
 
 // sass.compiler = require('sass');
 
@@ -30,13 +30,26 @@ var js = {
 	rollup: {
 		treeshake: true,
 		plugins: [
-			babel(),
+			babel({ presets: ['@babel/env', {
+				"targets": ">0.25%"
+			  }] }),
 			resolve.nodeResolve(),
-			uglify.uglify(),
+			// uglify.uglify(),
+			// terser()
 		],
 	},
 	rollupFormat: {
 		format: "iife",
+	},
+	eslint:{
+		envs:['browser'],
+		parserOptions: {
+			"ecmaVersion": 6,
+			"sourceType": "module",
+		},
+		rules: {
+			"no-console": 1,
+		},
 	}
 }
 
@@ -57,6 +70,15 @@ gulp.task("styles", () => {
 gulp.task("scripts", () => {
   return gulp
 		.src(js.src)
+		.pipe(eslint(js.eslint))
+		.pipe(eslint.result(result => {
+			console.log(`ESLint result: ${result.filePath}`);
+			console.log(`# Messages: ${result.messages.length}`);
+			console.log(`# Warnings: ${result.warningCount}`);
+			console.log(`# Errors: ${result.errorCount}`);
+		}))
+		// .pipe(eslint.format())
+		.pipe(eslint.failAfterError())
 		.pipe(rollup(js.rollup, js.rollupFormat))
 		.pipe(gulp.dest(distTarget));
 });
