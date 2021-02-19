@@ -149,14 +149,6 @@
       "oAP" : "\/searchform.php",
       "oF" : 1
     },
-    "\/sidebar.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 1,
-      "oAP" : "\/sidebar.php",
-      "oF" : 1
-    },
     "\/single.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -605,13 +597,13 @@
       }
     },
     "babelRetainLines" : 0,
-    "babelUseBuiltInsType" : 0,
+    "babelUseBuiltInsType" : 1,
     "bowerAbbreviatedPath" : "bower_components",
     "bowerForceLatestOnConflict" : 1,
     "bowerTargetDependencyListType" : 1,
     "bowerUseExactVersion" : 0,
     "browserRefreshDelay" : 0,
-    "browserslistString" : ">0.2%, last 2 versions, Firefox ESR, not dead",
+    "browserslistString" : ">0.1%, last 2 versions, Firefox ESR, not dead",
     "buildEnvironment" : 0,
     "buildFolderActive" : 0,
     "buildFolderName" : "build",
@@ -2567,7 +2559,7 @@
         "flagValue" : 32000
       },
       "module" : {
-        "active" : 0,
+        "active" : 1,
         "flagValue" : -1
       },
       "negate_iife" : {
