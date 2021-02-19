@@ -121,6 +121,9 @@ class Conf extends Base {
 		if ( ! $ver || $ver != Core::VER ) {
 			// Load default values
 			$this->load_default_vals();
+			if ( ! $ver ) { // New install
+				$this->_options = self::$_default_options;
+			}
 
 			// Init new default/missing options
 			foreach ( self::$_default_options as $k => $v ) {
@@ -652,6 +655,10 @@ class Conf extends Base {
 	public function network_update( $id, $val ) {
 		if ( ! array_key_exists( $id, self::$_default_site_options ) ) {
 			defined( 'LSCWP_LOG' ) && Debug2::debug( '[Conf] Invalid network option ID ' . $id );
+			return;
+		}
+
+		if ( $val && $this->_conf_pswd( $id ) && ! preg_match( '|[^\*]|', $val ) ) {
 			return;
 		}
 

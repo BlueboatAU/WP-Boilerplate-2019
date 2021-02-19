@@ -272,7 +272,7 @@ class DUP_Log
             
 			case Dup_ErrorBehavior::ThrowException:
 				DUP_LOG::trace("throwing exception");
-				throw new Exception("DUPLICATOR ERROR: Please see the 'Package Log' file link below.");
+                throw new Exception($msg);
 				break;
 
 			case Dup_ErrorBehavior::Quit:
@@ -341,7 +341,7 @@ class DUP_Handler
      *
      * @var bool
      */
-    private static $inizialized = false;
+    private static $initialized = false;
 
     /**
      *
@@ -380,10 +380,10 @@ class DUP_Handler
      */
     public static function init_error_handler()
     {
-        if (!self::$inizialized) {
+        if (!self::$initialized) {
             @set_error_handler(array(__CLASS__, 'error'));
             @register_shutdown_function(array(__CLASS__, 'shutdown'));
-            self::$inizialized = true;
+            self::$initialized = true;
         }
     }
 

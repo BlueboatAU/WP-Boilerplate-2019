@@ -1,9 +1,4 @@
 <?php
-/**
- * Surface for the indexables.
- *
- * @package Yoast\YoastSEO\Surfaces
- */
 
 namespace Yoast\WP\SEO\Surfaces;
 
@@ -18,30 +13,42 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Meta_Surface class.
+ *
+ * Surface for the indexables.
  */
 class Meta_Surface {
 
 	/**
+	 * The container.
+	 *
 	 * @var ContainerInterface
 	 */
 	private $container;
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * Holds the WP rewrite wrapper instance.
+	 *
 	 * @var WP_Rewrite_Wrapper
 	 */
 	private $wp_rewrite_wrapper;
 
 	/**
+	 * The indexable helper.
+	 *
 	 * @var Indexable_Helper
 	 */
 	private $indexable_helper;
@@ -214,9 +221,12 @@ class Meta_Surface {
 			return false;
 		}
 
-		return \array_map( function( $indexable ) {
-			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
-		}, $indexables );
+		return \array_map(
+			function( $indexable ) {
+				return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
+			},
+			$indexables
+		);
 	}
 
 	/**
@@ -232,7 +242,6 @@ class Meta_Surface {
 		if ( ! $indexable ) {
 			return false;
 		}
-
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Term_Archive' ) );
 	}
@@ -279,14 +288,16 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_indexables( $indexables, $page_type = null ) {
-		return \array_map( function( $indexable ) use ( $page_type ) {
+		$closure = function( $indexable ) use ( $page_type ) {
 			$this_page_type = $page_type;
 			if ( \is_null( $this_page_type ) ) {
 				$this_page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, $this_page_type ) );
-		}, $indexables );
+		};
+
+		return \array_map( $closure, $indexables );
 	}
 
 	/**

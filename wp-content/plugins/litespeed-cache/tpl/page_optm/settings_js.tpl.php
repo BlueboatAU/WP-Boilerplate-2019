@@ -18,7 +18,7 @@ defined( 'WPINC' ) || exit;
 		<td>
 			<?php $this->build_switch( $id ); ?>
 			<div class="litespeed-desc">
-				<?php echo __( 'Minify JS files.', 'litespeed-cache' ); ?>
+				<?php echo __( 'Minify JS files and inline JS codes.', 'litespeed-cache' ); ?>
 			</div>
 		</td>
 	</tr>
@@ -31,8 +31,21 @@ defined( 'WPINC' ) || exit;
 		<td>
 			<?php $this->build_switch( $id ); ?>
 			<div class="litespeed-desc">
-				<?php echo __( 'Combine JS files.', 'litespeed-cache' ); ?>
+				<?php echo __( 'Combine all local JS files into a single file.', 'litespeed-cache' ); ?>
 				<a href="https://docs.litespeedtech.com/lscache/lscwp/ts-optimize/" target="_blank"><?php echo __( 'How to Fix Problems Caused by CSS/JS Optimization.', 'litespeed-cache' ); ?></a>
+			</div>
+		</td>
+	</tr>
+
+	<tr>
+		<th>
+			<?php $id = Base::O_OPTM_JS_COMB_EXT_INL; ?>
+			<?php $this->title( $id ); ?>
+		</th>
+		<td>
+			<?php $this->build_switch( $id ); ?>
+			<div class="litespeed-desc">
+				<?php echo sprintf( __( 'Include external JS and inline JS in combined file when %1$s is also enabled. This option helps maintain the priorities of JS execution, which should minimize potential errors caused by JS Combine.', 'litespeed-cache' ), '<code>' . Lang::title( Base::O_OPTM_JS_COMB ) . '</code>' ); ?>
 			</div>
 		</td>
 	</tr>
@@ -74,23 +87,6 @@ defined( 'WPINC' ) || exit;
 			<div class="litespeed-desc">
 				<?php echo __( 'Loading inline JS after DOM is fully loaded can increase JS compatibility and reduce JS error when other JS optimization features are enabled.', 'litespeed-cache' ); ?>
 				<br /><?php echo sprintf( __( '%s is recommended although would cause the most issues for scripts that are placed inline to avoid being deferred.', 'litespeed-cache' ), '<code>' . __( 'Deferred', 'litespeed-cache' ) . '</code>' ); ?>
-			</div>
-		</td>
-	</tr>
-
-	<tr>
-		<th>
-			<?php $id = Base::O_OPTM_EXC_JQ; ?>
-			<?php $this->title( $id ); ?>
-		</th>
-		<td>
-			<?php $this->build_switch( $id ); ?>
-			<div class="litespeed-desc">
-				<?php echo sprintf( __( 'Improve compatibility with inline JS by preventing jQuery optimization. (Recommended Setting: %s)', 'litespeed-cache' ), __( 'ON', 'litespeed-cache' ) ); ?>
-				<br /><font class="litespeed-warning">
-					⚠️
-					<?php echo sprintf( __( 'If there is any JS error related to %1$s when enabled %2$s, please turn on this option.', 'litespeed-cache' ), 'jQuery', __( 'JS Combine', 'litespeed-cache' ) ); ?>
-				</font>
 			</div>
 		</td>
 	</tr>

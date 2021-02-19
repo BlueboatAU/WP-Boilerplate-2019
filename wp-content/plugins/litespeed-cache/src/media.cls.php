@@ -122,7 +122,7 @@ class Media extends Instance {
 		add_action( 'litespeed_media_row', array( $this, 'media_row_con' ) );
 
 		// Hook to attachment delete action
-		add_action( 'delete_attachment', array( $this, 'delete_attachment' ) );
+		add_action( 'delete_attachment', __CLASS__ . '::delete_attachment' );
 	}
 
 	/**
@@ -131,7 +131,11 @@ class Media extends Instance {
 	 * @since 2.4.3
 	 * @access public
 	 */
-	public function delete_attachment( $post_id ) {
+	public static function delete_attachment( $post_id ) {
+		if ( ! Data::get_instance()->tb_exist( 'img_optm' ) ) {
+			return;
+		}
+
 		Debug2::debug( '[Media] delete_attachment [pid] ' . $post_id );
 		Img_Optm::get_instance()->reset_row( $post_id );
 	}
@@ -400,8 +404,17 @@ class Media extends Instance {
 			return true;
 		}
 
-		if ( ! empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Page Speed' ) !== false ) {
-			return true;
+		if ( ! empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
+			if ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Page Speed' ) !== false ) {
+				return true;
+			}
+
+			if ( preg_match( "/iPhone OS (\d+)_/i", $_SERVER[ 'HTTP_USER_AGENT' ], $matches ) ) {
+				$lscwp_ios_version = $matches[1];
+				if ($lscwp_ios_version >= 14){
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -510,7 +523,7 @@ class Media extends Instance {
 		// Include lazyload lib js and init lazyload
 		if ( $cfg_lazy || $cfg_iframe_lazy ) {
 			if ( Conf::val( Base::O_MEDIA_LAZYJS_INLINE ) ) {
-				$lazy_lib = '<script>' . File::read( LSCWP_DIR . self::LIB_FILE_IMG_LAZYLOAD ) . '</script>';
+				$lazy_lib = '<script data-no-optimize="1">' . File::read( LSCWP_DIR . self::LIB_FILE_IMG_LAZYLOAD ) . '</script>';
 			} else {
 				$lazy_lib_url = LSWCP_PLUGIN_URL . self::LIB_FILE_IMG_LAZYLOAD;
 				$lazy_lib = '<script src="' . $lazy_lib_url . '"></script>';

@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Admin
- */
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
@@ -23,7 +18,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [];

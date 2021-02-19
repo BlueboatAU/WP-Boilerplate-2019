@@ -859,9 +859,11 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         /**
          * @param string $path Path to the file
          * @param int $n Number of lines to get
+         * @param int $charLimit Number of chars to include in each line
          * @return bool|array Last $n lines of file
+         * @throws Exception
          */
-        public static function getLastLinesOfFile($path, $n)
+        public static function getLastLinesOfFile($path, $n, $charLimit = null)
         {
             if (!is_readable($path)) {
                 return false;
@@ -880,6 +882,14 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
                 $char = fgetc($handle);
                 if (PHP_EOL == $char) {
                     $trimmedValue = trim($currentLine);
+                    if (is_null($charLimit)) {
+                        $currentLine = substr($currentLine, 0);
+                    } else {
+                        $currentLine = substr($currentLine, 0, (int) $charLimit);
+                        if (strlen($currentLine) == $charLimit) {
+                            $currentLine .= '...';
+                        }
+                    }
 
                     if (!empty($trimmedValue)) {
                         $result[] = $currentLine;
@@ -894,6 +904,62 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             self::fclose($handle, false);
 
             return array_reverse($result);
+        }
+
+        /**
+         * Returns a path to the base root folder of path taking into account the
+         * open_basedir setting.
+         *
+         * @param $path
+         * @return bool|string Base root path of $path if it's accessible, otherwise false;
+         */
+        public static function getMaxAllowedRootOfPath($path)
+        {
+            $path = self::safePathUntrailingslashit($path, true);
+
+            if (!self::isOpenBaseDirEnabled()) {
+                $parts = explode("/", $path);
+                return $parts[0]."/";
+            } else {
+                return self::getOpenBaseDirRootOfPath($path);
+            }
+        }
+
+        /**
+         * @return bool true if open_basedir is set
+         */
+        public static function isOpenBaseDirEnabled()
+        {
+            $iniVar = ini_get("open_basedir");
+            return !empty($iniVar);
+        }
+
+        /**
+         * @return array Paths contained in the open_basedir setting. Empty array if the setting
+         *               is not enabled.
+         */
+        public static function getOpenBaseDirPaths()
+        {
+            if (!($openBase = ini_get("open_basedir"))) {
+                return array();
+            }
+            return explode(PATH_SEPARATOR, $openBase);
+        }
+
+        /**
+         * @param $path
+         * @return bool|mixed|string Path to the base dir of $path if it exists, otherwise false
+         */
+        public static function getOpenBaseDirRootOfPath($path)
+        {
+            foreach (self::getOpenBaseDirPaths() as $allowedPath) {
+                $allowedPath = $allowedPath !== "/" ? self::safePathUntrailingslashit($allowedPath) : "/";
+                if (strpos($path, $allowedPath) === 0) {
+                    return $allowedPath;
+                }
+            }
+
+            return false;
         }
     }
 }

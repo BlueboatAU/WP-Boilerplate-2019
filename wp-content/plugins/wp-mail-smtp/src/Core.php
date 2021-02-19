@@ -130,6 +130,7 @@ class Core {
 		add_action( 'plugins_loaded', [ $this, 'get_usage_tracking' ] );
 		add_action( 'plugins_loaded', [ $this, 'get_admin_bar_menu' ] );
 		add_action( 'plugins_loaded', [ $this, 'get_notifications' ] );
+		add_action( 'plugins_loaded', [ $this, 'get_connect' ], 15 );
 	}
 
 	/**
@@ -403,7 +404,7 @@ class Core {
 				) .
 				'<br><br><em>' .
 				wp_kses(
-					__( '<strong>Please Note:</strong> Support for PHP 5.5 will be discontinued in 2020. After this, if no further action is taken, WP Mail SMTP functionality will be disabled.', 'wp-mail-smtp' ),
+					__( '<strong>Please Note:</strong> Support for PHP 5.5 will be discontinued in 2021. After this, if no further action is taken, WP Mail SMTP functionality will be disabled.', 'wp-mail-smtp' ),
 					array(
 						'strong' => array(),
 						'em'     => array(),
@@ -536,6 +537,24 @@ class Core {
 						esc_html_e( 'Consider running an email test after fixing it.', 'wp-mail-smtp' );
 						?>
 					</p>
+
+					<?php
+						echo wp_kses(
+							apply_filters(
+								'wp_mail_smtp_core_display_general_notices_email_delivery_error_notice_footer',
+								''
+							),
+							[
+								'p' => [],
+								'a' => [
+									'href'   => [],
+									'target' => [],
+									'class'  => [],
+									'rel'    => [],
+								],
+							]
+						);
+					?>
 				</div>
 
 				<?php
@@ -655,6 +674,9 @@ class Core {
 			$activated[ $license_type ] = time();
 			update_option( 'wp_mail_smtp_activated', $activated );
 		}
+
+		// Add transient to trigger redirect to the Setup Wizard.
+		set_transient( 'wp_mail_smtp_activation_redirect', true, 30 );
 	}
 
 	/**
@@ -952,5 +974,52 @@ class Core {
 		}
 
 		return $notifications;
+	}
+
+	/**
+	 * Prepare the HTML output for a plugin loader/spinner.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $color The color of the loader ('', 'blue' or 'white'), where '' is default orange.
+	 * @param string $size  The size of the loader ('lg', 'md', 'sm').
+	 *
+	 * @return string
+	 */
+	public function prepare_loader( $color = '', $size = 'md' ) {
+
+		$svg_name = 'loading';
+
+		if ( in_array( $color, [ 'blue', 'white' ], true ) ) {
+			$svg_name .= '-' . $color;
+		}
+
+		if ( ! in_array( $size, [ 'lg', 'md', 'sm' ], true ) ) {
+			$size = 'md';
+		}
+
+		return '<img src="' . esc_url( $this->plugin_url . '/assets/images/loaders/' . $svg_name . '.svg' ) . '" alt="' . esc_attr__( 'Loading', 'wp-mail-smtp' ) . '" class="wp-mail-smtp-loading wp-mail-smtp-loading-' . $size . '">';
+	}
+
+	/**
+	 * Initialize the Connect functionality.
+	 * This has to execute after pro was loaded, since we need check for plugin license type (if pro or not).
+	 * That's why it's hooked to the same WP hook (`plugins_loaded`) as `get_pro` with lower priority.
+	 *
+	 * @since 2.6.0
+	 */
+	public function get_connect() {
+
+		static $connect;
+
+		if ( ! isset( $connect ) && ! $this->is_pro() ) {
+			$connect = apply_filters( 'wp_mail_smtp_core_get_connect', new Connect() );
+
+			if ( method_exists( $connect, 'hooks' ) ) {
+				$connect->hooks();
+			}
+		}
+
+		return $connect;
 	}
 }

@@ -186,7 +186,7 @@ class Task {
 		$action_id = null;
 
 		// No processing if ActionScheduler is not usable.
-		if ( ! wp_mail_smtp()->get_tasks()->is_usable() ) {
+		if ( ! Tasks::is_usable() ) {
 			return $action_id;
 		}
 
@@ -240,7 +240,7 @@ class Task {
 
 		return as_enqueue_async_action(
 			$this->action,
-			[ 'tasks_meta_id' => $this->meta_id ],
+			[ $this->meta_id ],
 			Tasks::GROUP
 		);
 	}
@@ -262,7 +262,7 @@ class Task {
 			$this->timestamp,
 			$this->interval,
 			$this->action,
-			[ 'tasks_meta_id' => $this->meta_id ],
+			[ $this->meta_id ],
 			Tasks::GROUP
 		);
 	}
@@ -283,7 +283,7 @@ class Task {
 		return as_schedule_single_action(
 			$this->timestamp,
 			$this->action,
-			[ 'tasks_meta_id' => $this->meta_id ],
+			[ $this->meta_id ],
 			Tasks::GROUP
 		);
 	}
