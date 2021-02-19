@@ -20,6 +20,8 @@ class DUP_Installer
 	public $OptsDBPort;
 	public $OptsDBName;
 	public $OptsDBUser;
+	public $OptsDBCharset;
+	public $OptsDBCollation;
 	public $OptsSecureOn	 = 0;
 	public $OptsSecurePass;
 	public $numFilesAdded	 = 0;
@@ -50,6 +52,10 @@ class DUP_Installer
 
 
 		if ($success) {
+			// No longer need to store wp-config.txt file in main storage area
+			$temp_conf_ark_file_path = $this->getTempWPConfArkFilePath();
+			@unlink($temp_conf_ark_file_path);
+
 			$package->BuildProgress->installer_built = true;
 		} else {
 			$error_message	 = 'Error adding installer';
@@ -165,6 +171,9 @@ class DUP_Installer
 		$ac->dbname			 = $this->Package->Installer->OptsDBName;
 		$ac->dbuser			 = $this->Package->Installer->OptsDBUser;
 		$ac->dbpass			 = '';
+		$ac->dbcharset		 = $this->Package->Installer->OptsDBCharset;
+		$ac->dbcollation     = $this->Package->Installer->OptsDBCollation;
+
 		$ac->wp_tableprefix	 = $wpdb->base_prefix;
 
 		$ac->mu_mode						 = DUP_MU::getMode();
@@ -502,7 +511,7 @@ class DUP_Installer
 	{
 		if (function_exists('token_get_all')) {
 			require_once(DUPLICATOR_PLUGIN_PATH.'lib/config/class.wp.config.tranformer.php');
-			$transformer = new WPConfigTransformer($temp_conf_ark_file_path);
+			$transformer = new DupLiteWPConfigTransformer($temp_conf_ark_file_path);
 			$constants	 = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST');
 			foreach ($constants as $constant) {
 				if ($transformer->exists('constant', $constant)) {

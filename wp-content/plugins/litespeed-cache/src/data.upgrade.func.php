@@ -6,17 +6,51 @@
  *
  * @since  3.0
  */
-defined( 'WPINC' ) || exit ;
+defined( 'WPINC' ) || exit;
 
-use LiteSpeed\Debug2 ;
+use LiteSpeed\Debug2;
+use LiteSpeed\Conf;
+use LiteSpeed\Admin_Display;
+
+/**
+ * Append jQuery to JS optm exclude list for max compatibility
+ * Turn off JS Combine and Defer
+ *
+ * @since  3.5.1
+ */
+function litespeed_update_3_5() {
+	$__conf = Conf::get_instance();
+	// Excludes jQuery
+	foreach ( array( 'optm-js_exc', 'optm-js_defer_exc' ) as $v ) {
+		$curr_setting = Conf::val( $v );
+		$curr_setting[] = 'jquery.js';
+		$curr_setting[] = 'jquery.min.js';
+		$__conf->update( $v, $curr_setting );
+	}
+	// Turn off JS Combine and defer
+	$show_msg = false;
+	foreach ( array( 'optm-js_comb', 'optm-js_defer', 'optm-js_inline_defer' ) as $v ) {
+		$curr_setting = Conf::val( $v );
+		if ( ! $curr_setting ) {
+			continue;
+		}
+		$show_msg = true;
+		$__conf->update( $v, false );
+	}
+
+	if ( $show_msg ) {
+		$msg = sprintf( __( 'LiteSpeed Cache upgraded successfully. NOTE: Due to changes in this version, the settings %1$s and %2$s have been turned OFF. Please turn them back on manually and verify that your site layout is correct, and you have no JS errors.', 'litespeed-cache' ), '<code>' . __( 'JS Combine', 'litespeed-cache' ) . '</code>', '<code>' . __( 'JS Defer', 'litespeed-cache' ) . '</code>' );
+		$msg .= sprintf( ' <a href="admin.php?page=litespeed-page_optm#settings_js">%s</a>.', __( 'Click here to settings', 'litespeed-cache' ) );
+		Admin_Display::info( $msg, false, true );
+	}
+}
 
 /**
  * For version under v2.0 to v2.0+
  *
  * @since  3.0
  */
-function litespeed_update_2_0( $ver )
-{
+function litespeed_update_2_0( $ver ) {
 	global $wpdb ;
 
 	// Table version only exists after all old data migrated
@@ -105,8 +139,7 @@ function litespeed_update_2_0( $ver )
  *
  * @since  3.0
  */
-function litespeed_update_3_0( $ver )
-{
+function litespeed_update_3_0( $ver ) {
 	global $wpdb;
 	// Upgrade v2.0- to v2.0 first
 	if ( version_compare( $ver, '2.0', '<' ) ) {
@@ -241,12 +274,12 @@ function litespeed_update_3_0( $ver )
 		// 'log_filters' 				=> 'debug-log_filters',
 
 		'crawler_cron_active' 		=> 'crawler',
-		'crawler_include_posts' 	=> 'crawler-inc_posts',
-		'crawler_include_pages' 	=> 'crawler-inc_pages',
-		'crawler_include_cats' 		=> 'crawler-inc_cats',
-		'crawler_include_tags' 		=> 'crawler-inc_tags',
-		'crawler_excludes_cpt' 		=> 'crawler-exc_cpt',
-		'crawler_order_links' 		=> 'crawler-order_links',
+		// 'crawler_include_posts' 	=> 'crawler-inc_posts',
+		// 'crawler_include_pages' 	=> 'crawler-inc_pages',
+		// 'crawler_include_cats' 		=> 'crawler-inc_cats',
+		// 'crawler_include_tags' 		=> 'crawler-inc_tags',
+		// 'crawler_excludes_cpt' 		=> 'crawler-exc_cpt',
+		// 'crawler_order_links' 		=> 'crawler-order_links',
 		'crawler_usleep' 			=> 'crawler-usleep',
 		'crawler_run_duration' 		=> 'crawler-run_duration',
 		'crawler_run_interval' 		=> 'crawler-run_interval',
@@ -270,7 +303,7 @@ function litespeed_update_3_0( $ver )
 		'cdn'						=> 'cdn',
 		'cdn_ori'					=> 'cdn-ori',
 		'cdn_exclude' 				=> 'cdn-exc',
-		'cdn_remote_jquery'			=> 'cdn-remote_jq',
+		// 'cdn_remote_jquery'			=> 'cdn-remote_jq',
 		'cdn_quic'					=> 'cdn-quic',
 		'cdn_cloudflare'			=> 'cdn-cloudflare',
 		'cdn_cloudflare_email'		=> 'cdn-cloudflare_email',
@@ -297,15 +330,15 @@ function litespeed_update_3_0( $ver )
 		'media_webp_replace_srcset'	=> 'img_optm-webp_replace_srcset',
 
 		'css_minify'			=> 'optm-css_min',
-		'css_inline_minify'		=> 'optm-css_inline_min',
+		// 'css_inline_minify'		=> 'optm-css_inline_min',
 		'css_combine'			=> 'optm-css_comb',
-		'css_combined_priority'	=> 'optm-css_comb_priority',
+		// 'css_combined_priority'	=> 'optm-css_comb_priority',
 		'css_http2'				=> 'optm-css_http2',
 		'css_exclude' 			=> 'optm-css_exc',
 		'js_minify'				=> 'optm-js_min',
-		'js_inline_minify'		=> 'optm-js_inline_min',
+		// 'js_inline_minify'		=> 'optm-js_inline_min',
 		'js_combine'			=> 'optm-js_comb',
-		'js_combined_priority'	=> 'optm-js_comb_priority',
+		// 'js_combined_priority'	=> 'optm-js_comb_priority',
 		'js_http2'				=> 'optm-js_http2',
 		'js_exclude' 			=> 'optm-js_exc',
 		'optimize_ttl'			=> 'optm-ttl',
@@ -318,10 +351,10 @@ function litespeed_update_3_0( $ver )
 		'optm_css_async_inline'	=> 'optm-css_async_inline',
 		'optm_js_defer'			=> 'optm-js_defer',
 		'optm_emoji_rm'			=> 'optm-emoji_rm',
-		'optm_exclude_jquery'	=> 'optm-exc_jq',
+		// 'optm_exclude_jquery'	=> 'optm-exc_jq',
 		'optm_ggfonts_async'	=> 'optm-ggfonts_async',
-		'optm_max_size'			=> 'optm-max_size',
-		'optm_rm_comment'		=> 'optm-rm_comment',
+		// 'optm_max_size'			=> 'optm-max_size',
+		// 'optm_rm_comment'		=> 'optm-rm_comment',
 	) ;
 	foreach ( $data as $k => $v ) {
 		if ( ! isset( $previous_options[ $k ] ) ) {
@@ -341,7 +374,7 @@ function litespeed_update_3_0( $ver )
 					'purge-timed_urls',
 					'cache-exc_qs',
 					'debug-ips',
-					'crawler-exc_cpt',
+					// 'crawler-exc_cpt',
 					'cdn-exc',
 					'optm-css_exc',
 					'optm-js_exc',

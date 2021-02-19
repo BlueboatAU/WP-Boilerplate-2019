@@ -7,8 +7,18 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.archive.config.php');
 
 //-- START OF VIEW STEP 2
-$_POST['dbcharset'] = isset($_POST['dbcharset']) ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
-$_POST['dbcollate'] = isset($_POST['dbcollate']) ? trim($_POST['dbcollate']) : $GLOBALS['DBCOLLATE_DEFAULT'];
+$archive_config  = DUPX_ArchiveConfig::getInstance();
+
+$dbcharset = empty($archive_config->dbcharset)
+				? $GLOBALS['DBCHARSET_DEFAULT']
+				: $archive_config->dbcharset;
+$_POST['dbcharset'] = isset($_POST['dbcharset']) ? trim($_POST['dbcharset']) : $dbcharset;
+
+$dbcollate = empty($archive_config->dbcollation)
+				? $GLOBALS['DBCOLLATE_DEFAULT']
+				: $archive_config->dbcollation;
+$_POST['dbcollate'] = isset($_POST['dbcollate']) ? trim($_POST['dbcollate']) : $dbcollate;
+
 $_POST['exe_safe_mode'] = (isset($_POST['exe_safe_mode'])) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;
 $is_dbtest_mode = isset($_POST['dbonlytest']) ? 1 : 0;
 
@@ -305,7 +315,7 @@ Auto Posts to view.step3.php  -->
 					$("#ajax-exe-safe-mode").val($("#exe-safe-mode").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
 
-					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
+					<?php if (!DUPX_Log::isLevel(DUPX_Log::LV_DEBUG)) : ?>
 						setTimeout(function () {$formResult.submit();}, 1000);
 					<?php endif; ?>
 					$('#progress-area').fadeOut(700);

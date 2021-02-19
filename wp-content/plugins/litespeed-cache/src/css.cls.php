@@ -197,81 +197,14 @@ class CSS extends Base {
 		self::save_summary();
 
 		// Gather guest HTML to send
-		$html = Crawler::get_instance()->self_curl( add_query_arg( 'LSCWP_CTRL', 'before_optm', $request_url ), $user_agent );
-		Debug2::debug2( '[CSS] self_curl result....', $html );
-
-
-		$html = Optimizer::get_instance()->html_min( $html, true );
-		// Drop <noscript>xxx</noscript>
-		$html = preg_replace( '#<noscript>.*</noscript>#isU', '', $html );
+		$html = $this->_prepare_html( $request_url, $user_agent );
 
 		if ( ! $html ) {
 			return false;
 		}
 
 		// Parse HTML to gather all CSS content before requesting
-		$css = '';
-		preg_match_all( '#<link ([^>]+)/?>|<style[^>]*>([^<]+)</style>#isU', $html, $matches, PREG_SET_ORDER );
-		foreach ( $matches as $match ) {
-			$attrs = false;
-			if ( strpos( $match[ 0 ], '<link' ) === 0 ) {
-				$attrs = Utility::parse_attr( $match[ 1 ] );
-
-				if ( empty( $attrs[ 'rel' ] ) ) {
-					continue;
-				}
-
-				if ( $attrs[ 'rel' ] != 'stylesheet' ) {
-					if ( $attrs[ 'rel' ] != 'preload' || empty( $attrs[ 'as' ] ) || $attrs[ 'as' ] != 'style' ) {
-						continue;
-					}
-				}
-
-				if ( ! empty( $attrs[ 'media' ] ) && strpos( $attrs[ 'media' ], 'print' ) !== false ) {
-					continue;
-				}
-				if ( empty( $attrs[ 'href' ] ) ) {
-					continue;
-				}
-
-				// Check Google fonts hit
-				if ( strpos( $attrs[ 'href' ], 'fonts.googleapis.com' ) !== false ) {
-					$html = str_replace( $match[ 0 ], '', $html );
-					continue;
-				}
-
-				// Load CSS content
-				$real_file = Utility::is_internal_file( $attrs[ 'href' ] );
-				$postfix = pathinfo( parse_url( $attrs[ 'href' ], PHP_URL_PATH ), PATHINFO_EXTENSION );
-				if ( ! $real_file || $postfix != 'css' ) {
-					Debug2::debug2( '[CCSS] Load Remote CSS ' . $attrs[ 'href' ] );
-					$con = wp_remote_retrieve_body( wp_remote_get( $attrs[ 'href' ] ) );
-					if ( ! $con ) {
-						continue;
-					}
-				}
-				else {
-					Debug2::debug2( '[CCSS] Load local CSS ' . $real_file[ 0 ] );
-					$con = File::read( $real_file[ 0 ] );
-					$con = Lib\CSS_MIN\UriRewriter::rewrite( $con, dirname( $real_file[ 0 ] ) );
-				}
-			}
-			else { // Inline style
-				Debug2::debug2( '[CCSS] Load inline CSS ' . substr( $match[ 2 ], 0, 100 ) . '...' );
-				$con = $match[ 2 ];
-			}
-
-			$con = Optimizer::minify_css( $con );
-
-			if ( ! empty( $attrs[ 'media' ] ) && $attrs[ 'media' ] !== 'all' ) {
-				$css .= '@media ' . $attrs[ 'media' ] . '{' . $con . "\n}";
-			}
-			else {
-				$css .= $con . "\n";
-			}
-
-			$html = str_replace( $match[ 0 ], '', $html );
-		}
+		list( $css, $html ) = $this->_prepare_css( $html );
 
 		if ( ! $css ) {
 			return false;
@@ -290,7 +223,7 @@ class CSS extends Base {
 
 		Debug2::debug( '[CSS] Generating: ', $data );
 
-		$json = Cloud::post( Cloud::SVC_CCSS, $data, 180 );
+		$json = Cloud::post( Cloud::SVC_CCSS, $data, 30 );
 		if ( ! is_array( $json ) ) {
 			return false;
 		}
@@ -318,6 +251,174 @@ class CSS extends Base {
 		Debug2::debug2( '[CSS] ccss con: ' . $ccss );
 
 		return $ccss;
+	}
+
+	/**
+	 * Play for fun
+	 *
+	 * @since  3.4.3
+	 */
+	public function test_url( $request_url ) {
+		$user_agent = $_SERVER[ 'HTTP_USER_AGENT' ];
+		$html = $this->_prepare_html( $request_url, $user_agent );
+		list( $css, $html ) = $this->_prepare_css( $html, true );
+		// var_dump( $css );
+// 		$html = <<<EOT
+
+// EOT;
+
+// 		$css = <<<EOT
+
+// EOT;
+		$data = array(
+			'url'			=> $request_url,
+			'ccss_type'		=> 'test',
+			'user_agent'	=> $user_agent,
+			'is_mobile'		=> 0,
+			'html'			=> $html,
+			'css'			=> $css,
+			'type'			=> 'CCSS',
+		);
+
+		// Debug2::debug( '[CSS] Generating: ', $data );
+
+		$json = Cloud::post( Cloud::SVC_CCSS, $data, 180 );
+
+		var_dump($json);
+	}
+
+	/**
+	 * Prepare HTML from URL
+	 *
+	 * @since  3.4.3
+	 */
+	private function _prepare_html( $request_url, $user_agent ) {
+		$html = Crawler::get_instance()->self_curl( add_query_arg( 'LSCWP_CTRL', 'before_optm', $request_url ), $user_agent );
+		Debug2::debug2( '[CSS] self_curl result....', $html );
+
+
+		$html = Optimizer::get_instance()->html_min( $html, true );
+		// Drop <noscript>xxx</noscript>
+		$html = preg_replace( '#<noscript>.*</noscript>#isU', '', $html );
+
+		return $html;
+	}
+
+	/**
+	 * Prepare CSS from HTML
+	 *
+	 * @since  3.4.3
+	 */
+	private function _prepare_css( $html, $dryrun =false ) {
+		$css = '';
+		preg_match_all( '#<link ([^>]+)/?>|<style[^>]*>([^<]+)</style>#isU', $html, $matches, PREG_SET_ORDER );
+		foreach ( $matches as $match ) {
+			$attrs = false;
+			$debug_info = '';
+			if ( strpos( $match[ 0 ], '<link' ) === 0 ) {
+				$attrs = Utility::parse_attr( $match[ 1 ] );
+
+				if ( empty( $attrs[ 'rel' ] ) ) {
+					continue;
+				}
+
+				if ( $attrs[ 'rel' ] != 'stylesheet' ) {
+					if ( $attrs[ 'rel' ] != 'preload' || empty( $attrs[ 'as' ] ) || $attrs[ 'as' ] != 'style' ) {
+						continue;
+					}
+				}
+
+				if ( ! empty( $attrs[ 'media' ] ) && strpos( $attrs[ 'media' ], 'print' ) !== false ) {
+					continue;
+				}
+				if ( empty( $attrs[ 'href' ] ) ) {
+					continue;
+				}
+
+				// Check Google fonts hit
+				if ( strpos( $attrs[ 'href' ], 'fonts.googleapis.com' ) !== false ) {
+					$html = str_replace( $match[ 0 ], '', $html );
+					continue;
+				}
+
+				$debug_info = $attrs[ 'href' ];
+
+				// Load CSS content
+				if ( ! $dryrun ) { // Dryrun will not load CSS but just drop them
+					$con = $this->load_file( $attrs[ 'href' ] );
+					if ( ! $con ) {
+						continue;
+					}
+				}
+				else {
+					$con = '';
+				}
+			}
+			else { // Inline style
+				Debug2::debug2( '[CCSS] Load inline CSS ' . substr( $match[ 2 ], 0, 100 ) . '...' );
+				$con = $match[ 2 ];
+
+				$debug_info = '__INLINE__';
+			}
+
+			$con = Optimizer::minify_css( $con );
+
+			$con = '/* ' . $debug_info . ' */' . $con;
+
+			if ( ! empty( $attrs[ 'media' ] ) && $attrs[ 'media' ] !== 'all' ) {
+				$css .= '@media ' . $attrs[ 'media' ] . '{' . $con . "\n}";
+			}
+			else {
+				$css .= $con . "\n";
+			}
+
+			$html = str_replace( $match[ 0 ], '', $html );
+		}
+
+		return array( $css, $html );
+	}
+
+	/**
+	 * Load remote/local resource
+	 *
+	 * @since  3.5
+	 */
+	public function load_file( $src, $file_type = 'css' ) {
+		$real_file = Utility::is_internal_file( $src );
+		$postfix = pathinfo( parse_url( $src, PHP_URL_PATH ), PATHINFO_EXTENSION );
+		if ( ! $real_file || $postfix != $file_type ) {
+			Debug2::debug2( '[CSS] Load Remote [' . $file_type . '] ' . $src );
+			$this_url = substr( $src, 0, 2 ) == '//' ? set_url_scheme( $src ) : $src;
+			$res = wp_remote_get( $this_url );
+			$res_code = wp_remote_retrieve_response_code( $res );
+			if ( is_wp_error( $res ) || $res_code == 404 ) {
+				Debug2::debug2( '[CSS] ❌ Load Remote error [code] ' . $res_code );
+				return false;
+			}
+			$con = wp_remote_retrieve_body( $res );
+			if ( ! $con ) {
+				return false;
+			}
+
+			if ( $file_type == 'css' ) {
+				$dirname = dirname( $this_url ) . '/';
+
+				$con = Lib\CSS_MIN\UriRewriter::prepend( $con, $dirname );
+			}
+		}
+		else {
+			Debug2::debug2( '[CSS] Load local [' . $file_type . '] ' . $real_file[ 0 ] );
+			$con = File::read( $real_file[ 0 ] );
+
+			if ( $file_type == 'css' ) {
+				$dirname = dirname( $real_file[ 0 ] );
+
+				$con = Lib\CSS_MIN\UriRewriter::rewrite( $con, $dirname );
+			}
+		}
+
+
+		return $con;
 	}
 
 	/**
@@ -461,6 +562,10 @@ class CSS extends Base {
 	private function _which_css()
 	{
 		$css = Utility::page_type();
+
+		if ( is_multisite() ) {
+			$css .= '-' . get_current_blog_id();
+		}
 
 		$unique = false;
 

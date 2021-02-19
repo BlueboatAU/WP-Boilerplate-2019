@@ -1,9 +1,4 @@
 <?php
-/**
- * Model for the Indexable table.
- *
- * @package Yoast\YoastSEO\Models
- */
 
 namespace Yoast\WP\SEO\Models;
 
@@ -78,15 +73,17 @@ use Yoast\WP\Lib\Model;
  * @property string  $schema_article_type
  *
  * @property bool    $has_ancestors
+ *
+ * @property int     $estimated_reading_time_minutes
  */
 class Indexable extends Model {
 
 	/**
-	 * Holds the ancestors. May not be set.
+	 * Holds the ancestors.
 	 *
 	 * @var Indexable[]
 	 */
-	public $ancestors;
+	public $ancestors = [];
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -129,6 +126,7 @@ class Indexable extends Model {
 		'number_of_pages',
 		'prominent_words_version',
 		'blog_id',
+		'estimated_reading_time_minutes',
 	];
 
 	/**

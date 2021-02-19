@@ -88,6 +88,7 @@ class wfConfig {
 			"loginSec_maskLoginErrors" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"loginSec_blockAdminReg" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"loginSec_disableAuthorScan" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"loginSec_disableApplicationPasswords" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"loginSec_disableOEmbedAuthor" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			'loginSec_requireAdminTwoFactor' => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"notification_updatesNeeded" => array('value' => true, 'autoload' => self::AUTOLOAD),
@@ -948,13 +949,13 @@ class wfConfig {
 			$lastEmail = self::get('lastLiteSpdEmail', false);
 			if( (! $lastEmail) || (time() - (int)$lastEmail > (86400 * 30))){
 				self::set('lastLiteSpdEmail', time());
-				wordfence::alert("Wordfence Upgrade not run. Please modify your .htaccess", "To preserve the integrity of your website we are not running Wordfence auto-update.\n" .
+				wordfence::alert(__("Wordfence Upgrade not run. Please modify your .htaccess", 'wordfence'), sprintf(__("To preserve the integrity of your website we are not running Wordfence auto-update.\n" .
 					"You are running the LiteSpeed web server which has been known to cause a problem with Wordfence auto-update.\n" .
 					"Please go to your website now and make a minor change to your .htaccess to fix this.\n" .
 					"You can find out how to make this change at:\n" .
-					wfSupportController::supportURL(wfSupportController::ITEM_DASHBOARD_OPTION_LITESPEED_WARNING) . "\n" .
-					"\nAlternatively you can disable auto-update on your website to stop receiving this message and upgrade Wordfence manually.\n",
-					'127.0.0.1'
+					"%s\n" .
+					"\nAlternatively you can disable auto-update on your website to stop receiving this message and upgrade Wordfence manually.\n", 'wordfence'), wfSupportController::supportURL(wfSupportController::ITEM_DASHBOARD_OPTION_LITESPEED_WARNING)),
+					false
 				);
 			}
 			return;
@@ -1016,7 +1017,6 @@ class wfConfig {
 				$alertCallback = array(new wfAutoUpdatedAlert($version), 'send');
 				do_action('wordfence_security_event', 'autoUpdate', array(
 					'version' => $version,
-					'ip' => wfUtils::getIP(),
 				), $alertCallback);
 
 				wfConfig::set('autoUpdateAttempts', 0);
@@ -1036,6 +1036,9 @@ class wfConfig {
 php_flag engine 0
 </IfModule>
 <IfModule mod_php7.c>
+php_flag engine 0
+</IfModule>
+<IfModule mod_php.c>
 php_flag engine 0
 </IfModule>
 
@@ -1201,7 +1204,7 @@ Options -ExecCGI
 						}
 					}
 					if (count($badWhiteIPs) > 0) {
-						$errors[] = array('option' => $key, 'error' => __('Please make sure you separate your IP addresses with commas. The following whitelisted IP addresses are invalid: ', 'wordfence') . esc_html(implode(', ', $badWhiteIPs), array()));
+						$errors[] = array('option' => $key, 'error' => __('Please make sure you separate your IP addresses with commas. The following allowlisted IP addresses are invalid: ', 'wordfence') . esc_html(implode(', ', $badWhiteIPs), array()));
 					}
 					
 					$checked = true;
@@ -1270,6 +1273,18 @@ Options -ExecCGI
 						$errors[] = array('option' => $key, 'error' => __('The license key entered is not in a valid format. It must contain only numbers and the letters A-F.', 'wordfence'));
 					}
 					
+					$checked = true;
+					break;
+				}
+				case 'scan_exclude':
+				{
+					$exclusionList = explode("\n", trim($value));
+					foreach ($exclusionList as $exclusion) {
+						$exclusion = trim($exclusion);
+						if ($exclusion === '*') {
+							$errors[] = array('option' => $key, 'error' => __('A wildcard cannot be used to exclude all files from the scan.', 'wordfence'));
+						}
+					}
 					$checked = true;
 					break;
 				}
@@ -1510,7 +1525,7 @@ Options -ExecCGI
 						wfConfig::setJSON($key, (array) $value);
 					}
 					
-					$wafConfig->setConfig('whitelistedServiceIPs', @json_encode(wfUtils::whitelistedServiceIPs()));
+					$wafConfig->setConfig('whitelistedServiceIPs', @json_encode(wfUtils::whitelistedServiceIPs()), 'synced');
 					
 					if (method_exists(wfWAF::getInstance()->getStorageEngine(), 'purgeIPBlocks')) {
 						wfWAF::getInstance()->getStorageEngine()->purgeIPBlocks(wfWAFStorageInterface::IP_BLOCKS_BLACKLIST);

@@ -39,32 +39,6 @@ defined( 'WPINC' ) || exit;
 	</tr>
 
 	<tr>
-		<th class="litespeed-padding-left">
-			<?php $id = Base::O_OPTM_CSS_INLINE_MIN; ?>
-			<?php $this->title( $id ); ?>
-		</th>
-		<td>
-			<?php $this->build_switch( $id ); ?>
-			<div class="litespeed-desc">
-				<?php echo __( 'Minify inline CSS code.', 'litespeed-cache' ); ?>
-			</div>
-		</td>
-	</tr>
-
-	<tr>
-		<th class="litespeed-padding-left">
-			<?php $id = Base::O_OPTM_JS_INLINE_MIN; ?>
-			<?php $this->title( $id ); ?>
-		</th>
-		<td>
-			<?php $this->build_switch( $id ); ?>
-			<div class="litespeed-desc">
-				<?php echo __( 'Minify inline JS code.', 'litespeed-cache' ); ?>
-			</div>
-		</td>
-	</tr>
-
-	<tr>
 		<th>
 			<?php $id = Base::O_OPTM_DNS_PREFETCH; ?>
 			<?php $this->title( $id ); ?>
@@ -91,20 +65,6 @@ defined( 'WPINC' ) || exit;
 				<?php echo __( 'Widely enable DNS prefetch for URLs in the document, including images, CSS, JavaScript, and so forth.', 'litespeed-cache' ); ?>
 				<?php echo __( 'This can improve the page loading speed.', 'litespeed-cache' ); ?>
 				<?php Doc::learn_more( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control' ); ?>
-			</div>
-		</td>
-	</tr>
-
-	<tr>
-		<th>
-			<?php $id = Base::O_OPTM_RM_COMMENT; ?>
-			<?php $this->title( $id ); ?>
-		</th>
-		<td>
-			<?php $this->build_switch( $id ); ?>
-			<div class="litespeed-desc">
-				<?php echo __( 'Remove the comments inside of JS/CSS files when minifying.', 'litespeed-cache' ); ?>
-				<?php echo __( 'This can improve your speed score in services like Pingdom, GTmetrix and PageSpeed.', 'litespeed-cache' ); ?>
 			</div>
 		</td>
 	</tr>

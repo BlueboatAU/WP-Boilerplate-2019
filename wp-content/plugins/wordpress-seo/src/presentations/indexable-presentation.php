@@ -1,9 +1,4 @@
 <?php
-/**
- * Presentation object for indexables.
- *
- * @package Yoast\YoastSEO\Presentations
- */
 
 namespace Yoast\WP\SEO\Presentations;
 
@@ -15,13 +10,17 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Presentation.
+ *
+ * Presentation object for indexables.
  *
  * @property string $title
  * @property string $meta_description
@@ -50,6 +49,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string $twitter_site
  * @property array  $source
  * @property array  $breadcrumbs
+ * @property int    $estimated_reading_time_minutes
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
@@ -138,9 +138,23 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $user;
 
 	/**
-	 * @required
+	 * The indexable helper.
 	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Sets the generator dependencies.
+	 *
+	 * @required
 	 *
 	 * @param Schema_Generator            $schema_generator            The schema generator.
 	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The Open Graph locale generator.
@@ -163,28 +177,47 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Used by dependency injection container to inject the helpers.
+	 *
+	 * @required
 	 *
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Options_Helper      $options      The options helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Url_Helper          $url          The URL helper.
 	 * @param User_Helper         $user         The user helper.
+	 * @param Indexable_Helper    $indexable    The indexable helper.
+	 * @param Permalink_Helper    $permalink    The permalin helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
 		Options_Helper $options,
 		Current_Page_Helper $current_page,
 		Url_Helper $url,
-		User_Helper $user
+		User_Helper $user,
+		Indexable_Helper $indexable,
+		Permalink_Helper $permalink
 	) {
-		$this->image        = $image;
-		$this->options      = $options;
-		$this->current_page = $current_page;
-		$this->url          = $url;
-		$this->user         = $user;
+		$this->image            = $image;
+		$this->options          = $options;
+		$this->current_page     = $current_page;
+		$this->url              = $url;
+		$this->user             = $user;
+		$this->indexable_helper = $indexable;
+		$this->permalink_helper = $permalink;
+	}
+
+	/**
+	 * Gets the permalink from the indexable or generates it if dynamic permalinks are enabled.
+	 *
+	 * @return string The permalink.
+	 */
+	public function get_permalink() {
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
+		}
+
+		return $this->model->permalink;
 	}
 
 	/**
@@ -247,13 +280,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
+		// Remove values that are only listened to when indexing.
 		if ( $robots['index'] === 'noindex' ) {
+			$robots['imageindex']        = null;
+			$robots['archive']           = null;
+			$robots['snippet']           = null;
 			$robots['max-snippet']       = null;
 			$robots['max-image-preview'] = null;
 			$robots['max-video-preview'] = null;
 		}
 
-		$robots_string = \implode( ', ', $robots );
+		$robots_string = \implode( ', ', \array_filter( $robots ) );
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
@@ -264,15 +301,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 */
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
+		// Convert the robots string back to an array.
 		if ( \is_string( $robots_filtered ) ) {
 			$robots_values = \explode( ', ', $robots_filtered );
 			$robots_new    = [];
 
 			foreach ( $robots_values as $value ) {
 				$key = $value;
+
+				// Change `noindex` to `index.
 				if ( \strpos( $key, 'no' ) === 0 ) {
 					$key = \substr( $value, 2 );
 				}
+				// Change `max-snippet:-1` to `max-snippet`.
+				$colon_position = \strpos( $key, ':' );
+				if ( $colon_position !== false ) {
+					$key = \substr( $value, 0, $colon_position );
+				}
+
 				$robots_new[ $key ] = $value;
 			}
 
@@ -297,11 +343,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the robots value for the googlebot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}
@@ -310,11 +357,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the value for the bingbot tag.
 	 *
 	 * @deprecated 14.9 Values merged into the robots meta tag.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.9' );
+		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
 
 		return [];
 	}
@@ -329,8 +377,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		if ( $this->model->permalink ) {
-			return $this->model->permalink;
+		$permalink = $this->get_permalink();
+		if ( $permalink ) {
+			return $permalink;
 		}
 
 		return '';
@@ -412,7 +461,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		return $this->model->permalink;
+		return $this->get_permalink();
 	}
 
 	/**
@@ -462,6 +511,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 
 	/**
 	 * Generates the open graph Facebook app ID.
+	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The open graph Facebook app ID.
 	 */
@@ -611,6 +663,28 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
+	}
+
+	/**
+	 * Generates the estimated reading time.
+	 *
+	 * @return integer The estimated reading time.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
+	 */
+	public function generate_estimated_reading_time_minutes() {
+		if ( $this->model->estimated_reading_time_minutes !== null ) {
+			return $this->model->estimated_reading_time_minutes;
+		};
+
+		if ( $this->context->post === null ) {
+			return null;
+		}
+
+		// 200 is the approximate estimated words per minute across languages.
+		$words_per_minute = 200;
+		$words            = \str_word_count( \wp_strip_all_tags( $this->context->post->post_content ) );
+		return (int) \round( $words / $words_per_minute );
 	}
 
 	/**

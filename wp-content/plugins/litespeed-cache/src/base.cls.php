@@ -121,19 +121,16 @@ class Base extends Instance {
 	## --------------	  HTML Optm 	----------------- ##
 	## -------------------------------------------------- ##
 	const O_OPTM_CSS_MIN 			= 'optm-css_min';
-	const O_OPTM_CSS_INLINE_MIN 	= 'optm-css_inline_min';
 	const O_OPTM_CSS_COMB 			= 'optm-css_comb';
-	const O_OPTM_CSS_COMB_PRIO 		= 'optm-css_comb_priority';
-	const O_OPTM_CSS_UNIQUE 		= 'optm-css_unique';
+	const O_OPTM_CSS_COMB_EXT_INL	= 'optm-css_comb_ext_inl';
 	const O_OPTM_UCSS 				= 'optm-ucss';
 	const O_OPTM_UCSS_ASYNC 		= 'optm-ucss_async';
 	const O_OPTM_UCSS_WHITELIST 	= 'optm-ucss_whitelist';
 	const O_OPTM_CSS_HTTP2 			= 'optm-css_http2';
 	const O_OPTM_CSS_EXC 			= 'optm-css_exc';
 	const O_OPTM_JS_MIN 			= 'optm-js_min';
-	const O_OPTM_JS_INLINE_MIN 		= 'optm-js_inline_min';
 	const O_OPTM_JS_COMB 			= 'optm-js_comb';
-	const O_OPTM_JS_COMB_PRIO 		= 'optm-js_comb_priority';
+	const O_OPTM_JS_COMB_EXT_INL	= 'optm-js_comb_ext_inl';
 	const O_OPTM_JS_HTTP2 			= 'optm-js_http2';
 	const O_OPTM_JS_EXC 			= 'optm-js_exc';
 	const O_OPTM_TTL 				= 'optm-ttl';
@@ -151,14 +148,10 @@ class Base extends Instance {
 	const O_OPTM_LOCALIZE_DOMAINS	= 'optm-localize_domains';
 	const O_OPTM_EMOJI_RM 			= 'optm-emoji_rm';
 	const O_OPTM_NOSCRIPT_RM 		= 'optm-noscript_rm';
-	const O_OPTM_EXC_JQ 			= 'optm-exc_jq';
 	const O_OPTM_GGFONTS_ASYNC 		= 'optm-ggfonts_async';
-	const O_OPTM_MAX_SIZE 			= 'optm-max_size';
-	const O_OPTM_RM_COMMENT 		= 'optm-rm_comment';
 	const O_OPTM_EXC_ROLES 			= 'optm-exc_roles';
 	const O_OPTM_CCSS_CON			= 'optm-ccss_con';
 	const O_OPTM_JS_DEFER_EXC 		= 'optm-js_defer_exc';
-	const O_OPTM_JS_INLINE_DEFER_EXC = 'optm-js_inline_defer_exc';
 	const O_OPTM_DNS_PREFETCH		= 'optm-dns_prefetch';
 	const O_OPTM_DNS_PREFETCH_CTRL	= 'optm-dns_prefetch_ctrl';
 	const O_OPTM_EXC 				= 'optm-exc';
@@ -231,12 +224,6 @@ class Base extends Instance {
 	## --------------		Crawler		----------------- ##
 	## -------------------------------------------------- ##
 	const O_CRAWLER 				= 'crawler';
-	const O_CRAWLER_POSTS 			= 'crawler-inc_posts';
-	const O_CRAWLER_PAGES 			= 'crawler-inc_pages';
-	const O_CRAWLER_CATS 			= 'crawler-inc_cats';
-	const O_CRAWLER_TAGS 			= 'crawler-inc_tags';
-	const O_CRAWLER_EXC_CPT 		= 'crawler-exc_cpt';
-	const O_CRAWLER_ORDER_LINKS 	= 'crawler-order_links';
 	const O_CRAWLER_USLEEP 			= 'crawler-usleep';
 	const O_CRAWLER_RUN_DURATION 	= 'crawler-run_duration';
 	const O_CRAWLER_RUN_INTERVAL 	= 'crawler-run_interval';
@@ -269,7 +256,6 @@ class Base extends Instance {
 	const O_CDN_ORI 			= 'cdn-ori';
 	const O_CDN_ORI_DIR 		= 'cdn-ori_dir';
 	const O_CDN_EXC 			= 'cdn-exc';
-	const O_CDN_REMOTE_JQ 		= 'cdn-remote_jq';
 	const O_CDN_QUIC 			= 'cdn-quic';
 	const O_CDN_CLOUDFLARE 		= 'cdn-cloudflare';
 	const O_CDN_CLOUDFLARE_EMAIL= 'cdn-cloudflare_email';
@@ -320,7 +306,6 @@ class Base extends Instance {
 		self::O_CDN_ORI,
 		self::O_CDN_ORI_DIR,
 		self::O_CDN_EXC,
-		self::O_CDN_REMOTE_JQ,
 		self::O_CDN_QUIC,
 		self::O_CDN_CLOUDFLARE,
 		self::O_CDN_CLOUDFLARE_EMAIL,
@@ -423,19 +408,16 @@ class Base extends Instance {
 
 		// HTML Optm
 		self::O_OPTM_CSS_MIN 			=> false,
-		self::O_OPTM_CSS_INLINE_MIN 	=> false,
 		self::O_OPTM_CSS_COMB 			=> false,
-		self::O_OPTM_CSS_COMB_PRIO 		=> false,
-		self::O_OPTM_CSS_UNIQUE 		=> false,
+		self::O_OPTM_CSS_COMB_EXT_INL	=> false,
 		self::O_OPTM_UCSS 				=> false,
 		self::O_OPTM_UCSS_ASYNC			=> false,
 		// self::O_OPTM_UCSS_WHITELIST		=> array(),
 		self::O_OPTM_CSS_HTTP2 			=> false,
 		self::O_OPTM_CSS_EXC 			=> array(),
 		self::O_OPTM_JS_MIN 			=> false,
-		self::O_OPTM_JS_INLINE_MIN 		=> false,
 		self::O_OPTM_JS_COMB 			=> false,
-		self::O_OPTM_JS_COMB_PRIO 		=> false,
+		self::O_OPTM_JS_COMB_EXT_INL	=> false,
 		self::O_OPTM_JS_HTTP2 			=> false,
 		self::O_OPTM_JS_EXC 			=> array(),
 		self::O_OPTM_TTL 				=> 0,
@@ -451,14 +433,10 @@ class Base extends Instance {
 		self::O_OPTM_JS_INLINE_DEFER	=> false,
 		self::O_OPTM_EMOJI_RM 			=> false,
 		self::O_OPTM_NOSCRIPT_RM 		=> false,
-		self::O_OPTM_EXC_JQ 			=> false,
 		self::O_OPTM_GGFONTS_ASYNC 		=> false,
-		self::O_OPTM_MAX_SIZE 			=> 0,
-		self::O_OPTM_RM_COMMENT 		=> false,
 		self::O_OPTM_EXC_ROLES			=> array(),
 		self::O_OPTM_CCSS_CON			=> '',
 		self::O_OPTM_JS_DEFER_EXC		=> array(),
-		self::O_OPTM_JS_INLINE_DEFER_EXC => array(),
 		self::O_OPTM_DNS_PREFETCH		=> array(),
 		self::O_OPTM_DNS_PREFETCH_CTRL	=> false,
 		self::O_OPTM_EXC				=> array(),
@@ -523,12 +501,6 @@ class Base extends Instance {
 
 		// Crawler
 		self::O_CRAWLER 				=> false,
-		self::O_CRAWLER_POSTS 			=> false,
-		self::O_CRAWLER_PAGES 			=> false,
-		self::O_CRAWLER_CATS 			=> false,
-		self::O_CRAWLER_TAGS 			=> false,
-		self::O_CRAWLER_EXC_CPT 		=> array(),
-		self::O_CRAWLER_ORDER_LINKS 	=> false,
 		self::O_CRAWLER_USLEEP 			=> 0,
 		self::O_CRAWLER_RUN_DURATION 	=> 0,
 		self::O_CRAWLER_RUN_INTERVAL 	=> 0,
@@ -557,7 +529,6 @@ class Base extends Instance {
 		self::O_CDN_ORI 			=> array(),
 		self::O_CDN_ORI_DIR 		=> array(),
 		self::O_CDN_EXC 			=> array(),
-		self::O_CDN_REMOTE_JQ 		=> false,
 		self::O_CDN_QUIC 			=> false,
 		self::O_CDN_CLOUDFLARE 		=> false,
 		self::O_CDN_CLOUDFLARE_EMAIL => '',
@@ -621,11 +592,9 @@ class Base extends Instance {
 
 	// NOTE: all the val of following items will be int while not bool
 	protected static $_multi_switch_list = array(
-		self::O_CDN_REMOTE_JQ 	=> 2,
 		self::O_DEBUG 			=> 2,
 		self::O_OPTM_CSS_FONT_DISPLAY 	=> 4,
 		self::O_OPTM_JS_INLINE_DEFER 	=> 2,
-		self::O_CRAWLER_ORDER_LINKS 	=> 3,
 	);
 
 
@@ -849,10 +818,10 @@ class Base extends Instance {
 			self::O_CACHE_FORCE_URI		=> 'relative',
 			self::O_CACHE_FORCE_PUB_URI	=> 'relative',
 			self::O_CACHE_EXC			=> 'relative',
-			self::O_OPTM_CSS_EXC		=> 'uri',
-			self::O_OPTM_JS_EXC			=> 'uri',
+			// self::O_OPTM_CSS_EXC		=> 'uri', // Need to comment out for inline & external CSS
+			// self::O_OPTM_JS_EXC			=> 'uri',
 			self::O_OPTM_EXC			=> 'relative',
-			self::O_OPTM_JS_DEFER_EXC	=> 'uri',
+			// self::O_OPTM_JS_DEFER_EXC	=> 'uri',
 			self::O_OPTM_DNS_PREFETCH	=> 'domain',
 			self::O_OPTM_CCSS_SEP_URI	=> 'uri',
 			self::O_CDN_ORI				=> 'noprotocol', // `Original URLs`

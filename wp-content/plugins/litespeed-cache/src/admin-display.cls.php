@@ -20,6 +20,7 @@ class Admin_Display extends Base {
 	const NOTICE_RED = 'notice notice-error';
 	const NOTICE_YELLOW = 'notice notice-warning';
 	const DB_MSG = 'messages';
+	const DB_MSG_PIN = 'msg_pin';
 
 	const PURGEBY_CAT = '0';
 	const PURGEBY_PID = '1';
@@ -39,6 +40,8 @@ class Admin_Display extends Base {
 	protected $_is_network_admin = false;
 	protected $_is_multisite = false;
 
+	private $_btn_i = 0;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -46,11 +49,6 @@ class Admin_Display extends Base {
 	 * @access   protected
 	 */
 	protected function __construct() {
-		// load assets
-		if( ! empty( $_GET[ 'page' ] ) && ( strpos( $_GET[ 'page' ], 'litespeed-' ) === 0 || $_GET[ 'page' ] == 'litespeed' ) ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
-		}
-
 		// main css
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style' ) );
 		// Main js
@@ -94,32 +92,6 @@ class Admin_Display extends Base {
 		}
 
 		$this->__cfg = Conf::get_instance();
-	}
-
-	/**
-	 * Load LiteSpeed assets
-	 *
-	 * @since    1.1.0
-	 * @access public
-	 * @param  array $hook WP hook
-	 */
-	public function load_assets($hook) {
-		// Admin footer
-		add_filter('admin_footer_text', array($this, 'admin_footer_text'), 1);
-
-		if( defined( 'LITESPEED_ON' ) ) {
-			// Help tab
-			$this->add_help_tabs();
-
-			global $pagenow;
-			if ( $pagenow === 'plugins.php' ) {//todo: check if work
-				add_action('wp_default_scripts', array($this, 'set_update_text'), 0);
-				add_action('wp_default_scripts', array($this, 'unset_update_text'), 20);
-			}
-		}
-
-		wp_register_script( Core::PLUGIN_NAME . '-lib-vue', LSWCP_PLUGIN_URL . 'assets/js/vue.min.js', array(), Core::VER, false );
-		wp_enqueue_script( Core::PLUGIN_NAME . '-lib-vue' );
 	}
 
 	/**
@@ -218,24 +190,82 @@ class Admin_Display extends Base {
 			$localize_data[ 'ajax_url_promo' ] = $ajax_url_promo;
 		}
 
-		// If on Server IP setting page, append getIP link
+		// Injection to LiteSpeed pages
 		global $pagenow;
-		if ( $pagenow == 'admin.php' && ! empty( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'litespeed-general' ) {
-			$localize_data[ 'ajax_url_getIP' ] = function_exists( 'get_rest_url' ) ? get_rest_url( null, 'litespeed/v1/tool/check_ip' ) : '/';
-			$localize_data[ 'nonce' ] = wp_create_nonce( 'wp_rest' );
-		}
-		if ( ( $pagenow == 'admin.php' && ! empty( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'litespeed-cache' )
-			|| ( $pagenow == 'options-general.php' && ! empty( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'litespeed-cache-options' )
-		) {
-			$localize_data[ 'ajax_url_fetch_esi_nonce' ] = function_exists( 'get_rest_url' ) ? get_rest_url( null, 'litespeed/v1/fetch_esi_nonce' ) : '/';
-			$localize_data[ 'nonce' ] = wp_create_nonce( 'wp_rest' );
+		if ( $pagenow == 'admin.php' && ! empty( $_GET[ 'page' ] ) && ( strpos( $_GET[ 'page' ], 'litespeed-' ) === 0 || $_GET[ 'page' ] == 'litespeed' ) ) {
+			// Admin footer
+			add_filter('admin_footer_text', array($this, 'admin_footer_text'), 1);
+
+			if ( $_GET[ 'page' ] == 'litespeed-crawler' || $_GET[ 'page' ] == 'litespeed-cdn' ) {
+				// Babel JS type correction
+				add_filter( 'script_loader_tag', array( $this, 'bable_type' ), 10, 3 );
+
+				wp_enqueue_script( Core::PLUGIN_NAME . '-lib-react', LSWCP_PLUGIN_URL . 'assets/js/react.min.js', array(), Core::VER, false );
+				wp_enqueue_script( Core::PLUGIN_NAME . '-lib-babel', LSWCP_PLUGIN_URL . 'assets/js/babel.min.js', array(), Core::VER, false );
+			}
+
+			// Crawler Cookie Simulation
+			if ( $_GET[ 'page' ] == 'litespeed-crawler' ) {
+				wp_enqueue_script( Core::PLUGIN_NAME . '-crawler', LSWCP_PLUGIN_URL . 'assets/js/component.crawler.js', array(), Core::VER, false );
+				$localize_data[ 'lang' ] = array();
+				$localize_data[ 'lang' ][ 'cookie_name' ] = __( 'Cookie Name', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'cookie_value' ] = __( 'Cookie Values', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'one_per_line' ] = Doc::one_per_line( true );
+				$localize_data[ 'lang' ][ 'remove_cookie_simulation' ] = __( 'Remove cookie simulation', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'add_cookie_simulation_row' ] = __( 'Add new cookie to simulate', 'litespeed-cache' );
+				empty( $localize_data[ 'ids' ] ) && $localize_data[ 'ids' ] = array();
+				$localize_data[ 'ids' ][ 'crawler_cookies' ] = Base::O_CRAWLER_COOKIES;
+			}
+
+			// CDN mapping
+			if ( $_GET[ 'page' ] == 'litespeed-cdn' ) {
+				$home_url = home_url( '/' );
+				$parsed = parse_url( $home_url );
+				$home_url = str_replace( $parsed[ 'scheme' ] . ':', '', $home_url );
+				$cdn_url = 'https://cdn.' . substr( $home_url, 2 );
+
+				wp_enqueue_script( Core::PLUGIN_NAME . '-cdn', LSWCP_PLUGIN_URL . 'assets/js/component.cdn.js', array(), Core::VER, false );
+				$localize_data[ 'lang' ] = array();
+				$localize_data[ 'lang' ][ 'cdn_mapping_url' ] = Lang::title( Base::CDN_MAPPING_URL );
+				$localize_data[ 'lang' ][ 'cdn_mapping_inc_img' ] = Lang::title( Base::CDN_MAPPING_INC_IMG );
+				$localize_data[ 'lang' ][ 'cdn_mapping_inc_css' ] = Lang::title( Base::CDN_MAPPING_INC_CSS );
+				$localize_data[ 'lang' ][ 'cdn_mapping_inc_js' ] = Lang::title( Base::CDN_MAPPING_INC_JS );
+				$localize_data[ 'lang' ][ 'cdn_mapping_filetype' ] = Lang::title( Base::CDN_MAPPING_FILETYPE );
+				$localize_data[ 'lang' ][ 'cdn_mapping_url_desc' ] = sprintf( __( 'CDN URL to be used. For example, %s', 'litespeed-cache' ), '<code>' . $cdn_url . '</code>' );
+				$localize_data[ 'lang' ][ 'one_per_line' ] = Doc::one_per_line( true );
+				$localize_data[ 'lang' ][ 'cdn_mapping_remove' ] = __( 'Remove CDN URL', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'add_cdn_mapping_row' ] = __( 'Add new CDN URL', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'on' ] = __( 'ON', 'litespeed-cache' );
+				$localize_data[ 'lang' ][ 'off' ] = __( 'OFF', 'litespeed-cache' );
+				empty( $localize_data[ 'ids' ] ) && $localize_data[ 'ids' ] = array();
+				$localize_data[ 'ids' ][ 'cdn_mapping' ] = Base::O_CDN_MAPPING;
+			}
+
+			// If on Server IP setting page, append getIP link
+			if ( $_GET[ 'page' ] == 'litespeed-general' ) {
+				$localize_data[ 'ajax_url_getIP' ] = function_exists( 'get_rest_url' ) ? get_rest_url( null, 'litespeed/v1/tool/check_ip' ) : '/';
+				$localize_data[ 'nonce' ] = wp_create_nonce( 'wp_rest' );
+			}
 		}
 
 		if ( $localize_data ) {
-			wp_localize_script(Core::PLUGIN_NAME, 'litespeed_data', $localize_data );
+			wp_localize_script( Core::PLUGIN_NAME, 'litespeed_data', $localize_data );
 		}
 
 		wp_enqueue_script( Core::PLUGIN_NAME );
+	}
+
+	/**
+	 * Babel type for crawler
+	 *
+	 * @since  3.6
+	 */
+	public function bable_type( $tag, $handle, $src ) {
+		if ( $handle != Core::PLUGIN_NAME . '-crawler' && $handle != Core::PLUGIN_NAME . '-cdn' ) {
+			return $tag;
+		}
+
+		return '<script src="' . $src . '" type="text/babel"></script>';
 	}
 
 	/**
@@ -254,43 +284,6 @@ class Admin_Display extends Base {
 	}
 
 	/**
-	 * Add text to recommend updating upon update success.
-	 *
-	 * @since 1.0.8.1
-	 * @access public
-	 * @param string $translations
-	 * @param string $text
-	 * @return string
-	 */
-	public function add_update_text($translations, $text) {
-		if ( $text !== 'Updated!' ) {
-			return $translations;
-		}
-
-		return $translations . ' ' . __('It is recommended that LiteSpeed Cache be purged after updating a plugin.', 'litespeed-cache');
-	}
-
-	/**
-	 * Add the filter to update plugin update text.
-	 *
-	 * @since 1.0.8.1
-	 * @access public
-	 */
-	public function set_update_text() {
-		add_filter('gettext', array($this, 'add_update_text'), 10, 2);
-	}
-
-	/**
-	 * Remove the filter to update plugin update text.
-	 *
-	 * @since 1.0.8.1
-	 * @access public
-	 */
-	public function unset_update_text() {
-		remove_filter('gettext', array($this, 'add_update_text'));
-	}
-
-	/**
 	 * Change the admin footer text on LiteSpeed Cache admin pages.
 	 *
 	 * @since  1.0.13
@@ -304,16 +297,6 @@ class Admin_Display extends Base {
 	}
 
 	/**
-	 * Displays the help tab in the admin pages.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-	public function add_help_tabs() {
-		require_once LSCWP_DIR . 'tpl/inc/help_tabs.php';
-	}
-
-	/**
 	 * Builds the html for a single notice.
 	 *
 	 * @since 1.0.7
@@ -322,8 +305,15 @@ class Admin_Display extends Base {
 	 * @param string $str The notice message.
 	 * @return string The built notice html.
 	 */
-	public static function build_notice($color, $str) {
-		return '<div class="' . $color . ' is-dismissible"><p>'. $str . '</p></div>';
+	public static function build_notice( $color, $str, $irremovable = false ) {
+		$cls = $color;
+		if ( $irremovable ) {
+			$cls .= ' litespeed-irremovable';
+		}
+		else {
+			$cls .= ' is-dismissible';
+		}
+		return '<div class="' . $cls . '"><p>'. $str . '</p></div>';
 	}
 
 	/**
@@ -332,8 +322,8 @@ class Admin_Display extends Base {
 	 * @since 1.6.5
 	 * @access public
 	 */
-	public static function info( $msg, $echo = false ) {
-		self::add_notice( self::NOTICE_BLUE, $msg, $echo );
+	public static function info( $msg, $echo = false, $irremovable = false ) {
+		self::add_notice( self::NOTICE_BLUE, $msg, $echo, $irremovable );
 	}
 
 	/**
@@ -342,8 +332,8 @@ class Admin_Display extends Base {
 	 * @since 1.6.5
 	 * @access public
 	 */
-	public static function note( $msg, $echo = false ) {
-		self::add_notice( self::NOTICE_YELLOW, $msg, $echo );
+	public static function note( $msg, $echo = false, $irremovable = false ) {
+		self::add_notice( self::NOTICE_YELLOW, $msg, $echo, $irremovable );
 	}
 
 	/**
@@ -352,8 +342,8 @@ class Admin_Display extends Base {
 	 * @since 1.6
 	 * @access public
 	 */
-	public static function succeed( $msg, $echo = false ) {
-		self::add_notice( self::NOTICE_GREEN, $msg, $echo );
+	public static function succeed( $msg, $echo = false, $irremovable = false ) {
+		self::add_notice( self::NOTICE_GREEN, $msg, $echo, $irremovable );
 	}
 
 	/**
@@ -362,8 +352,8 @@ class Admin_Display extends Base {
 	 * @since 1.6
 	 * @access public
 	 */
-	public static function error( $msg, $echo = false ) {
-		self::add_notice( self::NOTICE_RED, $msg, $echo );
+	public static function error( $msg, $echo = false, $irremovable = false ) {
+		self::add_notice( self::NOTICE_RED, $msg, $echo, $irremovable );
 	}
 
 	/**
@@ -372,7 +362,7 @@ class Admin_Display extends Base {
 	 * @since 1.0.7
 	 * @access public
 	 */
-	public static function add_notice( $color, $msg, $echo = false ) {
+	public static function add_notice( $color, $msg, $echo = false, $irremovable = false ) {
 		// Bypass adding for CLI or cron
 		if ( defined( 'LITESPEED_CLI' ) || defined( 'DOING_CRON' ) ) {
 			// WP CLI will show the info directly
@@ -393,17 +383,20 @@ class Admin_Display extends Base {
 			return;
 		}
 
-		$messages = self::get_option( self::DB_MSG );
+		$msg_name = $irremovable ? self::DB_MSG_PIN : self::DB_MSG;
+
+		$messages = self::get_option( $msg_name );
 
 		if ( is_array($msg) ) {
 			foreach ($msg as $str) {
-				$messages[] = self::build_notice($color, $str);
+				$messages[] = self::build_notice( $color, $str, $irremovable );
 			}
 		}
 		else {
-			$messages[] = self::build_notice($color, $msg);
+			$messages[] = self::build_notice( $color, $msg, $irremovable );
 		}
-		self::update_option( self::DB_MSG, $messages );
+		$messages = array_unique( $messages );
+		self::update_option( $msg_name, $messages );
 	}
 
 	/**
@@ -424,11 +417,9 @@ class Admin_Display extends Base {
 
 		// One time msg
 		$messages = self::get_option( self::DB_MSG );
-		if( is_array($messages) ) {
-			$messages = array_unique($messages);
-
-			$added_thickbox = false;
-			foreach ($messages as $msg) {
+		$added_thickbox = false;
+		if( is_array( $messages ) ) {
+			foreach ( $messages as $msg ) {
 				// Added for popup links
 				if ( strpos( $msg, 'TB_iframe' ) && ! $added_thickbox ) {
 					add_thickbox();
@@ -438,6 +429,25 @@ class Admin_Display extends Base {
 			}
 		}
 		self::delete_option( self::DB_MSG );
+
+		// Pinned msg
+		$messages = self::get_option( self::DB_MSG_PIN );
+		if( is_array( $messages ) ) {
+			foreach ( $messages as $k => $msg ) {
+				// Added for popup links
+				if ( strpos( $msg, 'TB_iframe' ) && ! $added_thickbox ) {
+					add_thickbox();
+					$added_thickbox = true;
+				}
+
+				// Append close btn
+				if ( substr( $msg, -6 ) == '</div>' ) {
+					$link = Utility::build_url( Core::ACTION_DISMISS, GUI::TYPE_DISMISS_PIN, false, null, array( 'msgid' => $k ) );
+					$msg = substr( $msg, 0, -6 ) . '<p><a href="' . $link . '" class="button litespeed-btn-primary litespeed-btn-mini">' . __( 'Dismiss', 'litespeed-cache' ) . '</a>' . '</p></div>';
+				}
+				echo $msg;
+			}
+		}
 
 		if( empty( $_GET[ 'page' ] ) || strpos( $_GET[ 'page' ], 'litespeed' ) !== 0 ) {
 			global $pagenow;
@@ -466,6 +476,31 @@ class Admin_Display extends Base {
 
 		// Show version news
 		Cloud::get_instance()->news();
+	}
+
+	/**
+	 * Dismiss pinned msg
+	 *
+	 * @since 3.5.2
+	 * @access public
+	 */
+	public static function dismiss_pin() {
+		if ( ! isset( $_GET[ 'msgid' ] ) ) {
+			return;
+		}
+
+		$messages = self::get_option( self::DB_MSG_PIN );
+		if ( empty( $messages[ $_GET[ 'msgid' ] ] ) ) {
+			return;
+		}
+
+		unset( $messages[ $_GET[ 'msgid' ] ] );
+		if ( ! $messages ) {
+			self::delete_option( self::DB_MSG_PIN );
+		}
+		else {
+			self::update_option( self::DB_MSG_PIN, $messages );
+		}
 	}
 
 	/**
@@ -636,7 +671,7 @@ class Admin_Display extends Base {
 	 */
 	public function form_end( $disable_reset = false ) {
 		echo "<div class='litespeed-top20'></div>";
-		submit_button( __( 'Save Changes', 'litespeed-cache' ), 'primary litespeed-duplicate-float', 'litespeed-submit' );
+		submit_button( __( 'Save Changes', 'litespeed-cache' ), 'primary litespeed-duplicate-float', 'litespeed-submit', true, array( 'id' => 'litespeed-submit-' . $this->_btn_i++ ) );
 
 		echo '</form>';
 	}
@@ -1027,7 +1062,7 @@ class Admin_Display extends Base {
 			}
 
 			if ( ! \WP_Http::is_ip_address( $v ) ) {
-				$tip[] = __( 'Invalid IP', 'litespeed-cache' ) . ': <code>' . $v . '</code>.';
+				$tip[] = __( 'Invalid IP', 'litespeed-cache' ) . ': <code>' . esc_textarea( $v ) . '</code>.';
 			}
 		}
 

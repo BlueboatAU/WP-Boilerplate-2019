@@ -704,6 +704,10 @@ class Utility extends Instance {
 	 * @return string|bool The real path of file OR false
 	 */
 	public static function is_internal_file( $url, $addition_postfix = false ) {
+		if ( substr( $url, 0, 5 ) == 'data:' ) {
+			Debug2::debug2( '[Util] data: content not file' );
+			return false;
+		}
 		$url_parsed = parse_url( $url );
 		if ( isset( $url_parsed[ 'host' ] ) && ! self::internal( $url_parsed[ 'host' ] ) ) {
 			// Check if is cdn path
@@ -776,6 +780,19 @@ class Utility extends Instance {
 		}
 
 		return array( $file_path, filesize( $file_path ) );
+	}
+
+	/**
+	 * Safely parse URL for v5.3 compatibility
+	 *
+	 * @since  3.4.3
+	 */
+	public static function parse_url_safe( $url, $component = -1 ) {
+		if ( substr( $url, 0, 2 ) == '//' ) {
+			$url = 'https:' . $url;
+		}
+
+		return parse_url( $url, $component );
 	}
 
 	/**

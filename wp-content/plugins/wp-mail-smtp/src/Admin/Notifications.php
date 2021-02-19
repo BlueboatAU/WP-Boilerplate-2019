@@ -3,6 +3,7 @@
 namespace WPMailSMTP\Admin;
 
 use WPMailSMTP\Options;
+use WPMailSMTP\Tasks\Tasks;
 use WPMailSMTP\WP;
 
 /**
@@ -19,7 +20,7 @@ class Notifications {
 	 *
 	 * @var string
 	 */
-	const SOURCE_URL = 'https://plugin-cdn.wpmailsmtp.com/wp-content/notifications.json';
+	const SOURCE_URL = 'https://plugin.wpmailsmtp.com/wp-content/notifications.json';
 
 	/**
 	 * The WP option key for storing the notification options.
@@ -238,7 +239,7 @@ class Notifications {
 
 		// Update notifications using async task.
 		if ( empty( $option['update'] ) || time() > $option['update'] + DAY_IN_SECONDS ) {
-			if ( empty( wp_mail_smtp()->get_tasks()->is_scheduled( 'wp_mail_smtp_admin_notifications_update' ) ) ) {
+			if ( empty( Tasks::is_scheduled( 'wp_mail_smtp_admin_notifications_update' ) ) ) {
 
 				wp_mail_smtp()->get_tasks()
 					->create( 'wp_mail_smtp_admin_notifications_update' )
