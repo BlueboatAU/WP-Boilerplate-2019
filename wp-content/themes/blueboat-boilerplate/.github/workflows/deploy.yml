@@ -14,7 +14,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        server: ftp.sail1261.com
+        server: ${{ secrets.server }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
         # dry-run: true
