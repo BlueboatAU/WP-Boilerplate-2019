@@ -1,0 +1,27 @@
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #   - master
+name: 🚀 Deploy website theme
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2.3.2
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ftp.sail1261.com
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
+        # dry-run: true
+        server-dir: public_html/${{ github.event.repository.name }}/wp-content/themes/${{ github.event.repository.name }}/
+        exclude: .git*
+          - .git*/**
+          - src/**
+          - src
+          - README.md
+          - config.codekit3

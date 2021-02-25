@@ -9,6 +9,22 @@
   ],
   "creatorBuild" : "34016",
   "files" : {
+    "\/.github\/workflows\/deploy.yml" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/.github\/workflows\/deploy.yml",
+      "oF" : 0
+    },
+    "\/.gitignore" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/.gitignore",
+      "oF" : 0
+    },
     "\/404.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -59,17 +75,6 @@
       "oA" : 1,
       "oAP" : "\/functions.php",
       "oF" : 1
-    },
-    "\/gulpfile.js" : {
-      "bF" : 0,
-      "ft" : 64,
-      "ma" : 0,
-      "mi" : 1,
-      "oA" : 1,
-      "oAP" : "\/gulpfile-min.js",
-      "oF" : 1,
-      "sC" : 3,
-      "tS" : 0
     },
     "\/header.php" : {
       "cB" : 0,
