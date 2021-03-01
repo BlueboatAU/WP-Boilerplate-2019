@@ -5,7 +5,7 @@
 ```
 wp core download
 git init
-git remote add origin https://github.com/studio-blueboat/WP-Boilerplate-2019.git
+git remote add origin https://github.com/BlueboatAU/WP-Boilerplate-2019.git
 git fetch
 git checkout -f -t origin/master
 rm -rvf .git
