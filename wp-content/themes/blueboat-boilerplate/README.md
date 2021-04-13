@@ -2,8 +2,10 @@
 
 Requires codekit for sass and js processing
 
-## Find and replace 'Boilerplate' and 'boilerplate' to get started
-Also run an npm install, and complete an initial build with codekit
+## After Setup
+1. Find and replace 'Boilerplate' and 'boilerplate' to get started
+2. run npm install in the src/ directory
+
 
 ## Ensure theme directory name and github repo have the same name
 This will ensure github action deploy works correctly
