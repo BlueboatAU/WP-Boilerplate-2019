@@ -14,11 +14,4 @@ rm -rvf README.md
 ```
 
 ## 2. complete theme setup
-Details contained within themes Readme.md
-
-## 3. create new git repo within theme directory
-run in theme directory after setup
-
-```
-git remote set-url origin {{ new git url }}
-```
+Details contained within theme readme here: wp-content/themes/blueboat-boilerplate/README.md
