@@ -18,7 +18,7 @@ jobs:
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
         # dry-run: true
-        server-dir: public_html/${{ github.event.repository.name }}/wp-content/themes/${{ github.event.repository.name }}/
+        server-dir: ${{ github.event.repository.name }}/wp-content/themes/${{ github.event.repository.name }}/
         exclude: .git*
           - .git*/**
           - src/**
