@@ -7,12 +7,12 @@
       "uuidString" : "35AFF595-14E7-47BB-96F7-178EA04D7A6F"
     }
   ],
-  "creatorBuild" : "34016",
+  "creatorBuild" : "34127",
   "files" : {
     "\/.github" : {
       "ft" : 65536,
       "oA" : 1,
-      "oAP" : "\/build\/.github",
+      "oAP" : "\/.github",
       "oF" : 0
     },
     "\/.gitignore" : {
@@ -85,7 +85,7 @@
     "\/inc" : {
       "ft" : 65536,
       "oA" : 1,
-      "oAP" : "\/build\/inc",
+      "oAP" : "\/inc",
       "oF" : 0
     },
     "\/index.php" : {
@@ -163,7 +163,7 @@
     "\/src\/js\/_app" : {
       "ft" : 65536,
       "oA" : 1,
-      "oAP" : "\/build\/src\/js\/_app",
+      "oAP" : "\/src\/js\/_app",
       "oF" : 0
     },
     "\/src\/js\/_app\/helpers.js" : {
@@ -202,7 +202,7 @@
     "\/src\/node_modules" : {
       "ft" : 65536,
       "oA" : 2,
-      "oAP" : "\/build\/src\/node_modules",
+      "oAP" : "\/src\/node_modules",
       "oF" : 0
     },
     "\/src\/package-lock.json" : {
@@ -224,7 +224,7 @@
     "\/src\/sass\/_bb-sass" : {
       "ft" : 65536,
       "oA" : 1,
-      "oAP" : "\/build\/src\/sass\/_bb-sass",
+      "oAP" : "\/src\/sass\/_bb-sass",
       "oF" : 0
     },
     "\/src\/sass\/_bb-sass\/bootstrap.scss" : {
@@ -298,7 +298,7 @@
     "\/template-parts" : {
       "ft" : 65536,
       "oA" : 1,
-      "oAP" : "\/build\/template-parts",
+      "oAP" : "\/template-parts",
       "oF" : 0
     }
   },
@@ -2345,27 +2345,30 @@
 
       ],
       "contentEntries" : [
-        "!(node_modules)\/**\/*.html",
-        "!(node_modules)\/**\/*.htm",
-        "!(node_modules)\/**\/*.shtml",
-        "!(node_modules)\/**\/*.xhtml",
-        "!(node_modules)\/**\/*.php",
-        "!(node_modules)\/**\/*.js",
-        "!(node_modules)\/**\/*.ts",
-        "!(node_modules)\/**\/*.coffee",
-        "!(node_modules)\/**\/*.erb",
-        "!(node_modules)\/**\/*.pug",
-        "!(node_modules)\/**\/*.jade",
-        "!(node_modules)\/**\/*.slim",
-        "!(node_modules)\/**\/*.haml",
-        "!(node_modules)\/**\/*.md",
-        "!(node_modules)\/**\/*.kit"
+        "**\/*.html",
+        "**\/*.htm",
+        "**\/*.shtml",
+        "**\/*.xhtml",
+        "**\/*.php",
+        "**\/*.js",
+        "**\/*.ts",
+        "**\/*.coffee",
+        "**\/*.erb",
+        "**\/*.pug",
+        "**\/*.jade",
+        "**\/*.slim",
+        "**\/*.haml",
+        "**\/*.md",
+        "**\/*.kit"
       ],
       "removeFontFace" : 0,
       "removeKeyframes" : 0,
       "removeVariables" : 0,
       "safelistEntries" : [
 
+      ],
+      "skippedEntries" : [
+        "node_modules\/**"
       ]
     },
     "rollupContext" : "",
@@ -2400,6 +2403,7 @@
     "tsNoImplicitThis" : 0,
     "tsNoImplicitUseStrict" : 0,
     "tsNoLib" : 0,
+    "tsNoPropertyAccessFromIndexSignature" : 0,
     "tsNoResolve" : 0,
     "tsNoStrictGenericChecks" : 0,
     "tsNoUncheckedIndexAccess" : 0,
