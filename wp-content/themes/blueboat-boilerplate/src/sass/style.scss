@@ -25,6 +25,11 @@ Tags: acf, sass, bootstrap
 # Globals & Helpers
 --------------------------------------------------------------*/
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html{
   font-size: 14px;
 }
